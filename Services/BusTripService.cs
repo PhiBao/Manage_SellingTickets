@@ -16,12 +16,22 @@ namespace backend.Services
             _context = context;
         }
 
-        public IEnumerable<Chuyenxe> GetBusTripByCondition(int maBxDi, int maBxDen, DateTime ngayXuatBen)
+        public void CreateBusTrip(Chuyenxe busTrip)
+        {
+            if (busTrip == null) 
+            {
+                throw new ArgumentNullException(nameof(busTrip));
+            }
+            _context.Chuyenxes.Add(busTrip);
+            _context.SaveChanges();
+        }
+
+        public IEnumerable<Chuyenxe> GetBusTripByCondition(int maBxDi, int maBxDen)
         {
             var busRoute = _context.Tuyenxes.Where(p => p.MaBxden == maBxDen && p.MaBxdi == maBxDi)
                             .Select(p => p.MaTuyenXe).FirstOrDefault();
 
-            var busTrips = _context.Chuyenxes.Where(p => p.MaTuyenXe == busRoute && p.NgayXuatBen < ngayXuatBen).ToList();
+            var busTrips = _context.Chuyenxes.Where(p => p.MaTuyenXe == busRoute).ToList();
 
             return busTrips;
         }

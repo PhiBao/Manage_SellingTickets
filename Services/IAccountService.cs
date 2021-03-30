@@ -5,8 +5,8 @@ namespace backend.Services
 {
     public interface IAccountService
     {
-        public void createAccount(Taikhoan account);
-        public void deleteAccount(int id);
+        public void CreateAccount(Taikhoan account);
+        public void DeleteAccount(Taikhoan account);
         public Taikhoan GetAccountById(int id);
         public void UpdateAccount(Taikhoan account);
         public bool SaveChanges();

@@ -5,6 +5,7 @@ using backend.Models;
 using backend.Services;
 using Microsoft.AspNetCore.Mvc;
 using backend.Dtos;
+using System;
 
 namespace backend.Controllers
 {
@@ -43,6 +44,30 @@ namespace backend.Controllers
 
             return NotFound();
         }
+
+        // GET api/BusTrips/search?dep=a&dest=b&date=c
+        [HttpGet("search")]
+        public ActionResult<IEnumerable<BusTripReadDto>> GetBusTripByCondition(int dep, int dest) 
+        {
+            var busTrips = _busTripService.GetBusTripByCondition(dep, dest);
+
+            if (busTrips != null)
+            {
+                return Ok(_mapper.Map<IEnumerable<BusTripReadDto>>(busTrips));
+            }
+
+            return NotFound();
+        }
+
+        //POST api/bustrips
+        [HttpPost]
+        public ActionResult<Nguoidung> CreateStaff(Chuyenxe busTrip)
+        {
+            _busTripService.CreateBusTrip(busTrip);
+
+            return CreatedAtRoute(nameof(GetBusTripById), new { id = busTrip.MaChuyenXe }, busTrip);
+        }
+
 
     }
 }

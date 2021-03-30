@@ -13,7 +13,7 @@ namespace backend.Services
         {
             _context = context;
         }
-        public void createAccount(Taikhoan account)
+        public void CreateAccount(Taikhoan account)
         {
             if (account == null) 
             {
@@ -24,9 +24,15 @@ namespace backend.Services
             _context.SaveChanges();
         }
 
-        public void deleteAccount(int id)
+        public void DeleteAccount(Taikhoan account)
         {
-            throw new System.NotImplementedException();
+            if (account == null) 
+            {
+                throw new ArgumentNullException(nameof(account));
+            }
+
+            _context.Taikhoans.Remove(account);
+            _context.SaveChanges();
         }
 
         public Taikhoan GetAccountById(int id)

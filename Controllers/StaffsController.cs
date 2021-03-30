@@ -30,7 +30,7 @@ namespace backend.Controllers
             return Ok(staffs);
         }
 
-        // GET api/staffs/id
+        // GET api/staffs/{id}
         [HttpGet("{id}", Name = "GetStaffById")]
         public ActionResult<Nguoidung> GetStaffById(int id)
         {
@@ -44,6 +44,7 @@ namespace backend.Controllers
             return NotFound();
         }
 
+        //POST api/staffs
         [HttpPost]
         public ActionResult<Nguoidung> CreateStaff(Nguoidung staff)
         {

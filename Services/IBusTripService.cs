@@ -9,6 +9,7 @@ namespace backend.Services
     {
         public IEnumerable<Chuyenxe> GetBusTrips();
         public Chuyenxe GetBusTripById(int id);
-        public IEnumerable<Chuyenxe> GetBusTripByCondition(int maBxDi, int maBxDen, DateTime ngayXuatBen);
+        public IEnumerable<Chuyenxe> GetBusTripByCondition(int maBxDi, int maBxDen);
+        public void CreateBusTrip(Chuyenxe busTrip);
     }
 }
