@@ -217,6 +217,9 @@ namespace backend.Models
 
                 entity.ToTable("XE");
 
+                entity.HasIndex(e => e.BienSoXe, "UQ__XE__A78059928ABDDDE4")
+                    .IsUnique();
+
                 entity.Property(e => e.BienSoXe)
                     .HasMaxLength(8)
                     .IsUnicode(false)
