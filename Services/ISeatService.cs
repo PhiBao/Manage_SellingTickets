@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using backend.Dtos;
 using backend.Models;
 
@@ -6,10 +7,11 @@ namespace backend.Services
 {
     public interface ISeatService 
     {
-        public IEnumerable<Chongoi> GetSeats();
-        public Chongoi GetSeatById(int id);
-        public void CreateSeat(Chongoi seat);
-        public void UpdateSeat(Chongoi seat);
-        public bool SaveChanges();
+        Task<IEnumerable<Chongoi>> GetSeatsAsync();
+        Task<Chongoi> GetSeatByIdAsync(int id);
+        Task CreateSeatAsync(Chongoi seat);
+        Task UpdateSeatAsync(Chongoi seat);
+        Task<IEnumerable<int>> GetSeatByBusTripIdAsync(int busTripId);
+        
     }
 }

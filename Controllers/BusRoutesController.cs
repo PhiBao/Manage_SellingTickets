@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using backend.Dtos;
 using backend.Models;
@@ -23,18 +24,18 @@ namespace backend.Controllers
 
         // GET api/BusRoutes
         [HttpGet]
-        public ActionResult<IEnumerable<Tuyenxe>> GetAllBusRoutes()
+        public async Task<ActionResult<IEnumerable<Tuyenxe>>> GetAllBusRoutesAsync()
         {
-            var busRoutes = _busRouteService.GetBusRoutes();
+            var busRoutes = await _busRouteService.GetBusRoutesAsync();
 
             return Ok(busRoutes);
         }
 
         // GET api/BusRoutes/id
-        [HttpGet("{id}", Name = "GetBusRouteById")]
-        public ActionResult<Tuyenxe> GetBusRouteById(int id)
+        [HttpGet("{id}", Name = "GetBusRouteByIdAsync")]
+        public async Task<ActionResult<Tuyenxe>> GetBusRouteByIdAsync(int id)
         {
-            var busRoute = _busRouteService.GetBusRouteById(id);
+            var busRoute = await _busRouteService.GetBusRouteByIdAsync(id);
 
             if (busRoute != null)
             {
@@ -46,11 +47,11 @@ namespace backend.Controllers
 
         // POST api/BusRoutes
         [HttpPost]
-        public ActionResult<Tuyenxe> CreateBusRoute(Tuyenxe busRoute)
+        public async Task<ActionResult<Tuyenxe>> CreateBusRouteAsync(Tuyenxe busRoute)
         {
-            _busRouteService.CreateBusRoute(busRoute);
+            await _busRouteService.CreateBusRouteAsync(busRoute);
 
-            return CreatedAtRoute(nameof(GetBusRouteById), new { id = busRoute.MaTuyenXe }, busRoute);
+            return CreatedAtRoute(nameof(GetBusRouteByIdAsync), new { id = busRoute.MaTuyenXe }, busRoute);
         }
 
     }

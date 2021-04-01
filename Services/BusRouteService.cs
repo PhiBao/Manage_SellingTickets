@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using backend.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend.Services
 {
@@ -13,24 +15,24 @@ namespace backend.Services
         {
             _context = context;
         }
-        public void CreateBusRoute(Tuyenxe busRoute)
+        public async Task CreateBusRouteAsync(Tuyenxe busRoute)
         {
             if (busRoute == null) 
             {
                 throw new ArgumentNullException(nameof(busRoute));
             }
             _context.Tuyenxes.Add(busRoute);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public Tuyenxe GetBusRouteById(int id)
+        public async Task<Tuyenxe> GetBusRouteByIdAsync(int id)
         {
-            return _context.Tuyenxes.FirstOrDefault(p => p.MaTuyenXe == id);
+            return await _context.Tuyenxes.FirstOrDefaultAsync(p => p.MaTuyenXe == id);
         }
 
-        public IEnumerable<Tuyenxe> GetBusRoutes()
+        public async Task<IEnumerable<Tuyenxe>> GetBusRoutesAsync()
         {
-            return _context.Tuyenxes.ToList();
+            return await _context.Tuyenxes.ToListAsync();
         }
     }
 }

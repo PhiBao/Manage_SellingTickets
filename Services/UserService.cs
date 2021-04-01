@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using backend.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend.Services
 {
@@ -14,7 +16,7 @@ namespace backend.Services
             _context = context;
         }
 
-        public void CreateCustomer(Nguoidung customer)
+        public async Task CreateCustomerAsync(Nguoidung customer)
         {
             if (customer == null) 
             {
@@ -22,10 +24,10 @@ namespace backend.Services
             }
             customer.Vaitro = 3;
             _context.Nguoidungs.Add(customer);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void CreateStaff(Nguoidung staff)
+        public async Task CreateStaffAsync(Nguoidung staff)
         {
             if (staff == null) 
             {
@@ -33,37 +35,33 @@ namespace backend.Services
             }
             staff.Vaitro = 2;
             _context.Nguoidungs.Add(staff);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public Nguoidung GetCustomerById(int id)
+        public async Task<Nguoidung> GetCustomerByIdAsync(int id)
         {
-            return _context.Nguoidungs.Where(p => p.Vaitro == 3).FirstOrDefault(p => p.MaNd == id);
+            return await _context.Nguoidungs.Where(p => p.Vaitro == 3).FirstOrDefaultAsync(p => p.MaNd == id);
         }
 
-        public IEnumerable<Nguoidung> GetCustomers()
+        public async Task<IEnumerable<Nguoidung>> GetCustomersAsync()
         {
-            return _context.Nguoidungs.Where(p => p.Vaitro == 3).ToList();
+            return await _context.Nguoidungs.Where(p => p.Vaitro == 3).ToListAsync();
         }
 
-        public Nguoidung GetStaffById(int id)
+        public async Task<Nguoidung> GetStaffByIdAsync(int id)
         {
-            return _context.Nguoidungs.Where(p => p.Vaitro == 2).FirstOrDefault(p => p.MaNd == id);
+            return await _context.Nguoidungs.Where(p => p.Vaitro == 2).FirstOrDefaultAsync(p => p.MaNd == id);
         }
 
-        public IEnumerable<Nguoidung> GetStaffs()
+        public async Task<IEnumerable<Nguoidung>> GetStaffsAsync()
         {
-            return _context.Nguoidungs.Where(p => p.Vaitro == 2).ToList();
+            return await _context.Nguoidungs.Where(p => p.Vaitro == 2).ToListAsync();
         }
 
-        public bool SaveChanges()
+        public async Task UpdateUserAsync(Nguoidung user)
         {
-            return (_context.SaveChanges() >= 0);
-            
+            await _context.SaveChangesAsync();
         }
-
-        public void UpdateUser(Nguoidung user)
-        {
-        }
+        
     }
 }

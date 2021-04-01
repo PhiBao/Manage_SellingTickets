@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using backend.Dtos;
 using backend.Models;
@@ -24,18 +25,18 @@ namespace backend.Controllers
 
         // GET api/customers
         [HttpGet]
-        public ActionResult<IEnumerable<Nguoidung>> GetAllCustomers()
+        public async Task<ActionResult<IEnumerable<Nguoidung>>> GetAllCustomersAsync()
         {
-            var customers = _userService.GetCustomers();
+            var customers = await _userService.GetCustomersAsync();
 
             return Ok(customers);
         }
 
         // GET api/customers/id
-        [HttpGet("{id}", Name = "GetCustomerById")]
-        public ActionResult<Nguoidung> GetCustomerById(int id)
+        [HttpGet("{id}", Name = "GetCustomerByIdAsync")]
+        public async Task<ActionResult<Nguoidung>> GetCustomerByIdAsync(int id)
         {
-            var customer = _userService.GetCustomerById(id);
+            var customer = await _userService.GetCustomerByIdAsync(id);
 
             if (customer != null) 
             {
@@ -47,26 +48,25 @@ namespace backend.Controllers
 
         // POST api/customers
         [HttpPost]
-        public ActionResult<Nguoidung> CreateCustomer(Nguoidung customer)
+        public async Task<ActionResult<Nguoidung>> CreateCustomerAsync(Nguoidung customer)
         {
-            _userService.CreateCustomer(customer);
+            await _userService.CreateCustomerAsync(customer);
 
-            return CreatedAtRoute(nameof(GetCustomerById), new { id = customer.MaNd }, customer);
+            return CreatedAtRoute(nameof(GetCustomerByIdAsync), new { id = customer.MaNd }, customer);
         }
 
         // Put api/customers/{id}
         [HttpPut("{id}")]
-        public ActionResult UpdateCustomer(int id, UserUpdateDto customerUpdateDto) 
+        public async Task<ActionResult> UpdateCustomerAsync(int id, UserUpdateDto customerUpdateDto) 
         {
-            var customerSelected = _userService.GetCustomerById(id);
+            var customerSelected = await _userService.GetCustomerByIdAsync(id);
             if (customerSelected == null || customerSelected.Vaitro != 3)
             {
                 return NotFound();
             }
 
             _mapper.Map(customerUpdateDto, customerSelected);
-            _userService.UpdateUser(customerSelected);
-            _userService.SaveChanges();
+            await _userService.UpdateUserAsync(customerSelected);
 
             return NoContent();
         }

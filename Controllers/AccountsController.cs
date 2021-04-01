@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using backend.Dtos;
 using backend.Models;
@@ -23,10 +24,10 @@ namespace backend.Controllers
         }
 
         // GET api/accounts/id
-        [HttpGet("{id}", Name = "GetAccountById")]
-        public ActionResult<Taikhoan> GetAccountById(int id)
+        [HttpGet("{id}", Name = "GetAccountByIdAsync")]
+        public async Task<ActionResult<Taikhoan>> GetAccountByIdAsync(int id)
         {
-            var account = _accountService.GetAccountById(id);
+            var account = await _accountService.GetAccountByIdAsync(id);
 
             if (account != null)
             {
@@ -38,37 +39,37 @@ namespace backend.Controllers
 
         // POST api/accounts
         [HttpPost]
-        public ActionResult<AccountReadDto> CreateAccount(Taikhoan account)
+        public async Task<ActionResult<AccountReadDto>> CreateAccountAsync(Taikhoan account)
         {
-            _accountService.CreateAccount(account);
+            await _accountService.CreateAccountAsync(account);
 
             AccountReadDto accountDto = _mapper.Map<AccountReadDto>(account);
 
-            return CreatedAtRoute(nameof(GetAccountById), new { id = accountDto.MaNd }, accountDto);
+            return CreatedAtRoute(nameof(GetAccountByIdAsync), new { id = accountDto.MaNd }, accountDto);
         }
 
         // Put api/accounts/{id}
         [HttpPut("{id}")]
-        public ActionResult UpdateAccount(int id, AccountUpdateDto accountUpdateDto) 
+        public async Task<ActionResult> UpdateAccountAsync(int id, AccountUpdateDto accountUpdateDto) 
         {
-            var accountSelected = _accountService.GetAccountById(id);
+            var accountSelected = await _accountService.GetAccountByIdAsync(id);
             if (accountSelected == null)
             {
                 return NotFound();
             }
 
             _mapper.Map(accountUpdateDto, accountSelected);
-            _accountService.UpdateAccount(accountSelected);
-            _accountService.SaveChanges();
+
+            await _accountService.UpdateAccountAsync(accountSelected);
 
             return NoContent();
         }
 
         // PATCH api/accounts/{id} -- not necessary
         [HttpPatch("{id}")]
-        public ActionResult PartialAccountUpdate(int id, JsonPatchDocument<AccountUpdateDto> patchDoc) 
+        public async Task<ActionResult> PartialAccountUpdateAsync(int id, JsonPatchDocument<AccountUpdateDto> patchDoc) 
         {
-            var accountSelected = _accountService.GetAccountById(id);
+            var accountSelected = await _accountService.GetAccountByIdAsync(id);
             if (accountSelected == null)
             {
                 return NotFound();
@@ -82,23 +83,22 @@ namespace backend.Controllers
                 return ValidationProblem(ModelState);
             }
 
-            _accountService.UpdateAccount(accountSelected);
-            _accountService.SaveChanges();
+            await _accountService.UpdateAccountAsync(accountSelected);
 
             return NoContent();
         }
 
         // DELETE api/accounts/{id}
         [HttpDelete("{id}")]
-        public ActionResult DeleteAccount(int id) 
+        public async Task<ActionResult> DeleteAccountAsync(int id) 
         {
-            var accountSelected = _accountService.GetAccountById(id);
+            var accountSelected = await _accountService.GetAccountByIdAsync(id);
             if (accountSelected == null)
             {
                 return NotFound();
             }
 
-            _accountService.DeleteAccount(accountSelected);
+            await _accountService.DeleteAccountAsync(accountSelected);
 
             return NoContent();
         }

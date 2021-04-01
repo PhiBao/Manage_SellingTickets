@@ -2,8 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using backend.Dtos;
 using backend.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend.Services
 {
@@ -16,34 +18,39 @@ namespace backend.Services
             _context = context;
         }
 
-        public void CreateBusTrip(Chuyenxe busTrip)
+        public async Task CreateBusTripAsync(Chuyenxe busTrip)
         {
             if (busTrip == null) 
             {
                 throw new ArgumentNullException(nameof(busTrip));
             }
             _context.Chuyenxes.Add(busTrip);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public IEnumerable<Chuyenxe> GetBusTripByCondition(int maBxDi, int maBxDen)
+        public async Task<IEnumerable<Chuyenxe>> GetBusTripByConditionAsync(int maBxDi, int maBxDen)
         {
-            var busRoute = _context.Tuyenxes.Where(p => p.MaBxden == maBxDen && p.MaBxdi == maBxDi)
-                            .Select(p => p.MaTuyenXe).FirstOrDefault();
+            var busRoute = await _context.Tuyenxes.Where(p => p.MaBxden == maBxDen && p.MaBxdi == maBxDi)
+                            .Select(p => p.MaTuyenXe).FirstOrDefaultAsync();
 
-            var busTrips = _context.Chuyenxes.Where(p => p.MaTuyenXe == busRoute).ToList();
+            var busTrips = await _context.Chuyenxes.Where(p => p.MaTuyenXe == busRoute).ToListAsync();
 
             return busTrips;
         }
 
-        public Chuyenxe GetBusTripById(int id)
+        public async Task<Chuyenxe> GetBusTripByIdAsync(int id)
         {
-            return _context.Chuyenxes.FirstOrDefault(p => p.MaChuyenXe == id);
+            return await _context.Chuyenxes.FirstOrDefaultAsync(p => p.MaChuyenXe == id);
         }
 
-        public IEnumerable<Chuyenxe> GetBusTrips()
+        public async Task<IEnumerable<Chuyenxe>> GetBusTripsAsync()
         {
-            return _context.Chuyenxes.ToList();
+            return await _context.Chuyenxes.ToListAsync();
+        }
+
+        public async Task UpdateBusTripAsync(Chuyenxe busTrip)
+        {
+            await _context.SaveChangesAsync();
         }
     }
 }

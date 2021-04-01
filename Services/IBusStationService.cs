@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using backend.Dtos;
 using backend.Models;
 
@@ -6,8 +7,8 @@ namespace backend.Services
 {
     public interface IBusStationService 
     {
-        public IEnumerable<Benxe> GetBusStations();
-        public Benxe GetBusStationById(int id);
-        public void CreateBusStation(Benxe busStation);
+        Task<IEnumerable<Benxe>> GetBusStationsAsync();
+        Task<Benxe> GetBusStationByIdAsync(int id);
+        Task CreateBusStationAsync(Benxe busStation);
     }
 }

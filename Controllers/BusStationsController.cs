@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using backend.Dtos;
 using backend.Models;
@@ -23,18 +24,18 @@ namespace backend.Controllers
 
         // GET api/BusStations
         [HttpGet]
-        public ActionResult<IEnumerable<BusStationReadDto>> GetAllBusStations()
+        public async Task<ActionResult<IEnumerable<BusStationReadDto>>> GetAllBusStationsAsync()
         {
-            var busStations = _busStationService.GetBusStations();
+            var busStations = await _busStationService.GetBusStationsAsync();
 
             return Ok(_mapper.Map<IEnumerable<BusStationReadDto>>(busStations));
         }
 
         // GET api/BusStations/id
-        [HttpGet("{id}", Name = "GetBusStationById")]
-        public ActionResult<Benxe> GetBusStationById(int id)
+        [HttpGet("{id}", Name = "GetBusStationByIdAsync")]
+        public async Task<ActionResult<Benxe>> GetBusStationByIdAsync(int id)
         {
-            var busStation = _busStationService.GetBusStationById(id);
+            var busStation = await _busStationService.GetBusStationByIdAsync(id);
 
             if (busStation != null)
             {
@@ -46,11 +47,11 @@ namespace backend.Controllers
 
         // POST api/busstations
         [HttpPost]
-        public ActionResult<Benxe> CreateBusStation(Benxe busStation)
+        public async Task<ActionResult<Benxe>> CreateBusStationAsync(Benxe busStation)
         {
-            _busStationService.CreateBusStation(busStation);
+            await _busStationService.CreateBusStationAsync(busStation);
 
-            return CreatedAtRoute(nameof(GetBusStationById), new { id = busStation.MaBx }, busStation);
+            return CreatedAtRoute(nameof(GetBusStationByIdAsync), new { id = busStation.MaBx }, busStation);
         }
 
     }

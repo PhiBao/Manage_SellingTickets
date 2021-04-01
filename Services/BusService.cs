@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using backend.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend.Services
 {
@@ -14,7 +16,7 @@ namespace backend.Services
             _context = context;
         }
 
-        public void CreateBus(Xe bus)
+        public async Task CreateBusAsync(Xe bus)
         {
             if (bus == null) 
             {
@@ -22,36 +24,32 @@ namespace backend.Services
             }
 
             _context.Xes.Add(bus);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void DeleteBus(Xe bus)
+        public async Task DeleteBusAsync(Xe bus)
         {
             if (bus == null) 
             {
                 throw new ArgumentNullException(nameof(bus));
             }
             _context.Xes.Remove(bus);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public Xe GetBusById(int Id)
+        public async Task<Xe> GetBusByIdAsync(int Id)
         {
-            return _context.Xes.FirstOrDefault(p => p.MaXe == Id);
+            return await _context.Xes.FirstOrDefaultAsync(p => p.MaXe == Id);
         }
 
-        public IEnumerable<Xe> GetBuses()
+        public async Task<IEnumerable<Xe>> GetBusesAsync()
         {
-            return _context.Xes.ToList();
+            return await _context.Xes.ToListAsync();
         }
 
-        public bool SaveChanges()
+        public async Task UpdateBusAsync(Xe bus)
         {
-            return (_context.SaveChanges() >= 0);
-        }
-
-        public void UpdateBus(Xe bus)
-        {
+            await _context.SaveChangesAsync();
         }
     }
 }

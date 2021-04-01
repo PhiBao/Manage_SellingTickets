@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using backend.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend.Services
 {
@@ -14,17 +16,17 @@ namespace backend.Services
             _context = context;
         }
 
-        public Chongoi GetSeatById(int Id)
+        public async Task<Chongoi> GetSeatByIdAsync(int Id)
         {
-            return _context.Chongois.FirstOrDefault(p => p.MaChoNgoi == Id);
+            return await _context.Chongois.FirstOrDefaultAsync(p => p.MaChoNgoi == Id);
         }
 
-        public IEnumerable<Chongoi> GetSeats()
+        public async Task<IEnumerable<Chongoi>> GetSeatsAsync()
         {
-            return _context.Chongois.ToList();
+            return await _context.Chongois.ToListAsync();
         }
 
-        public void CreateSeat(Chongoi seat)
+        public async Task CreateSeatAsync(Chongoi seat)
         {
             if (seat == null) 
             {
@@ -32,16 +34,17 @@ namespace backend.Services
             }
 
             _context.Chongois.Add(seat);
-            _context.SaveChanges();
-        }
-
-        public bool SaveChanges()
-        {
-            return (_context.SaveChanges() >= 0);
-            
+            await _context.SaveChangesAsync();
         }
         
-        public void UpdateSeat(Chongoi seat) {}
+        public async Task UpdateSeatAsync(Chongoi seat) 
+        {
+            await _context.SaveChangesAsync();
+        }
 
+        public async Task<IEnumerable<int>> GetSeatByBusTripIdAsync(int busTripId)
+        {
+            return await _context.Chongois.Where(p => p.MaChuyenXe == busTripId).Select(p => p.MaChoNgoi).ToListAsync();
+        }
     }
 }

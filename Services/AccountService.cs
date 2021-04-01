@@ -1,7 +1,9 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using backend.Dtos;
 using backend.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend.Services
 {
@@ -13,7 +15,7 @@ namespace backend.Services
         {
             _context = context;
         }
-        public void CreateAccount(Taikhoan account)
+        public async Task CreateAccountAsync(Taikhoan account)
         {
             if (account == null) 
             {
@@ -21,10 +23,10 @@ namespace backend.Services
             }
 
             _context.Taikhoans.Add(account);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void DeleteAccount(Taikhoan account)
+        public async Task DeleteAccountAsync(Taikhoan account)
         {
             if (account == null) 
             {
@@ -32,22 +34,17 @@ namespace backend.Services
             }
 
             _context.Taikhoans.Remove(account);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public Taikhoan GetAccountById(int id)
+        public async Task<Taikhoan> GetAccountByIdAsync(int id)
         {
-            return _context.Taikhoans.Where(p => p.MaTk == id).FirstOrDefault();
+            return await _context.Taikhoans.Where(p => p.MaTk == id).FirstOrDefaultAsync(); //
         }
 
-        public bool SaveChanges()
+        public async Task UpdateAccountAsync(Taikhoan account)
         {
-            return (_context.SaveChanges() >= 0);
-            
-        }
-
-        public void UpdateAccount(Taikhoan account)
-        {
+            await _context.SaveChangesAsync();
         }
     }
 }

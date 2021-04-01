@@ -1,15 +1,16 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using backend.Models;
 
 namespace backend.Services
 {
     public interface IBusService
     {
-        public IEnumerable<Xe> GetBuses();
-        public void CreateBus(Xe bus);
-        public void DeleteBus(Xe bus);
-        public Xe GetBusById(int id);
-        public void UpdateBus(Xe bus);
-        public bool SaveChanges();
+        Task<IEnumerable<Xe>> GetBusesAsync();
+        Task CreateBusAsync(Xe bus);
+        Task DeleteBusAsync(Xe bus);
+        Task<Xe> GetBusByIdAsync(int id);
+        Task UpdateBusAsync(Xe bus);
+
     }
 }

@@ -64,11 +64,11 @@ namespace backend.Models
 
                 entity.ToTable("CHONGOI");
 
-                entity.HasOne(d => d.MaXeNavigation)
+                entity.HasOne(d => d.MaChuyenXeNavigation)
                     .WithMany(p => p.Chongois)
-                    .HasForeignKey(d => d.MaXe)
+                    .HasForeignKey(d => d.MaChuyenXe)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_CHONGOI_MaXe");
+                    .HasConstraintName("FK_CHONGOI_MaChuyenXe");
             });
 
             modelBuilder.Entity<Chuyenxe>(entity =>

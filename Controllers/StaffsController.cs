@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using backend.Dtos;
 using backend.Models;
@@ -23,18 +24,18 @@ namespace backend.Controllers
 
         // GET api/staffs
         [HttpGet]
-        public ActionResult<IEnumerable<Nguoidung>> GetAllStaffs()
+        public async Task<ActionResult<IEnumerable<Nguoidung>>> GetAllStaffsAsync()
         {
-            var staffs = _userService.GetStaffs();
+            var staffs = await _userService.GetStaffsAsync();
 
             return Ok(staffs);
         }
 
         // GET api/staffs/{id}
-        [HttpGet("{id}", Name = "GetStaffById")]
-        public ActionResult<Nguoidung> GetStaffById(int id)
+        [HttpGet("{id}", Name = "GetStaffByIdAsync")]
+        public async Task<ActionResult<Nguoidung>> GetStaffByIdAsync(int id)
         {
-            var staff = _userService.GetStaffById(id);
+            var staff = await _userService.GetStaffByIdAsync(id);
 
             if (staff != null)
             {
@@ -46,26 +47,25 @@ namespace backend.Controllers
 
         //POST api/staffs
         [HttpPost]
-        public ActionResult<Nguoidung> CreateStaff(Nguoidung staff)
+        public async Task<ActionResult<Nguoidung>> CreateStaffAsync(Nguoidung staff)
         {
-            _userService.CreateStaff(staff);
+            await _userService.CreateStaffAsync(staff);
 
-            return CreatedAtRoute(nameof(GetStaffById), new { id = staff.MaNd }, staff);
+            return CreatedAtRoute(nameof(GetStaffByIdAsync), new { id = staff.MaNd }, staff);
         }
 
         // Put api/staffs/{id}
         [HttpPut("{id}")]
-        public ActionResult UpdateStaff(int id, UserUpdateDto staffUpdateDto) 
+        public async Task<ActionResult> UpdateStaffAsync(int id, UserUpdateDto staffUpdateDto) 
         {
-            var staffSelected = _userService.GetStaffById(id);
+            var staffSelected = await _userService.GetStaffByIdAsync(id);
             if (staffSelected == null || staffSelected.Vaitro != 2)
             {
                 return NotFound();
             }
 
             _mapper.Map(staffUpdateDto, staffSelected);
-            _userService.UpdateUser(staffSelected);
-            _userService.SaveChanges();
+            await _userService.UpdateUserAsync(staffSelected);
 
             return NoContent();
         }

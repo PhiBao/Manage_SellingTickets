@@ -6,6 +6,7 @@ using backend.Services;
 using Microsoft.AspNetCore.Mvc;
 using backend.Dtos;
 using System;
+using System.Threading.Tasks;
 
 namespace backend.Controllers
 {
@@ -14,28 +15,30 @@ namespace backend.Controllers
     public class BusTripsController : ControllerBase
     {
         private readonly IBusTripService _busTripService;
+        private readonly ISeatService _seatService;
         private readonly IMapper _mapper;
 
-        public BusTripsController(IBusTripService busTripService, IMapper mapper)
+        public BusTripsController(IBusTripService busTripService, ISeatService seatService, IMapper mapper)
         {
             _busTripService = busTripService;
+            _seatService = seatService;
             _mapper = mapper;
         }
 
         // GET api/BusTrips
         [HttpGet]
-        public ActionResult<IEnumerable<BusTripReadDto>> GetAllBusTrips()
+        public async Task<ActionResult<IEnumerable<BusTripReadDto>>> GetAllBusTripsAsync()
         {
-            var busTrips = _busTripService.GetBusTrips();
+            var busTrips = await _busTripService.GetBusTripsAsync();
 
             return Ok(_mapper.Map<IEnumerable<BusTripReadDto>>(busTrips));
         }
 
         // GET api/BusTrips/id
-        [HttpGet("{id}", Name = "GetBusTripById")]
-        public ActionResult<BusTripReadDto> GetBusTripById(int id)
+        [HttpGet("{id}", Name = "GetBusTripByIdAsync")]
+        public async Task<ActionResult<BusTripReadDto>> GetBusTripByIdAsync(int id)
         {
-            var busTrip = _busTripService.GetBusTripById(id);
+            var busTrip = await _busTripService.GetBusTripByIdAsync(id);
 
             if (busTrip != null)
             {
@@ -47,9 +50,9 @@ namespace backend.Controllers
 
         // GET api/BusTrips/search?dep=a&dest=b&date=c
         [HttpGet("search")]
-        public ActionResult<IEnumerable<BusTripReadDto>> GetBusTripByCondition(int dep, int dest) 
+        public async Task<ActionResult<IEnumerable<BusTripReadDto>>> GetBusTripByConditionAsync(int dep, int dest) 
         {
-            var busTrips = _busTripService.GetBusTripByCondition(dep, dest);
+            var busTrips = await _busTripService.GetBusTripByConditionAsync(dep, dest);
 
             if (busTrips != null)
             {
@@ -61,13 +64,36 @@ namespace backend.Controllers
 
         //POST api/bustrips
         [HttpPost]
-        public ActionResult<Nguoidung> CreateStaff(Chuyenxe busTrip)
+        public async Task<ActionResult<Chuyenxe>> CreateBusTripAsync(Chuyenxe busTrip)
         {
-            _busTripService.CreateBusTrip(busTrip);
+            await _busTripService.CreateBusTripAsync(busTrip);
 
-            return CreatedAtRoute(nameof(GetBusTripById), new { id = busTrip.MaChuyenXe }, busTrip);
+            for (var i = 0; i < busTrip.SoChoTrong; i++)
+            {
+                await _seatService.CreateSeatAsync(new Chongoi 
+                {
+                    MaChuyenXe = busTrip.MaChuyenXe,
+                    TinhTrangChoNgoi = false
+                });
+            }
+
+            return CreatedAtRoute(nameof(GetBusTripByIdAsync), new { id = busTrip.MaChuyenXe }, busTrip);
         }
 
+        // Put api/buses/{id}
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateBusTripAsync(int id, BusTripUpdateDto busTripUpdateDto) 
+        {
+            var busTripSelected = await _busTripService.GetBusTripByIdAsync(id);
+            if (busTripSelected == null)
+            {
+                return NotFound();
+            }
 
+            _mapper.Map(busTripUpdateDto, busTripSelected);
+            await _busTripService.UpdateBusTripAsync(busTripSelected);
+
+            return NoContent();
+        }
     }
 }

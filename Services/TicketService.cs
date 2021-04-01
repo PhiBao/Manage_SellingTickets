@@ -2,8 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using backend.Dtos;
 using backend.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend.Services
 {
@@ -16,24 +18,24 @@ namespace backend.Services
             _context = context;
         }
 
-        public void CreateTicket(Vexe ticket)
+        public async Task CreateTicketAsync(Vexe ticket)
         {
             if (ticket == null) 
             {
                 throw new ArgumentNullException(nameof(ticket));
             }
             _context.Vexes.Add(ticket);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public Vexe GetTicketById(int id)
+        public async Task<Vexe> GetTicketByIdAsync(int id)
         {
-            return _context.Vexes.FirstOrDefault(p => p.MaChuyenXe == id);
+            return await _context.Vexes.FirstOrDefaultAsync(p => p.MaChuyenXe == id);
         }
 
-        public IEnumerable<Vexe> GetTickets()
+        public async Task<IEnumerable<Vexe>> GetTicketsAsync()
         {
-            return _context.Vexes.ToList();
+            return await _context.Vexes.ToListAsync();
         }
     }
 }

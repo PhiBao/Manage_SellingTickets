@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using backend.Dtos;
 using backend.Models;
 
@@ -5,10 +6,9 @@ namespace backend.Services
 {
     public interface IAccountService
     {
-        public void CreateAccount(Taikhoan account);
-        public void DeleteAccount(Taikhoan account);
-        public Taikhoan GetAccountById(int id);
-        public void UpdateAccount(Taikhoan account);
-        public bool SaveChanges();
+        Task CreateAccountAsync(Taikhoan account);
+        Task DeleteAccountAsync(Taikhoan account);
+        Task<Taikhoan> GetAccountByIdAsync(int id);
+        Task UpdateAccountAsync(Taikhoan account);
     }
 }

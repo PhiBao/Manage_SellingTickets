@@ -9,6 +9,7 @@ namespace backend.Profiles
         public BusTripProfile()
         {
             CreateMap<Chuyenxe, BusTripReadDto>();
+            CreateMap<BusTripUpdateDto, Chuyenxe>();
         }
     }
 }
