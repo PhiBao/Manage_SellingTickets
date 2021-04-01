@@ -37,6 +37,8 @@ namespace backend
             services.AddTransient<IBusRouteService, BusRouteService>();
             services.AddTransient<IBusTripService, BusTripService>();
             services.AddTransient<IBusService, BusService>();
+            services.AddTransient<ISeatService, SeatService>();
+            services.AddTransient<ITicketService, TicketService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

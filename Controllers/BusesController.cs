@@ -14,11 +14,13 @@ namespace backend.Controllers
     {
 
         private readonly IBusService _busService;
+        private readonly ISeatService _seatService;
         private readonly IMapper _mapper;
 
-        public BusesController(IBusService busService, IMapper mapper)
+        public BusesController(IBusService busService, ISeatService seatService, IMapper mapper)
         {
             _busService = busService;
+            _seatService = seatService;
             _mapper = mapper;
         }
 
@@ -51,6 +53,15 @@ namespace backend.Controllers
         {
             _busService.CreateBus(bus);
 
+            for (var i = 0; i < bus.SoChoNgoi; i++)
+            {
+                _seatService.CreateSeat(new Chongoi 
+                {
+                    MaXe = bus.MaXe,
+                    TinhTrangChoNgoi = false
+                });
+            }
+
             return CreatedAtRoute(nameof(GetBusById), new { id = bus.MaXe }, bus);
         }
 
@@ -67,6 +78,21 @@ namespace backend.Controllers
             _mapper.Map(busUpdateDto, busSelected);
             _busService.UpdateBus(busSelected);
             _busService.SaveChanges();
+
+            return NoContent();
+        }
+
+        // DELETE api/accounts/{id}
+        [HttpDelete("{id}")]
+        public ActionResult DeleteBus(int id) 
+        {
+            var busSelected = _busService.GetBusById(id);
+            if (busSelected == null)
+            {
+                return NotFound();
+            }
+
+            _busService.DeleteBus(busSelected);
 
             return NoContent();
         }
