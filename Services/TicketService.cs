@@ -48,5 +48,15 @@ namespace backend.Services
             _context.Vexes.Remove(ticket);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<IEnumerable<Vexe>> GetTicketsByUserIdAsync(int userId)
+        {
+            return await _context.Vexes.Where(p => p.MaKh == userId).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Vexe>> GetTicketsByBusTripIdAsync(int busTripId)
+        {
+            return await _context.Vexes.Where(p => p.MaChuyenXe == busTripId).ToListAsync();
+        }
     }
 }

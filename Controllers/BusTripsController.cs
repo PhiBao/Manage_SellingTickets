@@ -84,11 +84,13 @@ namespace backend.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateBusTripAsync(int id, BusTripUpdateDto busTripUpdateDto) 
         {
-            var busTripSelected = await _busTripService.GetBusTripByIdAsync(id);
+            var busTripSelected = await _busTripService.GetBusTripByIdAsync(id);     
             if (busTripSelected == null)
             {
                 return NotFound();
             }
+            busTripUpdateDto.SoChoDaDat = (busTripSelected.SoChoDaDat == null) ? 1 : busTripSelected.SoChoDaDat + 1; 
+            busTripUpdateDto.SoChoTrong = (busTripSelected.SoChoTrong == null) ? 1 : busTripSelected.SoChoTrong - 1;
 
             _mapper.Map(busTripUpdateDto, busTripSelected);
             await _busTripService.UpdateBusTripAsync(busTripSelected);

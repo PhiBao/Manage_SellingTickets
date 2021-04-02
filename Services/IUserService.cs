@@ -13,5 +13,6 @@ namespace backend.Services
         Task CreateStaffAsync(Nguoidung staff);
         Task CreateCustomerAsync(Nguoidung customer);
         Task UpdateUserAsync(Nguoidung user);
+        Task DeleteUserAsync(Nguoidung user);
     }
 }

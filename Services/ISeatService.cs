@@ -11,7 +11,8 @@ namespace backend.Services
         Task<Chongoi> GetSeatByIdAsync(int id);
         Task CreateSeatAsync(Chongoi seat);
         Task UpdateSeatAsync(Chongoi seat);
-        Task<IEnumerable<Chongoi>> GetSeatByBusTripIdAsync(int busTripId);
+        Task<IEnumerable<Chongoi>> GetSeatsByBusTripIdAsync(int busTripId);
+        Task DeleteSeatAsync(Chongoi seat);
         
     }
 }

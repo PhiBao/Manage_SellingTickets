@@ -198,6 +198,12 @@ namespace backend.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_VeXe_MaChoNgoi");
 
+                entity.HasOne(d => d.MaChuyenXeNavigation)
+                    .WithMany(p => p.Vexes)
+                    .HasForeignKey(d => d.MaChuyenXe)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_VeXe_MaChuyenXe");
+
                 entity.HasOne(d => d.MaKhNavigation)
                     .WithMany(p => p.Vexes)
                     .HasForeignKey(d => d.MaKh)

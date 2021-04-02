@@ -50,7 +50,7 @@ namespace backend.Controllers
         [HttpGet("search")]
         public async Task<ActionResult<IEnumerable<SeatReadDto>>> GetSeatByBusTripIdAsync(int busTripId) 
         {
-            var seats = await _seatService.GetSeatByBusTripIdAsync(busTripId);
+            var seats = await _seatService.GetSeatsByBusTripIdAsync(busTripId);
 
             if (seats != null)
             {
@@ -71,7 +71,7 @@ namespace backend.Controllers
 
         // Put api/seats/{id}
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateSeatAsync(int id, SeatUpdateDto seatUpdateDto) 
+        public async Task<ActionResult<int>> UpdateSeatAsync(int id, SeatUpdateDto seatUpdateDto) 
         {
             var seatSelected = await _seatService.GetSeatByIdAsync(id);
             if (seatSelected == null)
@@ -81,6 +81,25 @@ namespace backend.Controllers
 
             _mapper.Map(seatUpdateDto, seatSelected);
             await _seatService.UpdateSeatAsync(seatSelected);
+
+            return seatSelected.MaChuyenXe;
+        }
+
+        // DELETE api/seats/delete?busTripId=busTripId
+        [HttpDelete("delete")]
+        public async Task<ActionResult> DeleteSeatsByBusTripIdAsync(int busTripId)
+        {
+            var seats = await _seatService.GetSeatsByBusTripIdAsync(busTripId);
+
+            if (seats == null)
+            {
+                return NotFound();
+            }
+
+            foreach (var seat in seats)
+            {
+                await _seatService.DeleteSeatAsync(seat);
+            }
 
             return NoContent();
         }

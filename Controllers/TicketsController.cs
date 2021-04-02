@@ -38,7 +38,7 @@ namespace backend.Controllers
         {
             var ticket = await _ticketService.GetTicketByIdAsync(id);
 
-            if (ticket != null) 
+            if (ticket != null)
             {
                 return Ok(ticket);
             }
@@ -57,15 +57,54 @@ namespace backend.Controllers
 
         // DELETE api/accounts/{id}
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteTicket(int id) 
+        public async Task<ActionResult> DeleteTicket(int id)
         {
             var ticketSelected = await _ticketService.GetTicketByIdAsync(id);
+
             if (ticketSelected == null)
             {
                 return NotFound();
             }
 
             await _ticketService.DeleteTicketAsync(ticketSelected);
+
+            return NoContent();
+        }
+
+        // DELETE api/BusTrips/delete?userId=userId
+        [HttpDelete("delete")]
+        public async Task<ActionResult> DeleteTicketsByUserIdAsync(int userId)
+        {
+            var ticketSelected = await _ticketService.GetTicketsByUserIdAsync(userId);
+
+            if (ticketSelected == null)
+            {
+                return NotFound();
+            }
+
+            foreach (var ticket in ticketSelected)
+            {
+                await _ticketService.DeleteTicketAsync(ticket);
+            }
+
+            return NoContent();
+        }
+
+        // DELETE api/BusTrips/delete?busTripId=busTripId
+        [HttpDelete("delete")]
+        public async Task<ActionResult> DeleteTicketsByBusTripIdAsync(int busTripId)
+        {
+            var ticketSelected = await _ticketService.GetTicketsByUserIdAsync(busTripId);
+
+            if (ticketSelected == null)
+            {
+                return NotFound();
+            }
+
+            foreach (var ticket in ticketSelected)
+            {
+                await _ticketService.DeleteTicketAsync(ticket);
+            }
 
             return NoContent();
         }

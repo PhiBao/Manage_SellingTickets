@@ -42,9 +42,20 @@ namespace backend.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Chongoi>> GetSeatByBusTripIdAsync(int busTripId)
+        public async Task<IEnumerable<Chongoi>> GetSeatsByBusTripIdAsync(int busTripId)
         {
             return await _context.Chongois.Where(p => p.MaChuyenXe == busTripId).ToListAsync();
+        }
+
+        public async Task DeleteSeatAsync(Chongoi seat)
+        {
+            if (seat == null) 
+            {
+                throw new ArgumentNullException(nameof(seat));
+            }
+
+            _context.Chongois.Remove(seat);
+            await _context.SaveChangesAsync();
         }
     }
 }

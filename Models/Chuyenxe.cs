@@ -10,6 +10,7 @@ namespace backend.Models
         public Chuyenxe()
         {
             Chongois = new HashSet<Chongoi>();
+            Vexes = new HashSet<Vexe>();
         }
 
         public int MaChuyenXe { get; set; }
@@ -23,5 +24,6 @@ namespace backend.Models
         public virtual Tuyenxe MaTuyenXeNavigation { get; set; }
         public virtual Xe MaXeNavigation { get; set; }
         public virtual ICollection<Chongoi> Chongois { get; set; }
+        public virtual ICollection<Vexe> Vexes { get; set; }
     }
 }

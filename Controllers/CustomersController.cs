@@ -71,5 +71,19 @@ namespace backend.Controllers
             return NoContent();
         }
 
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteTicket(int id) 
+        {
+            var user = await _userService.GetCustomerByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            await _userService.DeleteUserAsync(user);
+
+            return NoContent();
+        }
+
     }
 }
