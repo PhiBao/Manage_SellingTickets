@@ -9,5 +9,7 @@ namespace backend.Services
         Task<IEnumerable<Tuyenxe>> GetBusRoutesAsync();
         Task<Tuyenxe> GetBusRouteByIdAsync(int id);
         Task CreateBusRouteAsync(Tuyenxe busRoute);
+        Task DeleteBusRouteAsync(Tuyenxe busRoute);
+        Task UpdateBusRouteAsync(Tuyenxe busRoute);
     }
 }

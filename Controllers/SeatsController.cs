@@ -44,16 +44,17 @@ namespace backend.Controllers
 
             return NotFound();
         }
+        
 
-        // GET api/Seats/search?dep=a&dest=b&date=c
+        // GET api/Seats/search?busTripId=busTripId
         [HttpGet("search")]
-        public async Task<ActionResult<IEnumerable<int>>> GetSeatByBusTripIdAsync(int busTripId) 
+        public async Task<ActionResult<IEnumerable<SeatReadDto>>> GetSeatByBusTripIdAsync(int busTripId) 
         {
             var seats = await _seatService.GetSeatByBusTripIdAsync(busTripId);
 
             if (seats != null)
             {
-                return Ok(seats);
+                return Ok(_mapper.Map<SeatReadDto>(seats));
             }
 
             return NotFound();

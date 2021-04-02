@@ -42,9 +42,9 @@ namespace backend.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<int>> GetSeatByBusTripIdAsync(int busTripId)
+        public async Task<IEnumerable<Chongoi>> GetSeatByBusTripIdAsync(int busTripId)
         {
-            return await _context.Chongois.Where(p => p.MaChuyenXe == busTripId).Select(p => p.MaChoNgoi).ToListAsync();
+            return await _context.Chongois.Where(p => p.MaChuyenXe == busTripId).ToListAsync();
         }
     }
 }

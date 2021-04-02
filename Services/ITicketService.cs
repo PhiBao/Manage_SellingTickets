@@ -11,5 +11,6 @@ namespace backend.Services
         Task<IEnumerable<Vexe>> GetTicketsAsync();
         Task<Vexe> GetTicketByIdAsync(int id);
         Task CreateTicketAsync(Vexe ticket);
+        Task DeleteTicketAsync(Vexe ticket);
     }
 }

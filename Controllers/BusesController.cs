@@ -17,7 +17,7 @@ namespace backend.Controllers
         private readonly IBusService _busService;
         private readonly IMapper _mapper;
 
-        public BusesController(IBusService busService, ISeatService seatService, IMapper mapper)
+        public BusesController(IBusService busService, IMapper mapper)
         {
             _busService = busService;
             _mapper = mapper;

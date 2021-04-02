@@ -54,5 +54,36 @@ namespace backend.Controllers
             return CreatedAtRoute(nameof(GetBusRouteByIdAsync), new { id = busRoute.MaTuyenXe }, busRoute);
         }
 
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateBusRouteAsync(int id, BusRouteUpdateDto busRouteUpdateDto) 
+        {
+            var busRouteSelected = await _busRouteService.GetBusRouteByIdAsync(id);
+            if (busRouteSelected == null)
+            {
+                return NotFound();
+            }
+
+            _mapper.Map(busRouteUpdateDto, busRouteSelected);
+
+            await _busRouteService.UpdateBusRouteAsync(busRouteSelected);
+
+            return NoContent();
+        }
+
+        // DELETE api/busRoutes/{id}
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteBusRouteAsync(int id) 
+        {
+            var busRouteSelected = await _busRouteService.GetBusRouteByIdAsync(id);
+            if (busRouteSelected == null)
+            {
+                return NotFound();
+            }
+
+            await _busRouteService.DeleteBusRouteAsync(busRouteSelected);
+
+            return NoContent();
+        }
+
     }
 }

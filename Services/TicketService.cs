@@ -30,12 +30,23 @@ namespace backend.Services
 
         public async Task<Vexe> GetTicketByIdAsync(int id)
         {
-            return await _context.Vexes.FirstOrDefaultAsync(p => p.MaChuyenXe == id);
+            return await _context.Vexes.FirstOrDefaultAsync(p => p.MaVe == id);
         }
 
         public async Task<IEnumerable<Vexe>> GetTicketsAsync()
         {
             return await _context.Vexes.ToListAsync();
+        }
+
+        public async Task DeleteTicketAsync(Vexe ticket)
+        {
+            if (ticket == null) 
+            {
+                throw new ArgumentNullException(nameof(ticket));
+            }
+
+            _context.Vexes.Remove(ticket);
+            await _context.SaveChangesAsync();
         }
     }
 }

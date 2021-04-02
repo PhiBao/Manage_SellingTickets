@@ -34,5 +34,21 @@ namespace backend.Services
         {
             return await _context.Tuyenxes.ToListAsync();
         }
+
+        public async Task DeleteBusRouteAsync(Tuyenxe busRoute)
+        {
+            if (busRoute == null) 
+            {
+                throw new ArgumentNullException(nameof(busRoute));
+            }
+
+            _context.Tuyenxes.Remove(busRoute);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateBusRouteAsync(Tuyenxe busRoute)
+        {
+            await _context.SaveChangesAsync();
+        }
     }
 }
