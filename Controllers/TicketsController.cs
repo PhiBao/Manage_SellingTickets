@@ -16,9 +16,11 @@ namespace backend.Controllers
 
         private readonly ITicketService _ticketService;
         private readonly IMapper _mapper;
+        private readonly ISeatService _seatService;
 
-        public TicketsController(ITicketService ticketService, IMapper mapper)
+        public TicketsController(ITicketService ticketService, ISeatService seatService, IMapper mapper)
         {
+            _seatService = seatService;
             _ticketService = ticketService;
             _mapper = mapper;
         }
@@ -52,6 +54,11 @@ namespace backend.Controllers
         {
             await _ticketService.CreateTicketAsync(ticket);
 
+            var seat = await _seatService.GetSeatByIdAsync(ticket.MaChoNgoi);
+            seat.TinhTrangChoNgoi = true;
+
+            await _seatService.UpdateSeatAsync(seat);
+
             return CreatedAtRoute(nameof(GetTicketByIdAsync), new { id = ticket.MaVe }, ticket);
         }
 
@@ -71,8 +78,8 @@ namespace backend.Controllers
             return NoContent();
         }
 
-        // DELETE api/BusTrips/delete?userId=userId
-        [HttpDelete("delete")]
+        // DELETE api/tickets/remove?userId={userId}
+        [HttpDelete("remove")]
         public async Task<ActionResult> DeleteTicketsByUserIdAsync(int userId)
         {
             var ticketSelected = await _ticketService.GetTicketsByUserIdAsync(userId);
@@ -90,7 +97,7 @@ namespace backend.Controllers
             return NoContent();
         }
 
-        // DELETE api/BusTrips/delete?busTripId=busTripId
+        // DELETE api/tickets/delete?busTripId={busTripId}
         [HttpDelete("delete")]
         public async Task<ActionResult> DeleteTicketsByBusTripIdAsync(int busTripId)
         {

@@ -7,9 +7,9 @@ namespace backend.Dtos
     {
         [Required]
         [MaxLength(10)]
-        public int MaBxden { get; set; }
+        public string MaBxden { get; set; }
         [Required]
         [MaxLength(10)]
-        public int MaBxdi { get; set; }
+        public string MaBxdi { get; set; }
     }
 }

@@ -46,7 +46,7 @@ namespace backend.Controllers
         }
 
 
-        // GET api/Seats/search?busTripId=busTripId
+        // GET api/Seats/search?busTripId={busTripId}
         [HttpGet("search")]
         public async Task<ActionResult<IEnumerable<SeatReadDto>>> GetSeatByBusTripIdAsync(int busTripId)
         {
@@ -54,24 +54,15 @@ namespace backend.Controllers
 
             if (seats != null)
             {
-                return Ok(_mapper.Map<SeatReadDto>(seats));
+                return Ok(_mapper.Map<IEnumerable<SeatReadDto>>(seats));
             }
 
             return NotFound();
         }
 
-        //POST api/seats
-        [HttpPost]
-        public async Task<ActionResult<Chongoi>> CreateSeatAsync(Chongoi seat)
-        {
-            await _seatService.CreateSeatAsync(seat);
-
-            return CreatedAtRoute(nameof(GetSeatByIdAsync), new { id = seat.MaChoNgoi }, seat);
-        }
-
-        // Put api/seats/{id}
+        // PUT api/seats/{id}
         [HttpPut("{id}")]
-        public async Task<ActionResult<int>> UpdateSeatAsync(int id, SeatUpdateDto seatUpdateDto)
+        public async Task<ActionResult<SeatReadDto>> UpdateSeatAsync(int id, SeatUpdateDto seatUpdateDto)
         {
             var seatSelected = await _seatService.GetSeatByIdAsync(id);
             if (seatSelected == null)
@@ -81,11 +72,12 @@ namespace backend.Controllers
 
             _mapper.Map(seatUpdateDto, seatSelected);
             await _seatService.UpdateSeatAsync(seatSelected);
+            var seatReadDto = _mapper.Map<SeatReadDto>(seatSelected);
 
-            return seatSelected.MaChuyenXe;
+            return seatReadDto;
         }
 
-        // DELETE api/seats/delete?busTripId=busTripId
+        // DELETE api/seats/delete?busTripId={busTripId}
         [HttpDelete("delete")]
         public async Task<ActionResult> DeleteSeatsByBusTripIdAsync(int busTripId)
         {

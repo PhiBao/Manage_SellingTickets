@@ -31,7 +31,7 @@ namespace backend.Controllers
             return Ok(_mapper.Map<IEnumerable<BusStationReadDto>>(busStations));
         }
 
-        // GET api/BusStations/id
+        // GET api/BusStations/{id}
         [HttpGet("{id}", Name = "GetBusStationByIdAsync")]
         public async Task<ActionResult<Benxe>> GetBusStationByIdAsync(int id)
         {

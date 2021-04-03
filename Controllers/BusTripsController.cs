@@ -34,21 +34,21 @@ namespace backend.Controllers
             return Ok(_mapper.Map<IEnumerable<BusTripReadDto>>(busTrips));
         }
 
-        // GET api/BusTrips/id
+        // GET api/BusTrips/{id}
         [HttpGet("{id}", Name = "GetBusTripByIdAsync")]
-        public async Task<ActionResult<BusTripReadDto>> GetBusTripByIdAsync(int id)
+        public async Task<ActionResult<Chuyenxe>> GetBusTripByIdAsync(int id)
         {
             var busTrip = await _busTripService.GetBusTripByIdAsync(id);
 
             if (busTrip != null)
             {
-                return Ok(_mapper.Map<BusTripReadDto>(busTrip));
+                return Ok(busTrip);
             }
 
             return NotFound();
         }
 
-        // GET api/BusTrips/search?dep=a&dest=b
+        // GET api/BusTrips/search?dep={a}&dest={b}
         [HttpGet("search")]
         public async Task<ActionResult<IEnumerable<BusTripReadDto>>> GetBusTripByConditionAsync(int dep, int dest)
         {
@@ -62,11 +62,29 @@ namespace backend.Controllers
             return NotFound();
         }
 
-        // GET api/BusTrips/search?staffId=staffId
+        // GET api/BusTrips/find?staffId={staffId}
         [HttpGet("find")]
         public async Task<ActionResult<IEnumerable<int>>> GetBusTripIdByStaffIdAsync(int staffId)
         {
             var busTripId = await _busTripService.GetBusTripIdByStaffIdAsync(staffId);
+
+            return Ok(busTripId);
+        }
+
+        // GET api/BusTrips/check?busRouteId={busRouteId}
+        [HttpGet("check")]
+        public async Task<ActionResult<IEnumerable<int>>> GetBusTripIdByBusRouteIdAsync(int busRouteId)
+        {
+            var busTripId = await _busTripService.GetBusTripIdByBusRouteIdAsync(busRouteId);
+
+            return Ok(busTripId);
+        }
+
+        // GET api/BusTrips/seek?busId={busId}
+        [HttpGet("seek")]
+        public async Task<ActionResult<IEnumerable<int>>> GetBusTripIdByBusIdAsync(int busId)
+        {
+            var busTripId = await _busTripService.GetBusTripIdByBusIdAsync(busId);
 
             return Ok(busTripId);
         }
@@ -77,19 +95,13 @@ namespace backend.Controllers
         {
             await _busTripService.CreateBusTripAsync(busTrip);
 
-            for (var i = 0; i < busTrip.SoChoTrong; i++)
-            {
-                await _seatService.CreateSeatAsync(new Chongoi
-                {
-                    MaChuyenXe = busTrip.MaChuyenXe,
-                    TinhTrangChoNgoi = false
-                });
-            }
+            var SoChoTrong = busTrip.SoChoTrong.GetValueOrDefault();
+            await _seatService.CreateSeatAsync(SoChoTrong, busTrip.MaChuyenXe);
 
             return CreatedAtRoute(nameof(GetBusTripByIdAsync), new { id = busTrip.MaChuyenXe }, busTrip);
         }
 
-        // Put api/buses/{id}
+        // PUT api/buses/{id}
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateBusTripAsync(int id, BusTripUpdateDto busTripUpdateDto)
         {

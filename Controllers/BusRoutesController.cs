@@ -31,7 +31,7 @@ namespace backend.Controllers
             return Ok(busRoutes);
         }
 
-        // GET api/BusRoutes/id
+        // GET api/BusRoutes/{id}
         [HttpGet("{id}", Name = "GetBusRouteByIdAsync")]
         public async Task<ActionResult<Tuyenxe>> GetBusRouteByIdAsync(int id)
         {
@@ -54,6 +54,7 @@ namespace backend.Controllers
             return CreatedAtRoute(nameof(GetBusRouteByIdAsync), new { id = busRoute.MaTuyenXe }, busRoute);
         }
 
+        // PUT api/BusRoutes/{id}
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateBusRouteAsync(int id, BusRouteUpdateDto busRouteUpdateDto)
         {

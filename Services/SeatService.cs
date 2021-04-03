@@ -57,5 +57,21 @@ namespace backend.Services
             _context.Chongois.Remove(seat);
             await _context.SaveChangesAsync();
         }
+
+        public async Task CreateSeatAsync(int SoChoTrong, int MaChuyenXe)
+        {
+            List<Chongoi> seats = new List<Chongoi>();
+
+            for (var i = 0; i < SoChoTrong; i++)
+            {
+                seats.Add(new Chongoi
+                {
+                    MaChuyenXe = MaChuyenXe,
+                    TinhTrangChoNgoi = false
+                });
+            }
+            _context.Chongois.AddRange(seats);
+            await _context.SaveChangesAsync();
+        }
     }
 }

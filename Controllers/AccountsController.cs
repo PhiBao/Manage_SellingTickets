@@ -16,14 +16,16 @@ namespace backend.Controllers
 
         private readonly IAccountService _accountService;
         private readonly IMapper _mapper;
+        private readonly IUserService _userService;
 
-        public AccountsController(IAccountService accountService, IMapper mapper)
+        public AccountsController(IAccountService accountService, IUserService userService, IMapper mapper)
         {
+            _userService = userService;
             _accountService = accountService;
             _mapper = mapper;
         }
 
-        // GET api/accounts/id
+        // GET api/accounts/{id}
         [HttpGet("{id}", Name = "GetAccountByIdAsync")]
         public async Task<ActionResult<Taikhoan>> GetAccountByIdAsync(int id)
         {
@@ -48,7 +50,7 @@ namespace backend.Controllers
             return CreatedAtRoute(nameof(GetAccountByIdAsync), new { id = accountDto.MaNd }, accountDto);
         }
 
-        // Put api/accounts/{id}
+        // PUT api/accounts/{id}
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateAccountAsync(int id, AccountUpdateDto accountUpdateDto)
         {

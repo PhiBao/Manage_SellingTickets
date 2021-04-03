@@ -54,6 +54,16 @@ namespace backend.Services
             return await _context.Chuyenxes.FirstOrDefaultAsync(p => p.MaChuyenXe == id);
         }
 
+        public async Task<IEnumerable<int>> GetBusTripIdByBusRouteIdAsync(int id)
+        {
+            return await _context.Chuyenxes.Where(p => p.MaTuyenXe == id).Select(p => p.MaChuyenXe).ToListAsync();
+        }
+
+        public async Task<IEnumerable<int>> GetBusTripIdByBusIdAsync(int id)
+        {
+            return await _context.Chuyenxes.Where(p => p.MaXe == id).Select(p => p.MaChuyenXe).ToListAsync();
+        }
+
         public async Task<IEnumerable<int>> GetBusTripIdByStaffIdAsync(int staffId)
         {
             var busesId = await _context.Xes.Where(p => p.MaNv == staffId).Select(p => p.MaXe).ToListAsync();

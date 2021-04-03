@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
 {
-    // api/users
     [Route("api/[controller]")]
     [ApiController]
     public class CustomersController : ControllerBase
@@ -32,7 +31,7 @@ namespace backend.Controllers
             return Ok(customers);
         }
 
-        // GET api/customers/id
+        // GET api/customers/{id}
         [HttpGet("{id}", Name = "GetCustomerByIdAsync")]
         public async Task<ActionResult<Nguoidung>> GetCustomerByIdAsync(int id)
         {
@@ -55,7 +54,7 @@ namespace backend.Controllers
             return CreatedAtRoute(nameof(GetCustomerByIdAsync), new { id = customer.MaNd }, customer);
         }
 
-        // Put api/customers/{id}
+        // PUT api/customers/{id}
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateCustomerAsync(int id, UserUpdateDto customerUpdateDto)
         {
@@ -71,6 +70,7 @@ namespace backend.Controllers
             return NoContent();
         }
 
+        // DELETE api/customers/{id}
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteCustomerAsync(int id)
         {
