@@ -38,7 +38,7 @@ namespace backend.Controllers
         {
             var bus = await _busService.GetBusByIdAsync(id);
 
-            if (bus != null) 
+            if (bus != null)
             {
                 return Ok(bus);
             }
@@ -57,7 +57,7 @@ namespace backend.Controllers
 
         // Put api/buses/{id}
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateBusAsync(int id, BusUpdateDto busUpdateDto) 
+        public async Task<ActionResult> UpdateBusAsync(int id, BusUpdateDto busUpdateDto)
         {
             var busSelected = await _busService.GetBusByIdAsync(id);
             if (busSelected == null)
@@ -73,9 +73,24 @@ namespace backend.Controllers
 
         // DELETE api/accounts/{id}
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteBus(int id) 
+        public async Task<ActionResult> DeleteBusAsync(int id)
         {
             var busSelected = await _busService.GetBusByIdAsync(id);
+            if (busSelected == null)
+            {
+                return NotFound();
+            }
+
+            await _busService.DeleteBusAsync(busSelected);
+
+            return NoContent();
+        }
+
+        // DELETE api/buses/staffId=staffId
+        [HttpDelete("delete")]
+        public async Task<ActionResult> DeleteBusByStaffIdAsync(int staffId)
+        {
+            var busSelected = await _busService.GetBusByStaffIdAsync(staffId);
             if (busSelected == null)
             {
                 return NotFound();

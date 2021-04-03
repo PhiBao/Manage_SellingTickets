@@ -11,14 +11,14 @@ namespace backend.Services
     {
         private readonly QLBVXKContext _context;
 
-        public BusStationService(QLBVXKContext context) 
+        public BusStationService(QLBVXKContext context)
         {
             _context = context;
         }
 
         public async Task CreateBusStationAsync(Benxe busStation)
         {
-            if (busStation == null) 
+            if (busStation == null)
             {
                 throw new ArgumentNullException(nameof(busStation));
             }

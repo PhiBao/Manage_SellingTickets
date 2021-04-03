@@ -5,7 +5,7 @@ using backend.Models;
 
 namespace backend.Services
 {
-    public interface IBusStationService 
+    public interface IBusStationService
     {
         Task<IEnumerable<Benxe>> GetBusStationsAsync();
         Task<Benxe> GetBusStationByIdAsync(int id);

@@ -20,7 +20,7 @@ namespace backend.Services
 
         public async Task CreateTicketAsync(Vexe ticket)
         {
-            if (ticket == null) 
+            if (ticket == null)
             {
                 throw new ArgumentNullException(nameof(ticket));
             }
@@ -40,7 +40,7 @@ namespace backend.Services
 
         public async Task DeleteTicketAsync(Vexe ticket)
         {
-            if (ticket == null) 
+            if (ticket == null)
             {
                 throw new ArgumentNullException(nameof(ticket));
             }

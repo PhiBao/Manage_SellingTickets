@@ -6,7 +6,7 @@ using backend.Models;
 
 namespace backend.Services
 {
-    public interface ITicketService 
+    public interface ITicketService
     {
         Task<IEnumerable<Vexe>> GetTicketsAsync();
         Task<IEnumerable<Vexe>> GetTicketsByUserIdAsync(int userId);

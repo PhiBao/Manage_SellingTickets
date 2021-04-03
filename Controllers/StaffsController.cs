@@ -54,9 +54,9 @@ namespace backend.Controllers
             return CreatedAtRoute(nameof(GetStaffByIdAsync), new { id = staff.MaNd }, staff);
         }
 
-        // Put api/staffs/{id}
+        // PUT api/staffs/{id}
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateStaffAsync(int id, UserUpdateDto staffUpdateDto) 
+        public async Task<ActionResult> UpdateStaffAsync(int id, UserUpdateDto staffUpdateDto)
         {
             var staffSelected = await _userService.GetStaffByIdAsync(id);
             if (staffSelected == null || staffSelected.Vaitro != 2)
@@ -66,6 +66,21 @@ namespace backend.Controllers
 
             _mapper.Map(staffUpdateDto, staffSelected);
             await _userService.UpdateUserAsync(staffSelected);
+
+            return NoContent();
+        }
+
+        // DELETE api/staffs/{id}
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteStaffAsync(int id)
+        {
+            var user = await _userService.GetStaffByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            await _userService.DeleteUserAsync(user);
 
             return NoContent();
         }

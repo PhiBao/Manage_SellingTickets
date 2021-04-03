@@ -10,6 +10,7 @@ namespace backend.Services
         Task CreateBusAsync(Xe bus);
         Task DeleteBusAsync(Xe bus);
         Task<Xe> GetBusByIdAsync(int id);
+        Task<Xe> GetBusByStaffIdAsync(int id);
         Task UpdateBusAsync(Xe bus);
 
     }

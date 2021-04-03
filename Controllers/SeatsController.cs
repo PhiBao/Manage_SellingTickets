@@ -44,11 +44,11 @@ namespace backend.Controllers
 
             return NotFound();
         }
-        
+
 
         // GET api/Seats/search?busTripId=busTripId
         [HttpGet("search")]
-        public async Task<ActionResult<IEnumerable<SeatReadDto>>> GetSeatByBusTripIdAsync(int busTripId) 
+        public async Task<ActionResult<IEnumerable<SeatReadDto>>> GetSeatByBusTripIdAsync(int busTripId)
         {
             var seats = await _seatService.GetSeatsByBusTripIdAsync(busTripId);
 
@@ -71,7 +71,7 @@ namespace backend.Controllers
 
         // Put api/seats/{id}
         [HttpPut("{id}")]
-        public async Task<ActionResult<int>> UpdateSeatAsync(int id, SeatUpdateDto seatUpdateDto) 
+        public async Task<ActionResult<int>> UpdateSeatAsync(int id, SeatUpdateDto seatUpdateDto)
         {
             var seatSelected = await _seatService.GetSeatByIdAsync(id);
             if (seatSelected == null)

@@ -6,7 +6,7 @@ using backend.Models;
 
 namespace backend.Services
 {
-    public interface IRevenueService 
+    public interface IRevenueService
     {
         Task CreateRevenueAsync(Doanhthungay dayliRevenue);
         Task UpdateRevenueAsync(Doanhthungay dayliRevenue);

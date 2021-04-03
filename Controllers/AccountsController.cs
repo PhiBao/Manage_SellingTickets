@@ -50,7 +50,7 @@ namespace backend.Controllers
 
         // Put api/accounts/{id}
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateAccountAsync(int id, AccountUpdateDto accountUpdateDto) 
+        public async Task<ActionResult> UpdateAccountAsync(int id, AccountUpdateDto accountUpdateDto)
         {
             var accountSelected = await _accountService.GetAccountByIdAsync(id);
             if (accountSelected == null)
@@ -67,7 +67,7 @@ namespace backend.Controllers
 
         // PATCH api/accounts/{id} -- not necessary
         [HttpPatch("{id}")]
-        public async Task<ActionResult> PartialAccountUpdateAsync(int id, JsonPatchDocument<AccountUpdateDto> patchDoc) 
+        public async Task<ActionResult> PartialAccountUpdateAsync(int id, JsonPatchDocument<AccountUpdateDto> patchDoc)
         {
             var accountSelected = await _accountService.GetAccountByIdAsync(id);
             if (accountSelected == null)
@@ -90,7 +90,7 @@ namespace backend.Controllers
 
         // DELETE api/accounts/{id}
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteAccountAsync(int id) 
+        public async Task<ActionResult> DeleteAccountAsync(int id)
         {
             var accountSelected = await _accountService.GetAccountByIdAsync(id);
             if (accountSelected == null)

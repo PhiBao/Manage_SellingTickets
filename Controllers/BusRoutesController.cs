@@ -55,7 +55,7 @@ namespace backend.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateBusRouteAsync(int id, BusRouteUpdateDto busRouteUpdateDto) 
+        public async Task<ActionResult> UpdateBusRouteAsync(int id, BusRouteUpdateDto busRouteUpdateDto)
         {
             var busRouteSelected = await _busRouteService.GetBusRouteByIdAsync(id);
             if (busRouteSelected == null)
@@ -72,7 +72,7 @@ namespace backend.Controllers
 
         // DELETE api/busRoutes/{id}
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteBusRouteAsync(int id) 
+        public async Task<ActionResult> DeleteBusRouteAsync(int id)
         {
             var busRouteSelected = await _busRouteService.GetBusRouteByIdAsync(id);
             if (busRouteSelected == null)

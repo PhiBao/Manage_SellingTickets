@@ -11,14 +11,14 @@ namespace backend.Services
     {
         private readonly QLBVXKContext _context;
 
-        public BusService(QLBVXKContext context) 
+        public BusService(QLBVXKContext context)
         {
             _context = context;
         }
 
         public async Task CreateBusAsync(Xe bus)
         {
-            if (bus == null) 
+            if (bus == null)
             {
                 throw new ArgumentNullException(nameof(bus));
             }
@@ -29,7 +29,7 @@ namespace backend.Services
 
         public async Task DeleteBusAsync(Xe bus)
         {
-            if (bus == null) 
+            if (bus == null)
             {
                 throw new ArgumentNullException(nameof(bus));
             }
@@ -40,6 +40,11 @@ namespace backend.Services
         public async Task<Xe> GetBusByIdAsync(int Id)
         {
             return await _context.Xes.FirstOrDefaultAsync(p => p.MaXe == Id);
+        }
+
+        public async Task<Xe> GetBusByStaffIdAsync(int id)
+        {
+            return await _context.Xes.FirstOrDefaultAsync(p => p.MaNv == id);
         }
 
         public async Task<IEnumerable<Xe>> GetBusesAsync()

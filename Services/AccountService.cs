@@ -17,7 +17,7 @@ namespace backend.Services
         }
         public async Task CreateAccountAsync(Taikhoan account)
         {
-            if (account == null) 
+            if (account == null)
             {
                 throw new ArgumentNullException(nameof(account));
             }
@@ -28,7 +28,7 @@ namespace backend.Services
 
         public async Task DeleteAccountAsync(Taikhoan account)
         {
-            if (account == null) 
+            if (account == null)
             {
                 throw new ArgumentNullException(nameof(account));
             }

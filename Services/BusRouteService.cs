@@ -17,7 +17,7 @@ namespace backend.Services
         }
         public async Task CreateBusRouteAsync(Tuyenxe busRoute)
         {
-            if (busRoute == null) 
+            if (busRoute == null)
             {
                 throw new ArgumentNullException(nameof(busRoute));
             }
@@ -37,7 +37,7 @@ namespace backend.Services
 
         public async Task DeleteBusRouteAsync(Tuyenxe busRoute)
         {
-            if (busRoute == null) 
+            if (busRoute == null)
             {
                 throw new ArgumentNullException(nameof(busRoute));
             }

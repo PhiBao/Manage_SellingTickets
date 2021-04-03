@@ -38,7 +38,7 @@ namespace backend.Controllers
         {
             var customer = await _userService.GetCustomerByIdAsync(id);
 
-            if (customer != null) 
+            if (customer != null)
             {
                 return Ok(customer);
             }
@@ -57,7 +57,7 @@ namespace backend.Controllers
 
         // Put api/customers/{id}
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateCustomerAsync(int id, UserUpdateDto customerUpdateDto) 
+        public async Task<ActionResult> UpdateCustomerAsync(int id, UserUpdateDto customerUpdateDto)
         {
             var customerSelected = await _userService.GetCustomerByIdAsync(id);
             if (customerSelected == null || customerSelected.Vaitro != 3)
@@ -72,7 +72,7 @@ namespace backend.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteTicket(int id) 
+        public async Task<ActionResult> DeleteCustomerAsync(int id)
         {
             var user = await _userService.GetCustomerByIdAsync(id);
             if (user == null)

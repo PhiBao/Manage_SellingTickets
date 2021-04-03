@@ -48,9 +48,9 @@ namespace backend.Controllers
             return NotFound();
         }
 
-        // GET api/BusTrips/search?dep=a&dest=b&date=c
+        // GET api/BusTrips/search?dep=a&dest=b
         [HttpGet("search")]
-        public async Task<ActionResult<IEnumerable<BusTripReadDto>>> GetBusTripByConditionAsync(int dep, int dest) 
+        public async Task<ActionResult<IEnumerable<BusTripReadDto>>> GetBusTripByConditionAsync(int dep, int dest)
         {
             var busTrips = await _busTripService.GetBusTripByConditionAsync(dep, dest);
 
@@ -62,6 +62,15 @@ namespace backend.Controllers
             return NotFound();
         }
 
+        // GET api/BusTrips/search?staffId=staffId
+        [HttpGet("find")]
+        public async Task<ActionResult<IEnumerable<int>>> GetBusTripIdByStaffIdAsync(int staffId)
+        {
+            var busTripId = await _busTripService.GetBusTripIdByStaffIdAsync(staffId);
+
+            return Ok(busTripId);
+        }
+
         //POST api/bustrips
         [HttpPost]
         public async Task<ActionResult<Chuyenxe>> CreateBusTripAsync(Chuyenxe busTrip)
@@ -70,7 +79,7 @@ namespace backend.Controllers
 
             for (var i = 0; i < busTrip.SoChoTrong; i++)
             {
-                await _seatService.CreateSeatAsync(new Chongoi 
+                await _seatService.CreateSeatAsync(new Chongoi
                 {
                     MaChuyenXe = busTrip.MaChuyenXe,
                     TinhTrangChoNgoi = false
@@ -82,18 +91,33 @@ namespace backend.Controllers
 
         // Put api/buses/{id}
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateBusTripAsync(int id, BusTripUpdateDto busTripUpdateDto) 
+        public async Task<ActionResult> UpdateBusTripAsync(int id, BusTripUpdateDto busTripUpdateDto)
         {
-            var busTripSelected = await _busTripService.GetBusTripByIdAsync(id);     
+            var busTripSelected = await _busTripService.GetBusTripByIdAsync(id);
             if (busTripSelected == null)
             {
                 return NotFound();
             }
-            busTripUpdateDto.SoChoDaDat = (busTripSelected.SoChoDaDat == null) ? 1 : busTripSelected.SoChoDaDat + 1; 
+            busTripUpdateDto.SoChoDaDat = (busTripSelected.SoChoDaDat == null) ? 1 : busTripSelected.SoChoDaDat + 1;
             busTripUpdateDto.SoChoTrong = (busTripSelected.SoChoTrong == null) ? 1 : busTripSelected.SoChoTrong - 1;
 
             _mapper.Map(busTripUpdateDto, busTripSelected);
             await _busTripService.UpdateBusTripAsync(busTripSelected);
+
+            return NoContent();
+        }
+
+        // DELETE api/bustrips/{id}
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteBusTripAsync(int id)
+        {
+            var user = await _busTripService.GetBusTripByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            await _busTripService.DeleteBusTripAsync(user);
 
             return NoContent();
         }

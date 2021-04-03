@@ -11,7 +11,7 @@ namespace backend.Services
     {
         private readonly QLBVXKContext _context;
 
-        public SeatService(QLBVXKContext context) 
+        public SeatService(QLBVXKContext context)
         {
             _context = context;
         }
@@ -28,7 +28,7 @@ namespace backend.Services
 
         public async Task CreateSeatAsync(Chongoi seat)
         {
-            if (seat == null) 
+            if (seat == null)
             {
                 throw new ArgumentNullException(nameof(seat));
             }
@@ -36,8 +36,8 @@ namespace backend.Services
             _context.Chongois.Add(seat);
             await _context.SaveChangesAsync();
         }
-        
-        public async Task UpdateSeatAsync(Chongoi seat) 
+
+        public async Task UpdateSeatAsync(Chongoi seat)
         {
             await _context.SaveChangesAsync();
         }
@@ -49,7 +49,7 @@ namespace backend.Services
 
         public async Task DeleteSeatAsync(Chongoi seat)
         {
-            if (seat == null) 
+            if (seat == null)
             {
                 throw new ArgumentNullException(nameof(seat));
             }

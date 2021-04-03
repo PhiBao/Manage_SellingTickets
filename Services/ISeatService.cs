@@ -5,7 +5,7 @@ using backend.Models;
 
 namespace backend.Services
 {
-    public interface ISeatService 
+    public interface ISeatService
     {
         Task<IEnumerable<Chongoi>> GetSeatsAsync();
         Task<Chongoi> GetSeatByIdAsync(int id);
@@ -13,6 +13,6 @@ namespace backend.Services
         Task UpdateSeatAsync(Chongoi seat);
         Task<IEnumerable<Chongoi>> GetSeatsByBusTripIdAsync(int busTripId);
         Task DeleteSeatAsync(Chongoi seat);
-        
+
     }
 }

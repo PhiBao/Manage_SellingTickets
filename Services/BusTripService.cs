@@ -20,11 +20,22 @@ namespace backend.Services
 
         public async Task CreateBusTripAsync(Chuyenxe busTrip)
         {
-            if (busTrip == null) 
+            if (busTrip == null)
             {
                 throw new ArgumentNullException(nameof(busTrip));
             }
             _context.Chuyenxes.Add(busTrip);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteBusTripAsync(Chuyenxe busTrip)
+        {
+            if (busTrip == null)
+            {
+                throw new ArgumentNullException(nameof(busTrip));
+            }
+
+            _context.Chuyenxes.Remove(busTrip);
             await _context.SaveChangesAsync();
         }
 
@@ -41,6 +52,21 @@ namespace backend.Services
         public async Task<Chuyenxe> GetBusTripByIdAsync(int id)
         {
             return await _context.Chuyenxes.FirstOrDefaultAsync(p => p.MaChuyenXe == id);
+        }
+
+        public async Task<IEnumerable<int>> GetBusTripIdByStaffIdAsync(int staffId)
+        {
+            var busesId = await _context.Xes.Where(p => p.MaNv == staffId).Select(p => p.MaXe).ToListAsync();
+
+            List<int> busTripsId = new List<int>();
+
+            foreach (var busId in busesId)
+            {
+                var busTripId = await _context.Chuyenxes.Where(p => p.MaXe == busId).Select(p => p.MaChuyenXe).FirstOrDefaultAsync();
+                busTripsId.Add(busTripId);
+            }
+
+            return busTripsId;
         }
 
         public async Task<IEnumerable<Chuyenxe>> GetBusTripsAsync()

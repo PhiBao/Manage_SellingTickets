@@ -18,7 +18,7 @@ namespace backend.Services
 
         public async Task CreateCustomerAsync(Nguoidung customer)
         {
-            if (customer == null) 
+            if (customer == null)
             {
                 throw new ArgumentNullException(nameof(customer));
             }
@@ -29,7 +29,7 @@ namespace backend.Services
 
         public async Task CreateStaffAsync(Nguoidung staff)
         {
-            if (staff == null) 
+            if (staff == null)
             {
                 throw new ArgumentNullException(nameof(staff));
             }
@@ -40,7 +40,7 @@ namespace backend.Services
 
         public async Task DeleteUserAsync(Nguoidung user)
         {
-            if (user == null) 
+            if (user == null)
             {
                 throw new ArgumentNullException(nameof(user));
             }
@@ -73,6 +73,6 @@ namespace backend.Services
         {
             await _context.SaveChangesAsync();
         }
-        
+
     }
 }

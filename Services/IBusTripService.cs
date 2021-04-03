@@ -6,12 +6,15 @@ using backend.Models;
 
 namespace backend.Services
 {
-    public interface IBusTripService 
+    public interface IBusTripService
     {
         Task<IEnumerable<Chuyenxe>> GetBusTripsAsync();
         Task<Chuyenxe> GetBusTripByIdAsync(int id);
         Task<IEnumerable<Chuyenxe>> GetBusTripByConditionAsync(int maBxDi, int maBxDen);
+        Task<IEnumerable<int>> GetBusTripIdByStaffIdAsync(int staffId);
         Task CreateBusTripAsync(Chuyenxe busTrip);
         Task UpdateBusTripAsync(Chuyenxe busTrip);
+        Task DeleteBusTripAsync(Chuyenxe busTrip);
+
     }
 }

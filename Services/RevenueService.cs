@@ -16,12 +16,12 @@ namespace backend.Services
         }
         public async Task CreateRevenueAsync(Doanhthungay dayliRevenue)
         {
-            if (dayliRevenue == null) 
+            if (dayliRevenue == null)
             {
                 throw new ArgumentNullException(nameof(dayliRevenue));
 
-            _context.Doanhthungays.Add(dayliRevenue);
-            await _context.SaveChangesAsync();
+                _context.Doanhthungays.Add(dayliRevenue);
+                await _context.SaveChangesAsync();
             }
         }
 
