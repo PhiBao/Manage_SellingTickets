@@ -67,6 +67,7 @@ namespace backend.Controllers
             return NoContent();
         }
 
+        /*
         // PATCH api/accounts/{id} -- not necessary
         [HttpPatch("{id}")]
         public async Task<ActionResult> PartialAccountUpdateAsync(int id, JsonPatchDocument<AccountUpdateDto> patchDoc)
@@ -89,6 +90,7 @@ namespace backend.Controllers
 
             return NoContent();
         }
+        */
 
         // DELETE api/accounts/{id}
         [HttpDelete("{id}")]
