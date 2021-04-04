@@ -16,28 +16,6 @@ namespace backend.Services
             _context = context;
         }
 
-        public async Task CreateCustomerAsync(Nguoidung customer)
-        {
-            if (customer == null)
-            {
-                throw new ArgumentNullException(nameof(customer));
-            }
-            customer.Vaitro = 3;
-            _context.Nguoidungs.Add(customer);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task CreateStaffAsync(Nguoidung staff)
-        {
-            if (staff == null)
-            {
-                throw new ArgumentNullException(nameof(staff));
-            }
-            staff.Vaitro = 2;
-            _context.Nguoidungs.Add(staff);
-            await _context.SaveChangesAsync();
-        }
-
         public async Task DeleteUserAsync(Nguoidung user)
         {
             if (user == null)

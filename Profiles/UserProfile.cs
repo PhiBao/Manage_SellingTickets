@@ -9,6 +9,7 @@ namespace backend.Profiles
         public UserProfile()
         {
             CreateMap<UserUpdateDto, Nguoidung>();
+            CreateMap<Nguoidung, UserReadDto>();
         }
     }
 }

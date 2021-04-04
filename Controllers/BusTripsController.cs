@@ -62,33 +62,6 @@ namespace backend.Controllers
             return NotFound();
         }
 
-        // GET api/BusTrips/find?staffId={staffId}
-        [HttpGet("find")]
-        public async Task<ActionResult<IEnumerable<int>>> GetBusTripIdByStaffIdAsync(int staffId)
-        {
-            var busTripId = await _busTripService.GetBusTripIdByStaffIdAsync(staffId);
-
-            return Ok(busTripId);
-        }
-
-        // GET api/BusTrips/check?busRouteId={busRouteId}
-        [HttpGet("check")]
-        public async Task<ActionResult<IEnumerable<int>>> GetBusTripIdByBusRouteIdAsync(int busRouteId)
-        {
-            var busTripId = await _busTripService.GetBusTripIdByBusRouteIdAsync(busRouteId);
-
-            return Ok(busTripId);
-        }
-
-        // GET api/BusTrips/seek?busId={busId}
-        [HttpGet("seek")]
-        public async Task<ActionResult<IEnumerable<int>>> GetBusTripIdByBusIdAsync(int busId)
-        {
-            var busTripId = await _busTripService.GetBusTripIdByBusIdAsync(busId);
-
-            return Ok(busTripId);
-        }
-
         //POST api/bustrips
         [HttpPost]
         public async Task<ActionResult<Chuyenxe>> CreateBusTripAsync(Chuyenxe busTrip)

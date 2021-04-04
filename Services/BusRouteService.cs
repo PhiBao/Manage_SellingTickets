@@ -41,8 +41,24 @@ namespace backend.Services
             {
                 throw new ArgumentNullException(nameof(busRoute));
             }
+            // Find all trips of this route
+            var busTrips = await _context.Chuyenxes.Where(p => p.MaTuyenXe == busRoute.MaTuyenXe).ToListAsync();
 
+            // Find and delete all tickets, seats that relations with those bus trips
+            foreach (var busTrip in busTrips)
+            {
+                var ticketsByBusTrip = await _context.Vexes.Where(p => p.MaChuyenXe == busTrip.MaChuyenXe).ToListAsync();
+                _context.Vexes.RemoveRange(ticketsByBusTrip);
+                var seatsByBusTrip = await _context.Chongois.Where(p => p.MaChuyenXe == busTrip.MaChuyenXe).ToListAsync();
+                _context.Chongois.RemoveRange(seatsByBusTrip);
+            }
+
+            // Delete all trips that relations with this route
+            _context.Chuyenxes.RemoveRange(busTrips);
+
+            // Delete this route
             _context.Tuyenxes.Remove(busRoute);
+
             await _context.SaveChangesAsync();
         }
 

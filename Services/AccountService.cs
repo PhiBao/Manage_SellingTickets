@@ -16,14 +16,30 @@ namespace backend.Services
         {
             _context = context;
         }
-        public async Task CreateAccountAsync(Taikhoan account)
+        public async Task CreateAccountAsync(Taikhoan account, byte role)
         {
             if (account == null)
             {
                 throw new ArgumentNullException(nameof(account));
             }
 
+            // Validate
+            if (role != 2 && role != 3) return;
+
+            // Create account
             _context.Taikhoans.Add(account);
+
+            await _context.SaveChangesAsync();
+
+            // Get account Id
+            var MaNd = await _context.Taikhoans.Where(p => p.Email == account.Email).Select(p => p.MaTk).FirstOrDefaultAsync();
+
+            // Create User
+            _context.Nguoidungs.Add(new Nguoidung {
+                Vaitro = role,
+                MaNd = MaNd
+            });
+
             await _context.SaveChangesAsync();
         }
 
@@ -52,20 +68,14 @@ namespace backend.Services
                     busTrips.AddRange(busTrip);
                 }
 
-                List<Vexe> ticketsByBusTrips = new List<Vexe>();
-                List<Chongoi> seatsByBusTrips = new List<Chongoi>();
-                // Find all the tickets and seats of those bus trips
+                // Find and delete all the tickets and seats of those bus trips
                 foreach (var busTrip in busTrips)
                 {
                     var ticketsByBusTrip = await _context.Vexes.Where(p => p.MaChuyenXe == busTrip.MaChuyenXe).ToListAsync();
-                    ticketsByBusTrips.AddRange(ticketsByBusTrip);
+                    _context.Vexes.RemoveRange(ticketsByBusTrip);
                     var seatsByBusTrip = await _context.Chongois.Where(p => p.MaChuyenXe == busTrip.MaChuyenXe).ToListAsync();
-                    seatsByBusTrips.AddRange(seatsByBusTrip);
+                    _context.Chongois.RemoveRange(seatsByBusTrip);
                 }
-
-                // Delete all the tickets and seats of those bus trips 
-                _context.Vexes.RemoveRange(ticketsByBusTrips);
-                _context.Chongois.RemoveRange(seatsByBusTrips);
 
                 // Delete all staff's bus trips and buses
                 _context.Chuyenxes.RemoveRange(busTrips);

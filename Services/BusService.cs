@@ -33,18 +33,30 @@ namespace backend.Services
             {
                 throw new ArgumentNullException(nameof(bus));
             }
+            // Find all trips of this bus
+            var busTrips = await _context.Chuyenxes.Where(p => p.MaXe == bus.MaXe).ToListAsync();
+
+            // Find and delete all tickets, seats that relations with those bus trips
+            foreach (var busTrip in busTrips)
+            {
+                var ticketsByBusTrip = await _context.Vexes.Where(p => p.MaChuyenXe == busTrip.MaChuyenXe).ToListAsync();
+                _context.Vexes.RemoveRange(ticketsByBusTrip);
+                var seatsByBusTrip = await _context.Chongois.Where(p => p.MaChuyenXe == busTrip.MaChuyenXe).ToListAsync();
+                _context.Chongois.RemoveRange(seatsByBusTrip);
+            }
+
+            // Delete all trips that relations with this bus
+            _context.Chuyenxes.RemoveRange(busTrips);
+
+            // Delete this bus
             _context.Xes.Remove(bus);
+
             await _context.SaveChangesAsync();
         }
 
         public async Task<Xe> GetBusByIdAsync(int Id)
         {
             return await _context.Xes.FirstOrDefaultAsync(p => p.MaXe == Id);
-        }
-
-        public async Task<Xe> GetBusByStaffIdAsync(int id)
-        {
-            return await _context.Xes.FirstOrDefaultAsync(p => p.MaNv == id);
         }
 
         public async Task<IEnumerable<Xe>> GetBusesAsync()

@@ -24,11 +24,11 @@ namespace backend.Controllers
 
         // GET api/staffs
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Nguoidung>>> GetAllStaffsAsync()
+        public async Task<ActionResult<IEnumerable<UserReadDto>>> GetAllStaffsAsync()
         {
             var staffs = await _userService.GetStaffsAsync();
 
-            return Ok(staffs);
+            return Ok(_mapper.Map<IEnumerable<UserReadDto>>(staffs));
         }
 
         // GET api/staffs/{id}
@@ -43,15 +43,6 @@ namespace backend.Controllers
             }
 
             return NotFound();
-        }
-
-        //POST api/staffs
-        [HttpPost]
-        public async Task<ActionResult<Nguoidung>> CreateStaffAsync(Nguoidung staff)
-        {
-            await _userService.CreateStaffAsync(staff);
-
-            return CreatedAtRoute(nameof(GetStaffByIdAsync), new { id = staff.MaNd }, staff);
         }
 
         // PUT api/staffs/{id}

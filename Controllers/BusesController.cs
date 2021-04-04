@@ -85,20 +85,5 @@ namespace backend.Controllers
             return NoContent();
         }
 
-        // DELETE api/buses/delete?staffId={staffId}
-        [HttpDelete("delete")]
-        public async Task<ActionResult> DeleteBusByStaffIdAsync(int staffId)
-        {
-            var busSelected = await _busService.GetBusByStaffIdAsync(staffId);
-            if (busSelected == null)
-            {
-                return NotFound();
-            }
-
-            await _busService.DeleteBusAsync(busSelected);
-
-            return NoContent();
-        }
-
     }
 }

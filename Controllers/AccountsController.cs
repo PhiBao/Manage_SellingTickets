@@ -39,11 +39,11 @@ namespace backend.Controllers
             return NotFound();
         }
 
-        // POST api/accounts
-        [HttpPost]
-        public async Task<ActionResult<AccountReadDto>> CreateAccountAsync(Taikhoan account)
+        // POST api/accounts/{role}
+        [HttpPost("{role}")]
+        public async Task<ActionResult<AccountReadDto>> CreateAccountAsync(Taikhoan account, byte role)
         {
-            await _accountService.CreateAccountAsync(account);
+            await _accountService.CreateAccountAsync(account, role);
 
             AccountReadDto accountDto = _mapper.Map<AccountReadDto>(account);
 

@@ -78,43 +78,5 @@ namespace backend.Controllers
             return NoContent();
         }
 
-        // DELETE api/tickets/remove?userId={userId}
-        [HttpDelete("remove")]
-        public async Task<ActionResult> DeleteTicketsByUserIdAsync(int userId)
-        {
-            var ticketSelected = await _ticketService.GetTicketsByUserIdAsync(userId);
-
-            if (ticketSelected == null)
-            {
-                return NotFound();
-            }
-
-            foreach (var ticket in ticketSelected)
-            {
-                await _ticketService.DeleteTicketAsync(ticket);
-            }
-
-            return NoContent();
-        }
-
-        // DELETE api/tickets/delete?busTripId={busTripId}
-        [HttpDelete("delete")]
-        public async Task<ActionResult> DeleteTicketsByBusTripIdAsync(int busTripId)
-        {
-            var ticketSelected = await _ticketService.GetTicketsByUserIdAsync(busTripId);
-
-            if (ticketSelected == null)
-            {
-                return NotFound();
-            }
-
-            foreach (var ticket in ticketSelected)
-            {
-                await _ticketService.DeleteTicketAsync(ticket);
-            }
-
-            return NoContent();
-        }
-
     }
 }

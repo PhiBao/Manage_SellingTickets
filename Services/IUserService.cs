@@ -10,8 +10,6 @@ namespace backend.Services
         Task<Nguoidung> GetCustomerByIdAsync(int id);
         Task<IEnumerable<Nguoidung>> GetStaffsAsync();
         Task<Nguoidung> GetStaffByIdAsync(int id);
-        Task CreateStaffAsync(Nguoidung staff);
-        Task CreateCustomerAsync(Nguoidung customer);
         Task UpdateUserAsync(Nguoidung user);
         Task DeleteUserAsync(Nguoidung user);
     }

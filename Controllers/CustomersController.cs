@@ -28,7 +28,7 @@ namespace backend.Controllers
         {
             var customers = await _userService.GetCustomersAsync();
 
-            return Ok(customers);
+            return Ok(_mapper.Map<IEnumerable<UserReadDto>>(customers));
         }
 
         // GET api/customers/{id}
@@ -43,15 +43,6 @@ namespace backend.Controllers
             }
 
             return NotFound();
-        }
-
-        // POST api/customers
-        [HttpPost]
-        public async Task<ActionResult<Nguoidung>> CreateCustomerAsync(Nguoidung customer)
-        {
-            await _userService.CreateCustomerAsync(customer);
-
-            return CreatedAtRoute(nameof(GetCustomerByIdAsync), new { id = customer.MaNd }, customer);
         }
 
         // PUT api/customers/{id}
