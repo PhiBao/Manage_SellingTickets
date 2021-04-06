@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using backend.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend.Services
 {
@@ -19,15 +21,20 @@ namespace backend.Services
             if (dayliRevenue == null)
             {
                 throw new ArgumentNullException(nameof(dayliRevenue));
-
-                _context.Doanhthungays.Add(dayliRevenue);
-                await _context.SaveChangesAsync();
             }
+
+            _context.Doanhthungays.Add(dayliRevenue);
+            await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateRevenueAsync(Doanhthungay dayliRevenue)
+        public async Task<Doanhthungay> GetRevenueByIdAsync(int id)
         {
-            await _context.SaveChangesAsync();
+            return await _context.Doanhthungays.Where(p => p.MaDoanhThuNgay == id).FirstOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<Doanhthungay>> GetRevenuesAsync()
+        {
+            return await _context.Doanhthungays.ToListAsync();
         }
     }
 }

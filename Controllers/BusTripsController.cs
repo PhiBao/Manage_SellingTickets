@@ -47,6 +47,20 @@ namespace backend.Controllers
 
             return NotFound();
         }
+        // GET api/BusTrips/revenue
+        [HttpGet("revenue")]
+        public async Task<ActionResult<RevenueHelperDto>> GetRevenueByDayAsync()
+        {
+            var date = DateTime.Now;
+            var revenues = await _busTripService.GetRevenueByDayAsync(date);
+
+            if (revenues != null)
+            {
+                return Ok(revenues);
+            }
+
+            return NotFound();
+        }
 
         // GET api/BusTrips/search?dep={a}&dest={b}
         [HttpGet("search")]

@@ -16,11 +16,9 @@ namespace backend.Controllers
 
         private readonly IAccountService _accountService;
         private readonly IMapper _mapper;
-        private readonly IUserService _userService;
 
-        public AccountsController(IAccountService accountService, IUserService userService, IMapper mapper)
+        public AccountsController(IAccountService accountService, IMapper mapper)
         {
-            _userService = userService;
             _accountService = accountService;
             _mapper = mapper;
         }
