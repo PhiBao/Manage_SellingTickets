@@ -39,12 +39,16 @@ namespace backend.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Chuyenxe>> GetBusTripByConditionAsync(int maBxDi, int maBxDen)
+        public async Task<IEnumerable<Chuyenxe>> GetBusTripByConditionAsync(int maBxDi, int maBxDen, string date)
         {
             var busRoute = await _context.Tuyenxes.Where(p => p.MaBxden == maBxDen && p.MaBxdi == maBxDi)
                             .Select(p => p.MaTuyenXe).FirstOrDefaultAsync();
 
-            var busTrips = await _context.Chuyenxes.Where(p => p.MaTuyenXe == busRoute).ToListAsync();
+            DateTime myDate = DateTime.ParseExact(date, "yyyy-MM-ddTHH:mm",
+                                       System.Globalization.CultureInfo.InvariantCulture);
+
+            var busTrips = await _context.Chuyenxes.Where(p =>
+                    p.MaTuyenXe == busRoute && p.NgayXuatBen >= myDate).ToListAsync();
 
             return busTrips;
         }
@@ -52,8 +56,10 @@ namespace backend.Services
         public async Task<IEnumerable<RevenueHelperDto>> GetRevenueByDayAsync(DateTime date)
         {
             List<RevenueHelperDto> result = new List<RevenueHelperDto>();
-            var busTrips = await _context.Chuyenxes.Where(p => p.NgayXuatBen.Equals(date)).Select(
-                                                p => new { p.MaXe, p.DonGia, p.SoChoDaDat }).ToListAsync();
+            // string day = date.ToString("d");
+            var busTrips = await _context.Chuyenxes.Where(p =>
+                        p.NgayXuatBen.Date.Equals(date.Date))
+                        .Select(p => new { p.MaXe, p.DonGia, p.SoChoDaDat }).ToListAsync();
             foreach (var busTrip in busTrips)
             {
                 var license = await _context.Xes.Where(p => p.MaXe == busTrip.MaXe).Select(p => p.BienSoXe).FirstOrDefaultAsync();
@@ -63,6 +69,8 @@ namespace backend.Services
                     VeDaBan = busTrip.SoChoDaDat.GetValueOrDefault(),
                     DoanhThu = busTrip.SoChoDaDat.GetValueOrDefault() * busTrip.DonGia.GetValueOrDefault()
                 };
+
+                result.Add(item);
             }
 
             return result;

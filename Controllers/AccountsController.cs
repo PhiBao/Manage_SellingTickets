@@ -48,6 +48,16 @@ namespace backend.Controllers
             return CreatedAtRoute(nameof(GetAccountByIdAsync), new { id = accountDto.MaNd }, accountDto);
         }
 
+        // POST api/accounts/validate/{role}
+        [HttpPost("validate/{role}")]
+        public async Task<ActionResult<AccountReadDto>> ValidateAccountAsync(AccountCreateDto accountCreateDto, byte role)
+        {
+            var accountModel = _mapper.Map<Taikhoan>(accountCreateDto);
+            var account = await _accountService.ValidateAccountAsync(accountModel, role);
+
+            return Ok(_mapper.Map<AccountReadDto>(account));
+        }
+
         // PUT api/accounts/{id}
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateAccountAsync(int id, AccountUpdateDto accountUpdateDto)

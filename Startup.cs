@@ -29,7 +29,7 @@ namespace backend
             {
                 s.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             });
-            services.AddControllers().AddNewtonsoftJson(x => 
+            services.AddControllers().AddNewtonsoftJson(x =>
                 x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -42,6 +42,7 @@ namespace backend
             services.AddScoped<IBusService, BusService>();
             services.AddScoped<ISeatService, SeatService>();
             services.AddScoped<ITicketService, TicketService>();
+            services.AddScoped<IRevenueService, RevenueService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -10,5 +10,6 @@ namespace backend.Services
         Task DeleteAccountAsync(Taikhoan account);
         Task<Taikhoan> GetAccountByIdAsync(int id);
         Task UpdateAccountAsync(Taikhoan account);
+        Task<Taikhoan> ValidateAccountAsync(Taikhoan account, byte role);
     }
 }

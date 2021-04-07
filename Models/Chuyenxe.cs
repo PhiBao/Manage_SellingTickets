@@ -16,7 +16,7 @@ namespace backend.Models
         public int MaChuyenXe { get; set; }
         public int MaTuyenXe { get; set; }
         public int MaXe { get; set; }
-        public DateTime? NgayXuatBen { get; set; }
+        public DateTime NgayXuatBen { get; set; }
         public int? SoChoDaDat { get; set; }
         public int? SoChoTrong { get; set; }
         public double? DonGia { get; set; }

@@ -11,6 +11,7 @@ namespace backend.Profiles
            CreateMap<Taikhoan, AccountReadDto>().ForMember(dest => dest.MaNd, opt => opt.MapFrom(src => src.MaTk));
            CreateMap<AccountUpdateDto, Taikhoan>();
            CreateMap<Taikhoan, AccountUpdateDto>();
+           CreateMap<AccountCreateDto, Taikhoan>();
         }
     }
 }

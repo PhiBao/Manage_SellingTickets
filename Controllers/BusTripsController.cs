@@ -49,7 +49,7 @@ namespace backend.Controllers
         }
         // GET api/BusTrips/revenue
         [HttpGet("revenue")]
-        public async Task<ActionResult<RevenueHelperDto>> GetRevenueByDayAsync()
+        public async Task<ActionResult<IEnumerable<RevenueHelperDto>>> GetRevenueByDayAsync()
         {
             var date = DateTime.Now;
             var revenues = await _busTripService.GetRevenueByDayAsync(date);
@@ -62,11 +62,11 @@ namespace backend.Controllers
             return NotFound();
         }
 
-        // GET api/BusTrips/search?dep={a}&dest={b}
+        // GET api/BusTrips/search?dep={a}&dest={b}&date={c}
         [HttpGet("search")]
-        public async Task<ActionResult<IEnumerable<BusTripReadDto>>> GetBusTripByConditionAsync(int dep, int dest)
+        public async Task<ActionResult<IEnumerable<BusTripReadDto>>> GetBusTripByConditionAsync(int dep, int dest, string date)
         {
-            var busTrips = await _busTripService.GetBusTripByConditionAsync(dep, dest);
+            var busTrips = await _busTripService.GetBusTripByConditionAsync(dep, dest, date);
 
             if (busTrips != null)
             {
@@ -86,24 +86,6 @@ namespace backend.Controllers
             await _seatService.CreateSeatAsync(SoChoTrong, busTrip.MaChuyenXe);
 
             return CreatedAtRoute(nameof(GetBusTripByIdAsync), new { id = busTrip.MaChuyenXe }, busTrip);
-        }
-
-        // PUT api/buses/{id}
-        [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateBusTripAsync(int id, BusTripUpdateDto busTripUpdateDto)
-        {
-            var busTripSelected = await _busTripService.GetBusTripByIdAsync(id);
-            if (busTripSelected == null)
-            {
-                return NotFound();
-            }
-            busTripUpdateDto.SoChoDaDat = (busTripSelected.SoChoDaDat == null) ? 1 : busTripSelected.SoChoDaDat + 1;
-            busTripUpdateDto.SoChoTrong = (busTripSelected.SoChoTrong == null) ? 1 : busTripSelected.SoChoTrong - 1;
-
-            _mapper.Map(busTripUpdateDto, busTripSelected);
-            await _busTripService.UpdateBusTripAsync(busTripSelected);
-
-            return NoContent();
         }
 
         // DELETE api/bustrips/{id}

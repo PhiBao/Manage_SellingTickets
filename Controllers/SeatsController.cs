@@ -60,41 +60,5 @@ namespace backend.Controllers
             return NotFound();
         }
 
-        // PUT api/seats/{id}
-        [HttpPut("{id}")]
-        public async Task<ActionResult<SeatReadDto>> UpdateSeatAsync(int id, SeatUpdateDto seatUpdateDto)
-        {
-            var seatSelected = await _seatService.GetSeatByIdAsync(id);
-            if (seatSelected == null)
-            {
-                return NotFound();
-            }
-
-            _mapper.Map(seatUpdateDto, seatSelected);
-            await _seatService.UpdateSeatAsync(seatSelected);
-            var seatReadDto = _mapper.Map<SeatReadDto>(seatSelected);
-
-            return seatReadDto;
-        }
-
-        // DELETE api/seats/delete?busTripId={busTripId}
-        [HttpDelete("delete")]
-        public async Task<ActionResult> DeleteSeatsByBusTripIdAsync(int busTripId)
-        {
-            var seats = await _seatService.GetSeatsByBusTripIdAsync(busTripId);
-
-            if (seats == null)
-            {
-                return NotFound();
-            }
-
-            foreach (var seat in seats)
-            {
-                await _seatService.DeleteSeatAsync(seat);
-            }
-
-            return NoContent();
-        }
-
     }
 }

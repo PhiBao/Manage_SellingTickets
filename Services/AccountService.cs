@@ -35,7 +35,8 @@ namespace backend.Services
             var MaNd = await _context.Taikhoans.Where(p => p.Email == account.Email).Select(p => p.MaTk).FirstOrDefaultAsync();
 
             // Create User
-            _context.Nguoidungs.Add(new Nguoidung {
+            _context.Nguoidungs.Add(new Nguoidung
+            {
                 Vaitro = role,
                 MaNd = MaNd
             });
@@ -92,7 +93,27 @@ namespace backend.Services
 
         public async Task<Taikhoan> GetAccountByIdAsync(int id)
         {
-            return await _context.Taikhoans.Where(p => p.MaTk == id).FirstOrDefaultAsync(); //
+            return await _context.Taikhoans.Where(p => p.MaTk == id).FirstOrDefaultAsync();
+        }
+
+        public async Task<Taikhoan> ValidateAccountAsync(Taikhoan account, byte role)
+        {
+            if (account == null)
+            {
+                throw new ArgumentNullException(nameof(account));
+            }
+
+            var check = await _context.Taikhoans.Where(p => p.Email == account.Email && p.MatKhau == account.MatKhau).FirstOrDefaultAsync();
+
+            if (check == null)
+            {
+                return new Taikhoan();
+            }
+
+            var user = await _context.Nguoidungs.Where(p => p.MaNd == check.MaTk).Select(p => new { p.Vaitro }).FirstOrDefaultAsync();
+
+            if (user.Vaitro == role) return check;
+            else return new Taikhoan();
         }
 
         public async Task UpdateAccountAsync(Taikhoan account)

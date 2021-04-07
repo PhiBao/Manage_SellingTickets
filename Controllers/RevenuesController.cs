@@ -25,7 +25,9 @@ namespace backend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Doanhthungay>>> GetRevenuesAsync()
         {
-            return Ok(await _revenueService.GetRevenuesAsync());
+             var revenues = await _revenueService.GetRevenuesAsync();
+
+             return Ok(revenues);
         }
 
         // GET api/revenues/{id}
