@@ -16,17 +16,6 @@ namespace backend.Services
             _context = context;
         }
 
-        public async Task DeleteUserAsync(Nguoidung user)
-        {
-            if (user == null)
-            {
-                throw new ArgumentNullException(nameof(user));
-            }
-
-            _context.Nguoidungs.Remove(user);
-            await _context.SaveChangesAsync();
-        }
-
         public async Task<Nguoidung> GetCustomerByIdAsync(int id)
         {
             return await _context.Nguoidungs.Where(p => p.Vaitro == 3).FirstOrDefaultAsync(p => p.MaNd == id);

@@ -61,20 +61,5 @@ namespace backend.Controllers
             return NoContent();
         }
 
-        // DELETE api/customers/{id}
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteCustomerAsync(int id)
-        {
-            var user = await _userService.GetCustomerByIdAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            await _userService.DeleteUserAsync(user);
-
-            return NoContent();
-        }
-
     }
 }
