@@ -23,7 +23,13 @@ namespace backend
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<QLBVXKContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("QLBVXKDbConn")));
+            var server = Configuration["DBServer"] ?? "ms-sql-server";
+            var port = Configuration["DBPort"] ?? "1433";
+            var user = Configuration["DBUser"] ?? "SA";
+            var password = Configuration["DBPassword"] ?? "myPass123";
+            var database = Configuration["Database"] ?? "QLBVXK";
+
+            services.AddDbContext<QLBVXKContext>(opt => opt.UseSqlServer($"Server={server},{port};Initial Catalog={database};User ID={user};Password={password}"));
 
             services.AddControllers().AddNewtonsoftJson(s =>
             {
