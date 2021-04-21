@@ -4,11 +4,13 @@ using AutoMapper;
 using backend.Dtos;
 using backend.Models;
 using backend.Services;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
 {
+    [EnableCors("AllowOrigin")]
     [Route("api/[controller]")]
     [ApiController]
     public class RevenuesController : ControllerBase
@@ -25,9 +27,9 @@ namespace backend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Doanhthungay>>> GetRevenuesAsync()
         {
-             var revenues = await _revenueService.GetRevenuesAsync();
+            var revenues = await _revenueService.GetRevenuesAsync();
 
-             return Ok(revenues);
+            return Ok(revenues);
         }
 
         // GET api/revenues/{id}

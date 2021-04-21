@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using backend.Dtos;
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 
 namespace backend.Controllers
 {
+    [EnableCors("AllowOrigin")]
     [Route("api/[controller]")]
     [ApiController]
     public class BusTripsController : ControllerBase

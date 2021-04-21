@@ -4,11 +4,12 @@ using AutoMapper;
 using backend.Dtos;
 using backend.Models;
 using backend.Services;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
 {
-    // api/users
+    [EnableCors("AllowOrigin")]
     [Route("api/[controller]")]
     [ApiController]
     public class TicketsController : ControllerBase

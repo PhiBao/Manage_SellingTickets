@@ -9,12 +9,21 @@ services:
       ACCEPT_EULA: "Y"
       SA_PASSWORD: "myPass123"
       MSSQL_PID: Express
+    volumes: 
+      - sqlsystem:/var/opt/mssql/
+      - sqldata:/var/opt/sqlserver/data
+      - sqllog:/var/opt/sqlserver/log
+      - sqlbackup:/var/opt/sqlserver/backup
     ports:
       - "1433:1433"
   backend:
-    image: backend
-    build:
-      context: .
-      dockerfile: ./Dockerfile
+    environment: 
+      DBServer: "ms-sql-server"
+    build: .
     ports:
       - "8080:80"
+volumes:
+  sqlsystem:
+  sqldata:
+  sqllog:
+  sqlbackup:
