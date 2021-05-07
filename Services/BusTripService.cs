@@ -49,11 +49,11 @@ namespace backend.Services
             var busRoute = await _context.Tuyenxes.Where(p => p.MaBxden == maBxDen && p.MaBxdi == maBxDi)
                             .Select(p => p.MaTuyenXe).FirstOrDefaultAsync();
 
-            DateTime myDate = DateTime.ParseExact(date, "yyyy-MM-ddTHH:mm",
+            DateTime myDate = DateTime.ParseExact(date, "yyyy-MM-dd",
                                        System.Globalization.CultureInfo.InvariantCulture);
 
             var busTrips = await _context.Chuyenxes.Where(p =>
-                    p.MaTuyenXe == busRoute && p.NgayXuatBen >= myDate).ToListAsync();
+                    p.MaTuyenXe == busRoute && p.NgayXuatBen.Date == myDate).ToListAsync();
 
             return busTrips;
         }

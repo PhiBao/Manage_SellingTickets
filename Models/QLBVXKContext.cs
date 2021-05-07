@@ -32,7 +32,7 @@ namespace backend.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-KMNS09Q\\;Database=QLBVXK;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Data Source=mssql-29154-0.cloudclusters.net, 29184;Initial Catalog=qlbvxk;User Id=kid;Password=myPass123;TrustServerCertificate=True;");
             }
         }
 
@@ -77,7 +77,7 @@ namespace backend.Models
 
                 entity.ToTable("CHUYENXE");
 
-                entity.Property(e => e.NgayXuatBen).HasColumnType("date");
+                entity.Property(e => e.NgayXuatBen).HasColumnType("datetime");
 
                 entity.HasOne(d => d.MaTuyenXeNavigation)
                     .WithMany(p => p.Chuyenxes)
@@ -216,9 +216,6 @@ namespace backend.Models
                 entity.HasKey(e => e.MaXe);
 
                 entity.ToTable("XE");
-
-                entity.HasIndex(e => e.BienSoXe, "UQ__XE__A78059928ABDDDE4")
-                    .IsUnique();
 
                 entity.Property(e => e.BienSoXe)
                     .HasMaxLength(8)

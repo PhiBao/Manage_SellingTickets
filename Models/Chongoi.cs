@@ -13,8 +13,8 @@ namespace backend.Models
         }
 
         public int MaChoNgoi { get; set; }
-        public bool? TinhTrangChoNgoi { get; set; }
         public int MaChuyenXe { get; set; }
+        public bool? TinhTrangChoNgoi { get; set; }
 
         public virtual Chuyenxe MaChuyenXeNavigation { get; set; }
         public virtual ICollection<Vexe> Vexes { get; set; }
