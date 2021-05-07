@@ -35,6 +35,11 @@ namespace backend.Services
                 throw new ArgumentNullException(nameof(busTrip));
             }
 
+            var ticketsByBusTrip = await _context.Vexes.Where(p => p.MaChuyenXe == busTrip.MaChuyenXe).ToListAsync();
+            _context.Vexes.RemoveRange(ticketsByBusTrip);
+            var seatsByBusTrip = await _context.Chongois.Where(p => p.MaChuyenXe == busTrip.MaChuyenXe).ToListAsync();
+            _context.Chongois.RemoveRange(seatsByBusTrip);
+
             _context.Chuyenxes.Remove(busTrip);
             await _context.SaveChangesAsync();
         }

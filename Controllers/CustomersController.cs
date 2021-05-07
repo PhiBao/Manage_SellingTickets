@@ -26,7 +26,7 @@ namespace backend.Controllers
 
         // GET api/customers
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Nguoidung>>> GetAllCustomersAsync()
+        public async Task<ActionResult<IEnumerable<UserReadDto>>> GetAllCustomersAsync()
         {
             var customers = await _userService.GetCustomersAsync();
 
@@ -35,13 +35,13 @@ namespace backend.Controllers
 
         // GET api/customers/{id}
         [HttpGet("{id}", Name = "GetCustomerByIdAsync")]
-        public async Task<ActionResult<Nguoidung>> GetCustomerByIdAsync(int id)
+        public async Task<ActionResult<UserReadDto>> GetCustomerByIdAsync(int id)
         {
             var customer = await _userService.GetCustomerByIdAsync(id);
 
             if (customer != null)
             {
-                return Ok(customer);
+                return Ok(_mapper.Map<UserReadDto>(customer));
             }
 
             return NotFound();

@@ -8,7 +8,12 @@ namespace backend.Profiles
     {
         public BusTripProfile()
         {
-            CreateMap<Chuyenxe, BusTripReadDto>();
+            CreateMap<Chuyenxe, BusTripReadDto>()
+            .ForMember(dest => dest.TenBxDi, opt => opt.MapFrom(src => src.MaTuyenXeNavigation.MaBxdiNavigation.TenBx))
+            .ForMember(dest => dest.TenBxDen, opt => opt.MapFrom(src => src.MaTuyenXeNavigation.MaBxdenNavigation.TenBx))
+            .ForMember(dest => dest.DiaChiBxDi, opt => opt.MapFrom(src => src.MaTuyenXeNavigation.MaBxdiNavigation.DiaChi))
+            .ForMember(dest => dest.DiaChiBxDen, opt => opt.MapFrom(src => src.MaTuyenXeNavigation.MaBxdenNavigation.DiaChi));
+            
             CreateMap<BusTripUpdateDto, Chuyenxe>();
         }
     }

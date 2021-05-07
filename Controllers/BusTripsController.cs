@@ -29,7 +29,7 @@ namespace backend.Controllers
 
         // GET api/BusTrips
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<BusTripReadDto>>> GetAllBusTripsAsync()
+        public async Task<ActionResult<IEnumerable<Chuyenxe>>> GetAllBusTripsAsync()
         {
             var busTrips = await _busTripService.GetBusTripsAsync();
 
@@ -38,13 +38,13 @@ namespace backend.Controllers
 
         // GET api/BusTrips/{id}
         [HttpGet("{id}", Name = "GetBusTripByIdAsync")]
-        public async Task<ActionResult<Chuyenxe>> GetBusTripByIdAsync(int id)
+        public async Task<ActionResult<BusTripReadDto>> GetBusTripByIdAsync(int id)
         {
             var busTrip = await _busTripService.GetBusTripByIdAsync(id);
 
             if (busTrip != null)
             {
-                return Ok(busTrip);
+                return Ok(_mapper.Map<BusTripReadDto>(busTrip));
             }
 
             return NotFound();
@@ -94,13 +94,13 @@ namespace backend.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteBusTripAsync(int id)
         {
-            var user = await _busTripService.GetBusTripByIdAsync(id);
-            if (user == null)
+            var busTrip = await _busTripService.GetBusTripByIdAsync(id);
+            if (busTrip == null)
             {
                 return NotFound();
             }
 
-            await _busTripService.DeleteBusTripAsync(user);
+            await _busTripService.DeleteBusTripAsync(busTrip);
 
             return NoContent();
         }

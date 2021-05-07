@@ -26,22 +26,22 @@ namespace backend.Controllers
 
         // GET api/BusRoutes
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Tuyenxe>>> GetAllBusRoutesAsync()
+        public async Task<ActionResult<IEnumerable<BusRouteReadDto>>> GetAllBusRoutesAsync()
         {
             var busRoutes = await _busRouteService.GetBusRoutesAsync();
 
-            return Ok(busRoutes);
+            return Ok(_mapper.Map<IEnumerable<BusRouteReadDto>>(busRoutes));
         }
 
         // GET api/BusRoutes/{id}
         [HttpGet("{id}", Name = "GetBusRouteByIdAsync")]
-        public async Task<ActionResult<Tuyenxe>> GetBusRouteByIdAsync(int id)
+        public async Task<ActionResult<BusRouteReadDto>> GetBusRouteByIdAsync(int id)
         {
             var busRoute = await _busRouteService.GetBusRouteByIdAsync(id);
 
             if (busRoute != null)
             {
-                return Ok(busRoute);
+                return Ok(_mapper.Map<BusRouteReadDto>(busRoute));
             }
 
             return NotFound();

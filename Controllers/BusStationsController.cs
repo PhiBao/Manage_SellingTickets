@@ -35,13 +35,13 @@ namespace backend.Controllers
 
         // GET api/BusStations/{id}
         [HttpGet("{id}", Name = "GetBusStationByIdAsync")]
-        public async Task<ActionResult<Benxe>> GetBusStationByIdAsync(int id)
+        public async Task<ActionResult<BusStationReadDto>> GetBusStationByIdAsync(int id)
         {
             var busStation = await _busStationService.GetBusStationByIdAsync(id);
 
             if (busStation != null)
             {
-                return Ok(busStation);
+                return Ok(_mapper.Map<BusStationReadDto>(busStation));
             }
 
             return NotFound();

@@ -47,7 +47,7 @@ namespace backend.Controllers
 
             AccountReadDto accountDto = _mapper.Map<AccountReadDto>(account);
 
-            return CreatedAtRoute(nameof(GetAccountByIdAsync), new { id = accountDto.MaNd }, accountDto);
+            return CreatedAtRoute(nameof(GetAccountByIdAsync), new { id = accountDto.MaNd }, account);
         }
 
         // POST api/accounts/validate/{role}

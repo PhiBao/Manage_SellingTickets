@@ -30,22 +30,22 @@ namespace backend.Controllers
 
         // GET api/tickets
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Vexe>>> GetAllTicketsAsync()
+        public async Task<ActionResult<IEnumerable<TicketReadDto>>> GetAllTicketsAsync()
         {
             var tickets = await _ticketService.GetTicketsAsync();
 
-            return Ok(tickets);
+            return Ok(_mapper.Map<IEnumerable<TicketReadDto>>(tickets));
         }
 
         // GET api/tickets/{id}
         [HttpGet("{id}", Name = "GetTicketByIdAsync")]
-        public async Task<ActionResult<Vexe>> GetTicketByIdAsync(int id)
+        public async Task<ActionResult<TicketReadDto>> GetTicketByIdAsync(int id)
         {
             var ticket = await _ticketService.GetTicketByIdAsync(id);
 
             if (ticket != null)
             {
-                return Ok(ticket);
+                return Ok(_mapper.Map<TicketReadDto>(ticket));
             }
 
             return NotFound();
@@ -53,13 +53,13 @@ namespace backend.Controllers
 
         // GET api/tickets/search?userid={userid}
         [HttpGet("search")]
-        public async Task<ActionResult<IEnumerable<Vexe>>> GetTicketsByUserIdAsync(int userId)
+        public async Task<ActionResult<IEnumerable<TicketReadDto>>> GetTicketsByUserIdAsync(int userId)
         {
             var ticket = await _ticketService.GetTicketsByUserIdAsync(userId);
 
             if (ticket != null)
             {
-                return Ok(ticket);
+                return Ok(_mapper.Map<IEnumerable<TicketReadDto>>(ticket));
             }
 
             return NotFound();

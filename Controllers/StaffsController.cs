@@ -35,13 +35,13 @@ namespace backend.Controllers
 
         // GET api/staffs/{id}
         [HttpGet("{id}", Name = "GetStaffByIdAsync")]
-        public async Task<ActionResult<Nguoidung>> GetStaffByIdAsync(int id)
+        public async Task<ActionResult<UserReadDto>> GetStaffByIdAsync(int id)
         {
             var staff = await _userService.GetStaffByIdAsync(id);
 
             if (staff != null)
             {
-                return Ok(staff);
+                return Ok(_mapper.Map<UserReadDto>(staff));
             }
 
             return NotFound();

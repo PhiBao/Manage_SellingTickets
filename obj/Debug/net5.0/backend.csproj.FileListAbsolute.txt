@@ -64,3 +64,5 @@ D:\Learning\Lectures\Fourth-yearStudent_2\ĐA CN CNPM\backend\obj\Debug\net5.0\b
 D:\Learning\Lectures\Fourth-yearStudent_2\ĐA CN CNPM\backend\obj\Debug\net5.0\ref\backend.dll
 D:\Learning\Lectures\Fourth-yearStudent_2\ĐA CN CNPM\backend\obj\Debug\net5.0\backend.pdb
 D:\Learning\Lectures\Fourth-yearStudent_2\ĐA CN CNPM\backend\obj\Debug\net5.0\backend.genruntimeconfig.cache
+D:\Learning\Lectures\Fourth-yearStudent_2\ĐA CN CNPM\backend\bin\Debug\net5.0\Castle.Core.dll
+D:\Learning\Lectures\Fourth-yearStudent_2\ĐA CN CNPM\backend\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Proxies.dll

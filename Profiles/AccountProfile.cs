@@ -8,7 +8,14 @@ namespace backend.Profiles
     {
         public AccountProfile()
         {
-           CreateMap<Taikhoan, AccountReadDto>().ForMember(dest => dest.MaNd, opt => opt.MapFrom(src => src.MaTk));
+           CreateMap<Taikhoan, AccountReadDto>()
+           .ForMember(dest => dest.MaNd, opt => opt.MapFrom(src => src.MaTk))
+           .ForMember(dest => dest.TenNd, opt => opt.MapFrom(src => src.Nguoidung.TenNd))
+           .ForMember(dest => dest.Sdt, opt => opt.MapFrom(src => src.Nguoidung.Sdt))
+           .ForMember(dest => dest.Cmnd, opt => opt.MapFrom(src => src.Nguoidung.Cmnd))
+           .ForMember(dest => dest.DiaChi, opt => opt.MapFrom(src => src.Nguoidung.DiaChi))
+           .ForMember(dest => dest.NgaySinh, opt => opt.MapFrom(src => src.Nguoidung.NgaySinh));
+           
            CreateMap<AccountUpdateDto, Taikhoan>();
            CreateMap<Taikhoan, AccountUpdateDto>();
            CreateMap<AccountCreateDto, Taikhoan>();

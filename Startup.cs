@@ -24,7 +24,12 @@ namespace backend
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<QLBVXKContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("QlbvxkDbConn")));
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowOrigin", builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+            }); 
+
+            services.AddDbContext<QLBVXKContext>(opt => opt.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString("QlbvxkDbConn")));
 
             services.AddControllers().AddNewtonsoftJson(s =>
             {
@@ -44,11 +49,6 @@ namespace backend
             services.AddScoped<ISeatService, SeatService>();
             services.AddScoped<ITicketService, TicketService>();
             services.AddScoped<IRevenueService, RevenueService>();
-
-            services.AddCors(options =>
-            {
-                options.AddPolicy("AllowOrigin", builder => builder.AllowAnyOrigin());
-            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

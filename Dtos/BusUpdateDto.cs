@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace backend.Models
+namespace backend.Dtos
 {
     public partial class BusUpdateDto
     {
