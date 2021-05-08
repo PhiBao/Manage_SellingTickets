@@ -88,5 +88,19 @@ namespace backend.Controllers
             return NoContent();
         }
 
+        // GET api/busroutes/search?name={c}
+        [HttpGet("search")]
+        public async Task<ActionResult<IEnumerable<BusRouteReadDto>>> SearchBusRoutesByName(int destId)
+        {
+            var busRoutes = await _busRouteService.SearchBusRoutesByName(destId);
+
+            if (busRoutes != null)
+            {
+                return Ok(_mapper.Map<IEnumerable<BusRouteReadDto>>(busRoutes));
+            }
+
+            return NotFound();
+        }
+
     }
 }

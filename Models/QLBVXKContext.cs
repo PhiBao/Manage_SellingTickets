@@ -224,6 +224,8 @@ namespace backend.Models
 
                 entity.Property(e => e.MaNv).HasColumnName("MaNV");
 
+                entity.Property(e => e.NhaXe).HasMaxLength(100);
+
                 entity.HasOne(d => d.MaNvNavigation)
                     .WithMany(p => p.Xes)
                     .HasForeignKey(d => d.MaNv)

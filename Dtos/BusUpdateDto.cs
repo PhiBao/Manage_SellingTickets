@@ -10,6 +10,9 @@ namespace backend.Dtos
         [Required]
         [MaxLength(10)]
         public string MaNv { get; set; }
+        [Required]
+        [MaxLength(100)]
+        public string NhaXe { get; set; }
 
     }
 }

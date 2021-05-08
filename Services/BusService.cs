@@ -64,6 +64,11 @@ namespace backend.Services
             return await _context.Xes.ToListAsync();
         }
 
+        public async Task<IEnumerable<Xe>> SearchBusesByName(string name)
+        {
+            return await _context.Xes.Where(p => p.MaNvNavigation.TenNd == name).ToListAsync();
+        }
+
         public async Task UpdateBusAsync(Xe bus)
         {
             await _context.SaveChangesAsync();

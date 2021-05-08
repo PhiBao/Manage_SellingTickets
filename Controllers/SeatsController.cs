@@ -26,11 +26,11 @@ namespace backend.Controllers
 
         // GET api/seats
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Chongoi>>> GetAllSeatsAsync()
+        public async Task<ActionResult<IEnumerable<SeatReadDto>>> GetAllSeatsAsync()
         {
             var seats = await _seatService.GetSeatsAsync();
 
-            return Ok(seats);
+            return Ok(_mapper.Map<IEnumerable<SeatReadDto>>(seats));
         }
 
         // GET api/seats/{id}

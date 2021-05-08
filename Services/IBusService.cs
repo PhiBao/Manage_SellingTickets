@@ -11,6 +11,7 @@ namespace backend.Services
         Task DeleteBusAsync(Xe bus);
         Task<Xe> GetBusByIdAsync(int id);
         Task UpdateBusAsync(Xe bus);
+        Task<IEnumerable<Xe>> SearchBusesByName(string name);
 
     }
 }

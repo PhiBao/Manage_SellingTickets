@@ -11,5 +11,6 @@ namespace backend.Services
         Task<IEnumerable<Nguoidung>> GetStaffsAsync();
         Task<Nguoidung> GetStaffByIdAsync(int id);
         Task UpdateUserAsync(Nguoidung user);
+        Task<IEnumerable<Nguoidung>> SearchStaffsByName(string name);
     }
 }

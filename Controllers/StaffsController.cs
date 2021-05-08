@@ -63,5 +63,19 @@ namespace backend.Controllers
             return NoContent();
         }
 
+        // GET api/staffs/search?name={c}
+        [HttpGet("search")]
+        public async Task<ActionResult<IEnumerable<UserReadDto>>> SearchStaffsByName(string name)
+        {
+            var staffs = await _userService.SearchStaffsByName(name);
+
+            if (staffs != null)
+            {
+                return Ok(_mapper.Map<IEnumerable<UserReadDto>>(staffs));
+            }
+
+            return NotFound();
+        }
+
     }
 }

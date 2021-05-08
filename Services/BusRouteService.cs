@@ -66,5 +66,10 @@ namespace backend.Services
         {
             await _context.SaveChangesAsync();
         }
+
+        public async Task<IEnumerable<Tuyenxe>> SearchBusRoutesByName(int destId)
+        {
+            return await _context.Tuyenxes.Where(p => p.MaBxden == destId).ToListAsync();
+        }
     }
 }

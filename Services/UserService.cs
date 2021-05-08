@@ -41,5 +41,10 @@ namespace backend.Services
             await _context.SaveChangesAsync();
         }
 
+        public async Task<IEnumerable<Nguoidung>> SearchStaffsByName(string name)
+        {
+            return await _context.Nguoidungs.Where(p => (p.Vaitro == 2) && (p.TenNd == name)).ToListAsync();
+        }
+
     }
 }
