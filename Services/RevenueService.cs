@@ -44,6 +44,8 @@ namespace backend.Services
         {
             List<RevenueHelper> list = new List<RevenueHelper>();
             int month = DateTime.Now.Month;
+            int curYear = DateTime.Now.Year;
+            if (Int32.Parse(year) < curYear) { month = 12; }
 
             for (int i = 1; i <= month; i++)
             {
