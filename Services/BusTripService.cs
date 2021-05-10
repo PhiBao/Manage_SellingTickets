@@ -26,8 +26,8 @@ namespace backend.Services
             }
             
             var soChoNgoi = await _context.Xes.Where(p => p.MaXe == busTrip.MaXe).Select(p => p.SoChoNgoi).FirstOrDefaultAsync();
-            if (busTrip.SoChoTrong.GetValueOrDefault() > soChoNgoi.GetValueOrDefault()) return false;
-            busTrip.SoChoDaDat = soChoNgoi.GetValueOrDefault() - busTrip.SoChoTrong.GetValueOrDefault();
+            if (busTrip.SoChoDaDat.GetValueOrDefault() > soChoNgoi.GetValueOrDefault()) return false;
+            busTrip.SoChoTrong = soChoNgoi.GetValueOrDefault() - busTrip.SoChoDaDat.GetValueOrDefault();
 
             _context.Chuyenxes.Add(busTrip);
             await _context.SaveChangesAsync();
