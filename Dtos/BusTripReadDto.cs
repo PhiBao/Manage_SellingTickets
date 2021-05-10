@@ -12,6 +12,7 @@ namespace backend.Dtos
         public string NhaXe { get; set; }
         public int? SoChoTrong { get; set; }
         public DateTime NgayXuatBen { get; set; }
+        public DateTime NgayDen { get; set; }
         public float DonGia { get; set; }
     }
 }

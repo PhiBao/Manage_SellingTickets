@@ -49,11 +49,12 @@ namespace backend.Controllers
 
         // POST api/BusRoutes
         [HttpPost]
-        public async Task<ActionResult<Tuyenxe>> CreateBusRouteAsync(Tuyenxe busRoute)
+        public async Task<ActionResult<Tuyenxe>> CreateBusRouteAsync(BusRouteCreateDto busRoute)
         {
-            await _busRouteService.CreateBusRouteAsync(busRoute);
+            Tuyenxe busRouteModel = _mapper.Map<Tuyenxe>(busRoute);
+            await _busRouteService.CreateBusRouteAsync(busRouteModel);
 
-            return CreatedAtRoute(nameof(GetBusRouteByIdAsync), new { id = busRoute.MaTuyenXe }, busRoute);
+            return CreatedAtRoute(nameof(GetBusRouteByIdAsync), new { id = busRouteModel.MaTuyenXe }, busRouteModel);
         }
 
         // PUT api/BusRoutes/{id}

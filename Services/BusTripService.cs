@@ -18,14 +18,21 @@ namespace backend.Services
             _context = context;
         }
 
-        public async Task CreateBusTripAsync(Chuyenxe busTrip)
+        public async Task<bool> CreateBusTripAsync(Chuyenxe busTrip)
         {
             if (busTrip == null)
             {
                 throw new ArgumentNullException(nameof(busTrip));
             }
+            
+            var soChoNgoi = await _context.Xes.Where(p => p.MaXe == busTrip.MaXe).Select(p => p.SoChoNgoi).FirstOrDefaultAsync();
+            if (busTrip.SoChoTrong.GetValueOrDefault() > soChoNgoi.GetValueOrDefault()) return false;
+            busTrip.SoChoDaDat = soChoNgoi.GetValueOrDefault() - busTrip.SoChoTrong.GetValueOrDefault();
+
             _context.Chuyenxes.Add(busTrip);
             await _context.SaveChangesAsync();
+
+            return true;
         }
 
         public async Task DeleteBusTripAsync(Chuyenxe busTrip)
@@ -53,32 +60,18 @@ namespace backend.Services
                                        System.Globalization.CultureInfo.InvariantCulture);
 
             var busTrips = await _context.Chuyenxes.Where(p =>
-                    p.MaTuyenXe == busRoute && p.NgayXuatBen.Date == myDate).ToListAsync();
+                    p.MaTuyenXe == busRoute && p.NgayXuatBen.Date.Equals(myDate.Date)).ToListAsync();
 
             return busTrips;
         }
 
-        public async Task<IEnumerable<RevenueHelperDto>> GetRevenueByDayAsync(DateTime date)
+        public async Task<IEnumerable<Chuyenxe>> GetRevenueByDayAsync(string date)
         {
-            List<RevenueHelperDto> result = new List<RevenueHelperDto>();
-            // string day = date.ToString("d");
+            DateTime myDate = DateTime.ParseExact(date, "yyyy-MM-dd",
+                                       System.Globalization.CultureInfo.InvariantCulture);
             var busTrips = await _context.Chuyenxes.Where(p =>
-                        p.NgayXuatBen.Date.Equals(date.Date))
-                        .Select(p => new { p.MaXe, p.DonGia, p.SoChoDaDat }).ToListAsync();
-            foreach (var busTrip in busTrips)
-            {
-                var license = await _context.Xes.Where(p => p.MaXe == busTrip.MaXe).Select(p => p.BienSoXe).FirstOrDefaultAsync();
-                var item = new RevenueHelperDto
-                {
-                    BienSoXe = license,
-                    VeDaBan = busTrip.SoChoDaDat.GetValueOrDefault(),
-                    DoanhThu = busTrip.SoChoDaDat.GetValueOrDefault() * busTrip.DonGia.GetValueOrDefault()
-                };
-
-                result.Add(item);
-            }
-
-            return result;
+                        p.NgayXuatBen.Date.Equals(myDate.Date)).ToListAsync();
+            return busTrips;
         }
 
         public async Task<Chuyenxe> GetBusTripByIdAsync(int id)

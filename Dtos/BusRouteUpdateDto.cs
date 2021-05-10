@@ -11,5 +11,6 @@ namespace backend.Dtos
         [Required]
         [MaxLength(10)]
         public string MaBxdi { get; set; }
+        public int? ThoiGianDiChuyen { get; set; }
     }
 }

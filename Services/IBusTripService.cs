@@ -12,8 +12,8 @@ namespace backend.Services
         Task<IEnumerable<Chuyenxe>> GetBusTripsAsync();
         Task<Chuyenxe> GetBusTripByIdAsync(int id);
         Task<IEnumerable<Chuyenxe>> GetBusTripByConditionAsync(int maBxDi, int maBxDen, string date);
-        Task<IEnumerable<RevenueHelperDto>> GetRevenueByDayAsync(DateTime date);
-        Task CreateBusTripAsync(Chuyenxe busTrip);
+        Task<IEnumerable<Chuyenxe>> GetRevenueByDayAsync(string date);
+        Task<bool> CreateBusTripAsync(Chuyenxe busTrip);
         Task UpdateBusTripAsync(Chuyenxe busTrip);
         Task DeleteBusTripAsync(Chuyenxe busTrip);
 

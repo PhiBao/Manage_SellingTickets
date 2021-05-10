@@ -6,6 +6,9 @@ namespace backend.Dtos
     {
         [Required]
         [MaxLength(50)]
+        public string MatKhauCu { get; set; }
+        [Required]
+        [MaxLength(50)]
         public string MatKhau { get; set; }
     }
 }

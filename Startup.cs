@@ -26,8 +26,12 @@ namespace backend
         {
             services.AddCors(options =>
             {
-                options.AddPolicy("AllowOrigin", builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
-            }); 
+                options.AddPolicy(name: "AllowOrigin",
+                builder =>
+                {
+                    builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+                });
+            });
 
             services.AddDbContext<QLBVXKContext>(opt => opt.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString("QlbvxkDbConn")));
 
@@ -49,6 +53,7 @@ namespace backend
             services.AddScoped<ISeatService, SeatService>();
             services.AddScoped<ITicketService, TicketService>();
             services.AddScoped<IRevenueService, RevenueService>();
+            services.AddScoped<IHistoryService, HistoryService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,7 +68,7 @@ namespace backend
 
             app.UseRouting();
 
-            app.UseCors("AllowOrigin");
+            app.UseCors();
 
             app.UseAuthentication();
 

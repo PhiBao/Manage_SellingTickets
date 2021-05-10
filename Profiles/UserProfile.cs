@@ -9,7 +9,9 @@ namespace backend.Profiles
         public UserProfile()
         {
             CreateMap<UserUpdateDto, Nguoidung>();
-            CreateMap<Nguoidung, UserReadDto>();
+
+            CreateMap<Nguoidung, UserReadDto>()
+            .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.MaNdNavigation.Email));
         }
     }
 }

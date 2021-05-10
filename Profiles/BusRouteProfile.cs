@@ -9,6 +9,7 @@ namespace backend.Profiles
         public BusRouteProfile()
         {
             CreateMap<BusRouteUpdateDto, Tuyenxe>();
+            CreateMap<BusRouteCreateDto, Tuyenxe>();
 
             CreateMap<Tuyenxe, BusRouteReadDto>()
             .ForMember(dest => dest.TenTuyenXe, opt => opt.MapFrom(src => src.MaBxdiNavigation.TenBx + " - " + src.MaBxdenNavigation.TenBx))

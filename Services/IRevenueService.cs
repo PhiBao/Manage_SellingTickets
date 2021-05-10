@@ -9,7 +9,8 @@ namespace backend.Services
     public interface IRevenueService
     {
         Task CreateRevenueAsync(Doanhthungay dayliRevenue);
-        Task<IEnumerable<Doanhthungay>> GetRevenuesAsync();
+        Task<IEnumerable<Doanhthungay>> GetRevenuesInMonthAsync(string month);
+        Task<IEnumerable<RevenueHelper>> GetRevenuesInYearAsync(string year);
         Task<Doanhthungay> GetRevenueByIdAsync(int id);
     }
 }

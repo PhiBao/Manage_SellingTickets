@@ -11,6 +11,7 @@ namespace backend.Models
         public int MaChuyenXe { get; set; }
         public int MaKh { get; set; }
         public int MaChoNgoi { get; set; }
+        public string GhiChu { get; set; }
 
         public virtual Chongoi MaChoNgoiNavigation { get; set; }
         public virtual Chuyenxe MaChuyenXeNavigation { get; set; }

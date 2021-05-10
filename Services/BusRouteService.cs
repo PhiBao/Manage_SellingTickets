@@ -21,8 +21,13 @@ namespace backend.Services
             {
                 throw new ArgumentNullException(nameof(busRoute));
             }
-            _context.Tuyenxes.Add(busRoute);
-            await _context.SaveChangesAsync();
+            var check = await _context.Tuyenxes.Where(p => p.MaBxden == busRoute.MaBxden && p.MaBxdi == busRoute.MaBxdi)
+                            .Select(p => p.MaTuyenXe).FirstOrDefaultAsync();
+            if (check == 0)
+            {
+                _context.Tuyenxes.Add(busRoute);
+                await _context.SaveChangesAsync();
+            }
         }
 
         public async Task<Tuyenxe> GetBusRouteByIdAsync(int id)

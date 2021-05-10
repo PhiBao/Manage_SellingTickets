@@ -21,6 +21,7 @@ namespace backend.Models
         public virtual DbSet<Chongoi> Chongois { get; set; }
         public virtual DbSet<Chuyenxe> Chuyenxes { get; set; }
         public virtual DbSet<Doanhthungay> Doanhthungays { get; set; }
+        public virtual DbSet<Lichsutimkiem> Lichsutimkiems { get; set; }
         public virtual DbSet<Nguoidung> Nguoidungs { get; set; }
         public virtual DbSet<Taikhoan> Taikhoans { get; set; }
         public virtual DbSet<Tuyenxe> Tuyenxes { get; set; }
@@ -98,7 +99,28 @@ namespace backend.Models
 
                 entity.ToTable("DOANHTHUNGAY");
 
+                entity.Property(e => e.GhiChu).HasMaxLength(255);
+
                 entity.Property(e => e.Ngay).HasColumnType("date");
+            });
+
+            modelBuilder.Entity<Lichsutimkiem>(entity =>
+            {
+                entity.HasKey(e => e.MaLichSu);
+
+                entity.ToTable("LICHSUTIMKIEM");
+
+                entity.Property(e => e.NgayDi)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.NoiDen)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.NoiDi)
+                    .IsRequired()
+                    .HasMaxLength(255);
             });
 
             modelBuilder.Entity<Nguoidung>(entity =>
@@ -189,6 +211,8 @@ namespace backend.Models
                 entity.HasKey(e => e.MaVe);
 
                 entity.ToTable("VEXE");
+
+                entity.Property(e => e.GhiChu).HasMaxLength(255);
 
                 entity.Property(e => e.MaKh).HasColumnName("MaKH");
 

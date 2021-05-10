@@ -27,13 +27,13 @@ namespace backend.Controllers
 
         // GET api/accounts/{id}
         [HttpGet("{id}", Name = "GetAccountByIdAsync")]
-        public async Task<ActionResult<Taikhoan>> GetAccountByIdAsync(int id)
+        public async Task<ActionResult<AccountCreateDto>> GetAccountByIdAsync(int id)
         {
             var account = await _accountService.GetAccountByIdAsync(id);
 
             if (account != null)
             {
-                return Ok(account);
+                return Ok(_mapper.Map<AccountCreateDto>(account));
             }
 
             return NotFound();
@@ -41,13 +41,15 @@ namespace backend.Controllers
 
         // POST api/accounts/{role}
         [HttpPost("{role}")]
-        public async Task<ActionResult<AccountReadDto>> CreateAccountAsync(Taikhoan account, byte role)
+        public async Task<ActionResult<AccountReadDto>> CreateAccountAsync(AccountCreateDto account, byte role)
         {
-            await _accountService.CreateAccountAsync(account, role);
+            Taikhoan accountModel = _mapper.Map<Taikhoan>(account);
+            
+            await _accountService.CreateAccountAsync(accountModel, role);
 
-            AccountReadDto accountDto = _mapper.Map<AccountReadDto>(account);
+            AccountReadDto accountDto = _mapper.Map<AccountReadDto>(accountModel);
 
-            return CreatedAtRoute(nameof(GetAccountByIdAsync), new { id = accountDto.MaNd }, account);
+            return CreatedAtRoute(nameof(GetAccountByIdAsync), new { id = accountModel.MaTk }, accountDto);
         }
 
         // POST api/accounts/validate/{role}
@@ -64,8 +66,9 @@ namespace backend.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateAccountAsync(int id, AccountUpdateDto accountUpdateDto)
         {
+            var check = await _accountService.GetAccountByIdAsync(id);
             var accountSelected = await _accountService.GetAccountByIdAsync(id);
-            if (accountSelected == null)
+            if (accountSelected == null || !accountSelected.MatKhau.Equals(accountUpdateDto.MatKhauCu))
             {
                 return NotFound();
             }

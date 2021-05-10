@@ -17,30 +17,41 @@ namespace backend.Controllers
     {
 
         private readonly IRevenueService _revenueService;
+        private readonly IMapper _mapper;
 
-        public RevenuesController(IRevenueService revenueService)
+        public RevenuesController(IRevenueService revenueService, IMapper mapper)
         {
             _revenueService = revenueService;
+            _mapper = mapper;
         }
 
-        // GET api/revenues
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Doanhthungay>>> GetRevenuesAsync()
+        // GET api/revenues/month?month={a}
+        [HttpGet("month")]
+        public async Task<ActionResult<IEnumerable<RevenueReadDto>>> GetRevenuesInMonthAsync(string month)
         {
-            var revenues = await _revenueService.GetRevenuesAsync();
+            var revenues = await _revenueService.GetRevenuesInMonthAsync(month);
+
+            return Ok(_mapper.Map<IEnumerable<RevenueReadDto>>(revenues));
+        }
+
+        // GET api/revenues/year?year={a}
+        [HttpGet("year")]
+        public async Task<ActionResult<IEnumerable<RevenueHelper>>> GetRevenuesInYearAsync(string year)
+        {
+            var revenues = await _revenueService.GetRevenuesInYearAsync(year);
 
             return Ok(revenues);
         }
 
         // GET api/revenues/{id}
         [HttpGet("{id}", Name = "GetRevenueByIdAsync")]
-        public async Task<ActionResult<Doanhthungay>> GetRevenueByIdAsync(int id)
+        public async Task<ActionResult<RevenueReadDto>> GetRevenueByIdAsync(int id)
         {
             var revenue = await _revenueService.GetRevenueByIdAsync(id);
 
             if (revenue != null)
             {
-                return Ok(revenue);
+                return Ok(_mapper.Map<RevenueReadDto>(revenue));
             }
 
             return NotFound();
@@ -48,11 +59,14 @@ namespace backend.Controllers
 
         // POST api/revenues/{role}
         [HttpPost]
-        public async Task<ActionResult<Doanhthungay>> CreateRevenueAsync(Doanhthungay revenue)
+        public async Task<ActionResult<RevenueReadDto>> CreateRevenueAsync(RevenueCreateDto revenue)
         {
-            await _revenueService.CreateRevenueAsync(revenue);
+            Doanhthungay revenueModel = _mapper.Map<Doanhthungay>(revenue);
+            await _revenueService.CreateRevenueAsync(revenueModel);
 
-            return CreatedAtRoute(nameof(GetRevenueByIdAsync), new { id = revenue.MaDoanhThuNgay }, revenue);
+
+            return CreatedAtRoute(nameof(GetRevenueByIdAsync), new { id = revenueModel.MaDoanhThuNgay },
+                _mapper.Map<RevenueReadDto>(revenueModel));
         }
 
     }

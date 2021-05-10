@@ -32,9 +32,34 @@ namespace backend.Services
             return await _context.Doanhthungays.Where(p => p.MaDoanhThuNgay == id).FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<Doanhthungay>> GetRevenuesAsync()
+        public async Task<IEnumerable<Doanhthungay>> GetRevenuesInMonthAsync(string month)
         {
-            return await _context.Doanhthungays.ToListAsync();
+            string[] dateWithoutDay = month.Split('-');
+            var list = await _context.Doanhthungays.Where(p => p.Ngay.Year == Int32.Parse(dateWithoutDay[0])
+                        && p.Ngay.Month == Int32.Parse(dateWithoutDay[1])).ToListAsync();
+            return list;
+        }
+
+        public async Task<IEnumerable<RevenueHelper>> GetRevenuesInYearAsync(string year)
+        {
+            List<RevenueHelper> list = new List<RevenueHelper>();
+            int month = DateTime.Now.Month;
+
+            for (int i = 1; i <= month; i++)
+            {
+                RevenueHelper item = new RevenueHelper();
+                item.Thang = year + "-" + i.ToString();
+                var dummies = await _context.Doanhthungays.Where(p => p.Ngay.Year == Int32.Parse(year)
+                        && p.Ngay.Month == i).ToListAsync();
+
+                foreach (var dummy in dummies)
+                {
+                    item.DoanhThu += dummy.TongDoanhThu.GetValueOrDefault();
+                }
+                list.Add(item);
+            }
+
+            return list;
         }
     }
 }

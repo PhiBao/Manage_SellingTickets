@@ -49,11 +49,12 @@ namespace backend.Controllers
 
         // POST api/busstations
         [HttpPost]
-        public async Task<ActionResult<Benxe>> CreateBusStationAsync(Benxe busStation)
+        public async Task<ActionResult<Benxe>> CreateBusStationAsync(BusRouteCreateDto busStation)
         {
-            await _busStationService.CreateBusStationAsync(busStation);
+            Benxe busStationModel = _mapper.Map<Benxe>(busStation);
+            await _busStationService.CreateBusStationAsync(busStationModel);
 
-            return CreatedAtRoute(nameof(GetBusStationByIdAsync), new { id = busStation.MaBx }, busStation);
+            return CreatedAtRoute(nameof(GetBusStationByIdAsync), new { id = busStationModel.MaBx }, busStationModel);
         }
 
     }

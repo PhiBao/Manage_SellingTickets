@@ -10,6 +10,7 @@ namespace backend.Profiles
         public BusStationProfile()
         {
             CreateMap<Benxe, BusStationReadDto>();
+            CreateMap<BusStationCreateDto, Benxe>();
         }
     }
 }

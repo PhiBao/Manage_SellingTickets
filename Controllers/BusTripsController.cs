@@ -49,16 +49,16 @@ namespace backend.Controllers
 
             return NotFound();
         }
-        // GET api/BusTrips/revenue
+
+        // GET api/BusTrips/revenue?date={a}
         [HttpGet("revenue")]
-        public async Task<ActionResult<IEnumerable<RevenueHelperDto>>> GetRevenueByDayAsync()
+        public async Task<ActionResult<IEnumerable<RevenueByDayDto>>> GetRevenueByDayAsync(string date)
         {
-            var date = DateTime.Now;
             var revenues = await _busTripService.GetRevenueByDayAsync(date);
 
             if (revenues != null)
             {
-                return Ok(revenues);
+                return Ok(_mapper.Map<IEnumerable<RevenueByDayDto>>(revenues));
             }
 
             return NotFound();
@@ -80,14 +80,16 @@ namespace backend.Controllers
 
         //POST api/bustrips
         [HttpPost]
-        public async Task<ActionResult<Chuyenxe>> CreateBusTripAsync(Chuyenxe busTrip)
+        public async Task<ActionResult<Chuyenxe>> CreateBusTripAsync(BusTripCreateDto busTrip)
         {
-            await _busTripService.CreateBusTripAsync(busTrip);
+            Chuyenxe busTripModel = _mapper.Map<Chuyenxe>(busTrip);
+            
+            if (await _busTripService.CreateBusTripAsync(busTripModel) == false) return BadRequest();
 
-            var SoChoTrong = busTrip.SoChoTrong.GetValueOrDefault();
-            await _seatService.CreateSeatAsync(SoChoTrong, busTrip.MaChuyenXe);
+            var SoChoTrong = busTripModel.SoChoTrong.GetValueOrDefault();
+            await _seatService.CreateSeatAsync(SoChoTrong, busTripModel.MaChuyenXe);
 
-            return CreatedAtRoute(nameof(GetBusTripByIdAsync), new { id = busTrip.MaChuyenXe }, busTrip);
+            return CreatedAtRoute(nameof(GetBusTripByIdAsync), new { id = busTripModel.MaChuyenXe }, busTripModel);
         }
 
         // DELETE api/bustrips/{id}

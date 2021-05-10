@@ -67,13 +67,14 @@ namespace backend.Controllers
 
         // POST api/tickets
         [HttpPost]
-        public async Task<ActionResult<Vexe>> CreateTicketAsync(Vexe ticket)
+        public async Task<ActionResult<TicketReadDto>> CreateTicketAsync(TicketCreateDto ticket)
         {
-            var seat = await _seatService.GetSeatByIdAsync(ticket.MaChoNgoi);
+            Vexe ticketModel = _mapper.Map<Vexe>(ticket);
+            var seat = await _seatService.GetSeatByIdAsync(ticketModel.MaChoNgoi);
 
             if (seat.TinhTrangChoNgoi == true) return BadRequest();
 
-            await _ticketService.CreateTicketAsync(ticket);
+            await _ticketService.CreateTicketAsync(ticketModel);
 
             // Update bustrip
             var busTripSelected = await _busTripService.GetBusTripByIdAsync(seat.MaChuyenXe);
@@ -95,8 +96,9 @@ namespace backend.Controllers
             _mapper.Map(seatUpdateDto, seat);
 
             await _seatService.UpdateSeatAsync(seat);
+            TicketReadDto ticketReturn = _mapper.Map<TicketReadDto>(ticketModel);
 
-            return CreatedAtRoute(nameof(GetTicketByIdAsync), new { id = ticket.MaVe }, ticket);
+            return CreatedAtRoute(nameof(GetTicketByIdAsync), new { id = ticketReturn.MaVe }, ticketReturn);
         }
 
         // DELETE api/accounts/{id}

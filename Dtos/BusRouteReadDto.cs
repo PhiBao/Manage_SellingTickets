@@ -8,5 +8,7 @@ namespace backend.Dtos
         public string TenTuyenXe { get; set; }
         public string DiaChiBxDi { get; set; }
         public string DiaChiBxDen { get; set; }
+        public int? ThoiGianDiChuyen { get; set; }
+        
     }
 }

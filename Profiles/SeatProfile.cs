@@ -9,6 +9,7 @@ namespace backend.Profiles
         public SeatProfile()
         {
             CreateMap<SeatUpdateDto, Chongoi>();
+            CreateMap<SeatCreateDto, Chongoi>();
             CreateMap<Chongoi, SeatReadDto>();
         }
     }

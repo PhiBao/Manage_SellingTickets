@@ -19,6 +19,7 @@ namespace backend.Profiles
            CreateMap<AccountUpdateDto, Taikhoan>();
            CreateMap<Taikhoan, AccountUpdateDto>();
            CreateMap<AccountCreateDto, Taikhoan>();
+           CreateMap<Taikhoan, AccountCreateDto>();
         }
     }
 }
