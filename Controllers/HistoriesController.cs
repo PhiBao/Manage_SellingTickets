@@ -24,10 +24,10 @@ namespace backend.Controllers
         }
 
         // GET api/histories
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<HistoryReadDto>>> GetHistoriesAsync()
+        [HttpGet("{userId}")]
+        public async Task<ActionResult<IEnumerable<HistoryReadDto>>> GetHistoriesByUserIdAsync(int userId)
         {
-            var histories = await _historyService.GetHistoriesAsync();
+            var histories = await _historyService.GetHistoriesByUserIdAsync(userId);
 
             return Ok(_mapper.Map<IEnumerable<HistoryReadDto>>(histories));
         }
@@ -39,9 +39,18 @@ namespace backend.Controllers
             Lichsutimkiem historyModel = _mapper.Map<Lichsutimkiem>(history);
             await _historyService.CreateHistoryAsync(historyModel);
 
-            var histories = await _historyService.GetHistoriesAsync();
+            var histories = await _historyService.GetHistoriesByUserIdAsync(history.MaNd);
 
             return Ok(_mapper.Map<IEnumerable<HistoryReadDto>>(histories));
+        }
+
+        // DELETE api/histories/{userId}
+        [HttpDelete("{userId}")]
+        public async Task<ActionResult> DeleteAccountAsync(int userId)
+        {
+            await _historyService.DeleteHistoriesByUserIdAsync(userId);
+
+            return NoContent();
         }
     }
 }

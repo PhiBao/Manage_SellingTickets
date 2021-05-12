@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "d:\\Learning\\Lectures\\Fourth-yearStudent_2\\ĐA CN CNPM\\backend\\backend.csproj": {}
+    "D:\\Learning\\Lectures\\Fourth-yearStudent_2\\ĐA CN CNPM\\backend\\backend.csproj": {}
   },
   "projects": {
-    "d:\\Learning\\Lectures\\Fourth-yearStudent_2\\ĐA CN CNPM\\backend\\backend.csproj": {
+    "D:\\Learning\\Lectures\\Fourth-yearStudent_2\\ĐA CN CNPM\\backend\\backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "d:\\Learning\\Lectures\\Fourth-yearStudent_2\\ĐA CN CNPM\\backend\\backend.csproj",
+        "projectUniqueName": "D:\\Learning\\Lectures\\Fourth-yearStudent_2\\ĐA CN CNPM\\backend\\backend.csproj",
         "projectName": "backend",
-        "projectPath": "d:\\Learning\\Lectures\\Fourth-yearStudent_2\\ĐA CN CNPM\\backend\\backend.csproj",
+        "projectPath": "D:\\Learning\\Lectures\\Fourth-yearStudent_2\\ĐA CN CNPM\\backend\\backend.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "d:\\Learning\\Lectures\\Fourth-yearStudent_2\\ĐA CN CNPM\\backend\\obj\\",
+        "outputPath": "D:\\Learning\\Lectures\\Fourth-yearStudent_2\\ĐA CN CNPM\\backend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config"

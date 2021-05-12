@@ -110,6 +110,8 @@ namespace backend.Models
 
                 entity.ToTable("LICHSUTIMKIEM");
 
+                entity.Property(e => e.MaNd).HasColumnName("MaND");
+
                 entity.Property(e => e.NgayDi)
                     .IsRequired()
                     .HasMaxLength(255);
@@ -121,6 +123,12 @@ namespace backend.Models
                 entity.Property(e => e.NoiDi)
                     .IsRequired()
                     .HasMaxLength(255);
+
+                entity.HasOne(d => d.MaNdNavigation)
+                    .WithMany(p => p.Lichsutimkiems)
+                    .HasForeignKey(d => d.MaNd)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_LICHSUTIMKIEM_MaNd");
             });
 
             modelBuilder.Entity<Nguoidung>(entity =>

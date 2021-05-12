@@ -11,5 +11,8 @@ namespace backend.Models
         public string NoiDen { get; set; }
         public string NoiDi { get; set; }
         public string NgayDi { get; set; }
+        public int MaNd { get; set; }
+
+        public virtual Nguoidung MaNdNavigation { get; set; }
     }
 }

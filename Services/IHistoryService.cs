@@ -8,6 +8,7 @@ namespace backend.Services
     public interface IHistoryService
     {
         Task CreateHistoryAsync(Lichsutimkiem history);
-        Task<IEnumerable<Lichsutimkiem>> GetHistoriesAsync();
+        Task<IEnumerable<Lichsutimkiem>> GetHistoriesByUserIdAsync(int userId);
+        Task DeleteHistoriesByUserIdAsync(int userId);
     }
 }
