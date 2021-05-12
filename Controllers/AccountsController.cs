@@ -53,11 +53,11 @@ namespace backend.Controllers
         }
 
         // POST api/accounts/validate/{role}
-        [HttpPost("validate/{role}")]
-        public async Task<ActionResult<AccountReadDto>> ValidateAccountAsync(AccountCreateDto accountCreateDto, byte role)
+        [HttpPost("validate")]
+        public async Task<ActionResult<AccountReadDto>> ValidateAccountAsync(AccountCreateDto accountCreateDto)
         {
             var accountModel = _mapper.Map<Taikhoan>(accountCreateDto);
-            var account = await _accountService.ValidateAccountAsync(accountModel, role);
+            var account = await _accountService.ValidateAccountAsync(accountModel);
 
             return Ok(_mapper.Map<AccountReadDto>(account));
         }

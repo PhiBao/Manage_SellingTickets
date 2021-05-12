@@ -96,7 +96,7 @@ namespace backend.Services
             return await _context.Taikhoans.Where(p => p.MaTk == id).FirstOrDefaultAsync();
         }
 
-        public async Task<Taikhoan> ValidateAccountAsync(Taikhoan account, byte role)
+        public async Task<Taikhoan> ValidateAccountAsync(Taikhoan account)
         {
             if (account == null)
             {
@@ -110,10 +110,7 @@ namespace backend.Services
                 return new Taikhoan();
             }
 
-            var user = await _context.Nguoidungs.Where(p => p.MaNd == check.MaTk).Select(p => new { p.Vaitro }).FirstOrDefaultAsync();
-
-            if (user.Vaitro == role) return check;
-            else return new Taikhoan();
+            return check;
         }
 
         public async Task UpdateAccountAsync(Taikhoan account)

@@ -18,13 +18,13 @@ namespace backend.Services
             _context = context;
         }
 
-        public async Task CreateTicketAsync(Vexe ticket)
+        public async Task CreateTicketAsync(IEnumerable<Vexe> ticket)
         {
             if (ticket == null)
             {
                 throw new ArgumentNullException(nameof(ticket));
             }
-            _context.Vexes.Add(ticket);
+            _context.Vexes.AddRange(ticket);
             await _context.SaveChangesAsync();
         }
 

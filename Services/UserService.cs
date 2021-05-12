@@ -31,6 +31,11 @@ namespace backend.Services
             return await _context.Nguoidungs.Where(p => p.Vaitro == 2).FirstOrDefaultAsync(p => p.MaNd == id);
         }
 
+        public async Task<Nguoidung> GetUserByIdAsync(int id)
+        {
+            return await _context.Nguoidungs.FirstOrDefaultAsync(p => p.MaNd == id);
+        }
+
         public async Task<IEnumerable<Nguoidung>> GetStaffsAsync()
         {
             return await _context.Nguoidungs.Where(p => p.Vaitro == 2).ToListAsync();

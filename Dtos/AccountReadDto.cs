@@ -10,5 +10,7 @@ namespace backend.Dtos
         public string Cmnd { get; set; }
         public string DiaChi { get; set; }
         public DateTime? NgaySinh { get; set; }
+        public byte? Vaitro { get; set; }
+
     }
 }
