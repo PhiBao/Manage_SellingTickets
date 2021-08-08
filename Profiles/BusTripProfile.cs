@@ -24,11 +24,6 @@ namespace backend.Profiles
             
             CreateMap<BusTripUpdateDto, Chuyenxe>();
             CreateMap<BusTripCreateDto, Chuyenxe>();
-
-            CreateMap<Chuyenxe, RevenueByDayDto>()
-            .ForMember(dest => dest.BienSoXe, opt => opt.MapFrom(src => src.MaXeNavigation.BienSoXe))
-            .ForMember(dest => dest.VeDaBan, opt => opt.MapFrom(src => src.SoChoDaDat))
-            .ForMember(dest => dest.ThanhTien, opt => opt.MapFrom(src => src.DonGia * src.SoChoDaDat));
         }
     }
 }

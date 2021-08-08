@@ -52,13 +52,13 @@ namespace backend.Controllers
 
         // GET api/BusTrips/revenue?date={a}
         [HttpGet("revenue")]
-        public async Task<ActionResult<IEnumerable<RevenueByDayDto>>> GetRevenueByDayAsync(string date)
+        public async Task<ActionResult<IEnumerable<RevenueByDay>>> GetRevenueByDayAsync(string date)
         {
             var revenues = await _busTripService.GetRevenueByDayAsync(date);
 
             if (revenues != null)
             {
-                return Ok(_mapper.Map<IEnumerable<RevenueByDayDto>>(revenues));
+                return Ok(revenues);
             }
 
             return NotFound();

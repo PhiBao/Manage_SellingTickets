@@ -91,9 +91,9 @@ namespace backend.Controllers
 
         // GET api/busroutes/search?name={c}
         [HttpGet("search")]
-        public async Task<ActionResult<IEnumerable<BusRouteReadDto>>> SearchBusRoutesByName(int destId)
+        public async Task<ActionResult<IEnumerable<BusRouteReadDto>>> SearchBusRoutesByName(int depId, int destId )
         {
-            var busRoutes = await _busRouteService.SearchBusRoutesByName(destId);
+            var busRoutes = await _busRouteService.SearchBusRoutesByName(depId, destId);
 
             if (busRoutes != null)
             {

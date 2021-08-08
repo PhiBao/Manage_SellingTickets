@@ -63,5 +63,19 @@ namespace backend.Controllers
             return NoContent();
         }
 
+        // GET api/customers/search?email={email}
+        [HttpGet("search")]
+        public async Task<ActionResult<UserReadDto>> GetBusTripByConditionAsync(string email)
+        {
+            var customer = await _userService.GetCustomerByEmailAsync(email);
+
+            if (customer != null)
+            {
+                return Ok(_mapper.Map<UserReadDto>(customer));
+            }
+
+            return NotFound();
+        }
+
     }
 }

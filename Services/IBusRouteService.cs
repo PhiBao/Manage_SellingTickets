@@ -11,6 +11,6 @@ namespace backend.Services
         Task CreateBusRouteAsync(Tuyenxe busRoute);
         Task DeleteBusRouteAsync(Tuyenxe busRoute);
         Task UpdateBusRouteAsync(Tuyenxe busRoute);
-        Task<IEnumerable<Tuyenxe>> SearchBusRoutesByName(int destId);
+        Task<IEnumerable<Tuyenxe>> SearchBusRoutesByName(int depId, int destId);
     }
 }

@@ -72,9 +72,9 @@ namespace backend.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Tuyenxe>> SearchBusRoutesByName(int destId)
+        public async Task<IEnumerable<Tuyenxe>> SearchBusRoutesByName(int depId, int destId)
         {
-            return await _context.Tuyenxes.Where(p => p.MaBxden == destId).ToListAsync();
+            return await _context.Tuyenxes.Where(p => p.MaBxden == destId && p.MaBxdi == depId).ToListAsync();
         }
     }
 }

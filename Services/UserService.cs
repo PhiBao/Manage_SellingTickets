@@ -51,5 +51,9 @@ namespace backend.Services
             return await _context.Nguoidungs.Where(p => (p.Vaitro == 2) && (p.TenNd == name)).ToListAsync();
         }
 
+        public async Task<Nguoidung> GetCustomerByEmailAsync(string email)
+        {
+            return await _context.Nguoidungs.Where(p => p.Vaitro == 3 && p.MaNdNavigation.Email == email).FirstOrDefaultAsync();
+        }
     }
 }

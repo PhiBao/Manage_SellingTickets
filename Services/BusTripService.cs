@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using backend.Dtos;
 using backend.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -65,13 +64,20 @@ namespace backend.Services
             return busTrips;
         }
 
-        public async Task<IEnumerable<Chuyenxe>> GetRevenueByDayAsync(string date)
+        public async Task<IEnumerable<RevenueByDay>> GetRevenueByDayAsync(string date)
         {
+            List<RevenueByDay> status;
+
             DateTime myDate = DateTime.ParseExact(date, "yyyy-MM-dd",
                                        System.Globalization.CultureInfo.InvariantCulture);
-            var busTrips = await _context.Chuyenxes.Where(p =>
-                        p.NgayXuatBen.Date.Equals(myDate.Date)).ToListAsync();
-            return busTrips;
+            status = await _context.Chuyenxes
+                        .Where(p => p.NgayXuatBen.Date.Equals(myDate.Date))
+                        .GroupBy(p => p.DonGia)
+                        .Select(q => new RevenueByDay {                            
+                            LoaiGia = q.Key.GetValueOrDefault(),
+                            VeDaBan = q.Sum(p => p.SoChoDaDat.GetValueOrDefault())
+                        }).ToListAsync();
+            return status;
         }
 
         public async Task<Chuyenxe> GetBusTripByIdAsync(int id)
