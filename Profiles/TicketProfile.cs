@@ -18,7 +18,8 @@ namespace backend.Profiles
            .ForMember(dest => dest.TenKh, opt => opt.MapFrom(src => src.MaKhNavigation.TenNd))
            .ForMember(dest => dest.Sdt, opt => opt.MapFrom(src => src.MaKhNavigation.Sdt));
 
-           CreateMap<TicketCreateDto, Vexe>();           
+           CreateMap<TicketCreateDto, Vexe>();       
+           CreateMap<TicketUpdateDto, Vexe>();    
         }
     }
 }

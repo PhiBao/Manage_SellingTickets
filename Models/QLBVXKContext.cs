@@ -20,9 +20,11 @@ namespace backend.Models
         public virtual DbSet<Benxe> Benxes { get; set; }
         public virtual DbSet<Chongoi> Chongois { get; set; }
         public virtual DbSet<Chuyenxe> Chuyenxes { get; set; }
+        public virtual DbSet<Danhgia> Danhgias { get; set; }
         public virtual DbSet<Doanhthungay> Doanhthungays { get; set; }
         public virtual DbSet<Lichsutimkiem> Lichsutimkiems { get; set; }
         public virtual DbSet<Nguoidung> Nguoidungs { get; set; }
+        public virtual DbSet<Nhaxe> Nhaxes { get; set; }
         public virtual DbSet<Taikhoan> Taikhoans { get; set; }
         public virtual DbSet<Tuyenxe> Tuyenxes { get; set; }
         public virtual DbSet<Vexe> Vexes { get; set; }
@@ -32,7 +34,8 @@ namespace backend.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Data Source=mssql-29154-0.cloudclusters.net, 29184;Initial Catalog=qlbvxk;User Id=kid;Password=myPass123;TrustServerCertificate=True;");
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Data Source=mssql-43998-0.cloudclusters.net,17447;Initial Catalog=QLBVXK;User Id=Admin;Password=myPass123;TrustServerCertificate=True;");
             }
         }
 
@@ -90,6 +93,29 @@ namespace backend.Models
                     .HasForeignKey(d => d.MaXe)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_CHUYENXE_MaXe");
+            });
+
+            modelBuilder.Entity<Danhgia>(entity =>
+            {
+                entity.HasKey(e => e.MaDanhGia);
+
+                entity.ToTable("DANHGIA");
+
+                entity.Property(e => e.MaNd).HasColumnName("MaND");
+
+                entity.Property(e => e.NoiDungDanhGia).HasMaxLength(255);
+
+                entity.HasOne(d => d.MaNdNavigation)
+                    .WithMany(p => p.Danhgias)
+                    .HasForeignKey(d => d.MaNd)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_DANHGIA_MaND");
+
+                entity.HasOne(d => d.MaNhaXeNavigation)
+                    .WithMany(p => p.Danhgias)
+                    .HasForeignKey(d => d.MaNhaXe)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_DANHGIA_MaNhaXe");
             });
 
             modelBuilder.Entity<Doanhthungay>(entity =>
@@ -168,6 +194,17 @@ namespace backend.Models
                     .HasConstraintName("FK_NHANVIEN_MaND");
             });
 
+            modelBuilder.Entity<Nhaxe>(entity =>
+            {
+                entity.HasKey(e => e.MaNhaXe);
+
+                entity.ToTable("NHAXE");
+
+                entity.Property(e => e.TenNhaXe)
+                    .IsRequired()
+                    .HasMaxLength(100);
+            });
+
             modelBuilder.Entity<Taikhoan>(entity =>
             {
                 entity.HasKey(e => e.MaTk);
@@ -211,6 +248,12 @@ namespace backend.Models
                     .HasForeignKey(d => d.MaBxdi)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TUYENXE_MaBXDi");
+
+                entity.HasOne(d => d.MaNhaXeNavigation)
+                    .WithMany(p => p.Tuyenxes)
+                    .HasForeignKey(d => d.MaNhaXe)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TUYENXE_MaNhaXe");
             });
 
             modelBuilder.Entity<Vexe>(entity =>
@@ -222,6 +265,10 @@ namespace backend.Models
                 entity.Property(e => e.GhiChu).HasMaxLength(255);
 
                 entity.Property(e => e.MaKh).HasColumnName("MaKH");
+
+                entity.Property(e => e.TrangThai)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
 
                 entity.HasOne(d => d.MaChoNgoiNavigation)
                     .WithMany(p => p.Vexes)
@@ -255,7 +302,11 @@ namespace backend.Models
 
                 entity.Property(e => e.MaNv).HasColumnName("MaNV");
 
-                entity.Property(e => e.NhaXe).HasMaxLength(100);
+                entity.HasOne(d => d.MaNhaXeNavigation)
+                    .WithMany(p => p.Xes)
+                    .HasForeignKey(d => d.MaNhaXe)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_XE_MaNhaXe");
 
                 entity.HasOne(d => d.MaNvNavigation)
                     .WithMany(p => p.Xes)

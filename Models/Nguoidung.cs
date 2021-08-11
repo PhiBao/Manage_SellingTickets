@@ -9,6 +9,7 @@ namespace backend.Models
     {
         public Nguoidung()
         {
+            Danhgias = new HashSet<Danhgia>();
             Lichsutimkiems = new HashSet<Lichsutimkiem>();
             Vexes = new HashSet<Vexe>();
             Xes = new HashSet<Xe>();
@@ -23,6 +24,7 @@ namespace backend.Models
         public byte? Vaitro { get; set; }
 
         public virtual Taikhoan MaNdNavigation { get; set; }
+        public virtual ICollection<Danhgia> Danhgias { get; set; }
         public virtual ICollection<Lichsutimkiem> Lichsutimkiems { get; set; }
         public virtual ICollection<Vexe> Vexes { get; set; }
         public virtual ICollection<Xe> Xes { get; set; }

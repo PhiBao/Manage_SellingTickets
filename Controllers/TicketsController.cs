@@ -135,7 +135,13 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            await _ticketService.DeleteTicketAsync(ticket);
+            // Update seat    
+            TicketUpdateDto ticketUpdateDto = new TicketUpdateDto();
+
+            ticketUpdateDto.TrangThai = false;
+            _mapper.Map(ticketUpdateDto, ticket);
+
+            await _ticketService.UpdateTicketAsync(ticket);
 
             var seat = await _seatService.GetSeatByIdAsync(ticket.MaChoNgoi);
 

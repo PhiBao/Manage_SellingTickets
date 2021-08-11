@@ -14,5 +14,6 @@ namespace backend.Dtos
         public DateTime NgayXuatBen { get; set; }
         public float DonGia { get; set; }
         public string GhiChu { get; set; }
+        public bool TrangThai { get; set; }
     }
 }

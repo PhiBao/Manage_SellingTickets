@@ -58,5 +58,10 @@ namespace backend.Services
         {
             return await _context.Vexes.Where(p => p.MaChuyenXe == busTripId).ToListAsync();
         }
+
+        public async Task UpdateTicketAsync(Vexe ticket)
+        {
+            await _context.SaveChangesAsync();
+        }
     }
 }

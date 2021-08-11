@@ -14,10 +14,11 @@ namespace backend.Models
 
         public int MaXe { get; set; }
         public string BienSoXe { get; set; }
+        public int MaNhaXe { get; set; }
         public int MaNv { get; set; }
         public int? SoChoNgoi { get; set; }
-        public string NhaXe { get; set; }
 
+        public virtual Nhaxe MaNhaXeNavigation { get; set; }
         public virtual Nguoidung MaNvNavigation { get; set; }
         public virtual ICollection<Chuyenxe> Chuyenxes { get; set; }
     }
