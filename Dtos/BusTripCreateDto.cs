@@ -6,8 +6,8 @@ namespace backend.Dtos
     {
         public int MaTuyenXe { get; set; }
         public int MaXe { get; set; }
-        public DateTime NgayXuatBen { get; set; }
-        public int? SoChoDaDat { get; set; }
+        public String GioXuatBen { get; set; }
+        public string LichTrinh { get; set; }
         public double? DonGia { get; set; }
     }
 }

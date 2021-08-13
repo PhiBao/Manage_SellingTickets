@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using backend.Models;
 using Microsoft.EntityFrameworkCore;
@@ -34,6 +33,17 @@ namespace backend.Services
         public async Task<IEnumerable<Benxe>> GetBusStationsAsync()
         {
             return await _context.Benxes.ToListAsync();
+        }
+
+        public async Task DeleteBusStationAsync(Benxe busStation)
+        {
+            if (busStation == null)
+            {
+                throw new ArgumentNullException(nameof(busStation));
+            }
+
+            _context.Benxes.Remove(busStation);
+            await _context.SaveChangesAsync();
         }
     }
 }

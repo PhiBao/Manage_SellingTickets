@@ -41,8 +41,6 @@ namespace backend.Services
             {
                 var ticketsByBusTrip = await _context.Vexes.Where(p => p.MaChuyenXe == busTrip.MaChuyenXe).ToListAsync();
                 _context.Vexes.RemoveRange(ticketsByBusTrip);
-                var seatsByBusTrip = await _context.Chongois.Where(p => p.MaChuyenXe == busTrip.MaChuyenXe).ToListAsync();
-                _context.Chongois.RemoveRange(seatsByBusTrip);
             }
 
             // Delete all trips that relations with this bus
@@ -64,9 +62,15 @@ namespace backend.Services
             return await _context.Xes.ToListAsync();
         }
 
-        public async Task<IEnumerable<Xe>> SearchBusesByName(string name)
+        public async Task<IEnumerable<Xe>> GetBusesByBusRouteIdAsync(int id)
         {
-            return await _context.Xes.Where(p => p.MaNvNavigation.TenNd == name).ToListAsync();
+            int garageId = await _context.Tuyenxes.Where(p => p.MaTuyenXe == id).Select(p => p.MaNhaXe).FirstOrDefaultAsync();
+            return await _context.Xes.Where(p => p.MaNhaXe == garageId).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Xe>> GetBusesByGarageIdAsync(int garageId)
+        {
+            return await _context.Xes.Where(p => p.MaNhaXe == garageId).ToListAsync();
         }
 
         public async Task UpdateBusAsync(Xe bus)

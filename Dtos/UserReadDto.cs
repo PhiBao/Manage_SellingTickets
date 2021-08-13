@@ -1,5 +1,4 @@
 using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace backend.Dtos
 {
@@ -12,5 +11,6 @@ namespace backend.Dtos
         public string Cmnd { get; set; }
         public string DiaChi { get; set; }
         public DateTime? NgaySinh { get; set; }
+        public string ImageUrl { get; set; }
     }
 }

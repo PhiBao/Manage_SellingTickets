@@ -50,10 +50,11 @@ namespace backend
             services.AddScoped<IBusRouteService, BusRouteService>();
             services.AddScoped<IBusTripService, BusTripService>();
             services.AddScoped<IBusService, BusService>();
-            services.AddScoped<ISeatService, SeatService>();
+            services.AddScoped<IGarageService, GarageService>();
             services.AddScoped<ITicketService, TicketService>();
             services.AddScoped<IRevenueService, RevenueService>();
             services.AddScoped<IHistoryService, HistoryService>();
+            services.AddScoped<IReviewService, ReviewService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

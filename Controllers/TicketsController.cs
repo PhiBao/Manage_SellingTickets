@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -18,13 +19,11 @@ namespace backend.Controllers
         private readonly ITicketService _ticketService;
         private readonly IMapper _mapper;
         private readonly IUserService _userService;
-        private readonly ISeatService _seatService;
         private readonly IBusTripService _busTripService;
 
-        public TicketsController(ITicketService ticketService, ISeatService seatService, IBusTripService busTripService, IUserService userService, IMapper mapper)
+        public TicketsController(ITicketService ticketService, IBusTripService busTripService, IUserService userService, IMapper mapper)
         {
             _busTripService = busTripService;
-            _seatService = seatService;
             _ticketService = ticketService;
             _userService = userService;
             _mapper = mapper;
@@ -67,16 +66,29 @@ namespace backend.Controllers
             return NotFound();
         }
 
+        // GET api/tickets/seats?bustripid={bustripId}&date={date}
+        [HttpGet("seats")]
+        public async Task<ActionResult<IEnumerable<int>>> GetSeatsByBusTripIdAsync(int busTripId, string date)
+        {
+            DateTime myDate = DateTime.ParseExact(date, "yyyy-MM-ddTHH:mm:ss",
+                                       System.Globalization.CultureInfo.InvariantCulture);
+            var seats = await _ticketService.GetSeatsByBusTripIdAsync(busTripId, myDate);
+
+            if (seats != null)
+            {
+                return Ok(seats);
+            }
+
+            return NotFound();
+        }
+
         // POST api/tickets
         [HttpPost]
         public async Task<ActionResult<IEnumerable<TicketReadDto>>> CreateTicketAsync(TicketCreateDto ticket)
         {
-            // Vexe ticketModel = _mapper.Map<Vexe>(ticket);
             foreach (var seatId in ticket.MaChoNgoi)
             {
-                var seat = await _seatService.GetSeatByIdAsync(seatId);
-
-                if (seat.TinhTrangChoNgoi == true) return BadRequest();
+                if (await _ticketService.CheckAvailableAsync(ticket.MaChuyenXe, ticket.NgayDi, seatId) == true) return BadRequest();
             }
 
             List<Vexe> list = new List<Vexe>();
@@ -88,7 +100,9 @@ namespace backend.Controllers
                     MaChuyenXe = ticket.MaChuyenXe,
                     MaKh = ticket.MaKh,
                     GhiChu = ticket.GhiChu,
-                    MaKhNavigation = await _userService.GetUserByIdAsync(ticket.MaKh)
+                    NgayDi = ticket.NgayDi,
+                    MaKhNavigation = await _userService.GetUserByIdAsync(ticket.MaKh),
+                    MaChuyenXeNavigation = await _busTripService.GetBusTripByIdAsync(ticket.MaChuyenXe),
                 };
                 list.Add(item);
             }
@@ -102,31 +116,19 @@ namespace backend.Controllers
                 return NotFound();
             }
             BusTripUpdateDto busTripUpdateDto = new BusTripUpdateDto();
-            busTripUpdateDto.SoChoDaDat = (busTripSelected.SoChoDaDat == null) ? ticket.MaChoNgoi.Length : busTripSelected.SoChoDaDat + ticket.MaChoNgoi.Length;
-            busTripUpdateDto.SoChoTrong = (busTripSelected.SoChoTrong == null) ? ticket.MaChoNgoi.Length : busTripSelected.SoChoTrong - ticket.MaChoNgoi.Length;
+            busTripUpdateDto.SoChoTrong = busTripSelected.SoChoTrong.GetValueOrDefault() - ticket.MaChoNgoi.Length;
 
             _mapper.Map(busTripUpdateDto, busTripSelected);
             await _busTripService.UpdateBusTripAsync(busTripSelected);
-
-            // Update seat
-            SeatUpdateDto seatUpdateDto = new SeatUpdateDto();
-            foreach (var seatId in ticket.MaChoNgoi)
-            {
-                var seat = await _seatService.GetSeatByIdAsync(seatId);
-                seatUpdateDto.TinhTrangChoNgoi = true;
-                _mapper.Map(seatUpdateDto, seat);
-
-                await _seatService.UpdateSeatAsync(seat);   
-            }
 
             IEnumerable<TicketReadDto> ticketReturn = _mapper.Map<IEnumerable<TicketReadDto>>(list);
 
             return Ok(ticketReturn);
         }
 
-        // DELETE api/accounts/{id}
+        // DELETE api/tickets/{id}
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteTicket(int id)
+        public async Task<ActionResult> DeleteTicketAsync(int id)
         {
             var ticket = await _ticketService.GetTicketByIdAsync(id);
 
@@ -143,30 +145,33 @@ namespace backend.Controllers
 
             await _ticketService.UpdateTicketAsync(ticket);
 
-            var seat = await _seatService.GetSeatByIdAsync(ticket.MaChoNgoi);
-
             // Update bustrip
-            var busTripSelected = await _busTripService.GetBusTripByIdAsync(seat.MaChuyenXe);
+            var busTripSelected = await _busTripService.GetBusTripByIdAsync(ticket.MaChuyenXe);
             if (busTripSelected == null)
             {
                 return NotFound();
             }
             BusTripUpdateDto busTripUpdateDto = new BusTripUpdateDto();
-            busTripUpdateDto.SoChoDaDat = (busTripSelected.SoChoDaDat == null) ? 1 : busTripSelected.SoChoDaDat - 1;
-            busTripUpdateDto.SoChoTrong = (busTripSelected.SoChoTrong == null) ? 1 : busTripSelected.SoChoTrong + 1;
+            busTripUpdateDto.SoChoTrong = busTripSelected.SoChoTrong.GetValueOrDefault() + 1;
 
             _mapper.Map(busTripUpdateDto, busTripSelected);
             await _busTripService.UpdateBusTripAsync(busTripSelected);
 
-            // Update seat    
-            SeatUpdateDto seatUpdateDto = new SeatUpdateDto();
-
-            seatUpdateDto.TinhTrangChoNgoi = false;
-            _mapper.Map(seatUpdateDto, seat);
-
-            await _seatService.UpdateSeatAsync(seat);
-
             return NoContent();
+        }
+
+        // GET api/tickets/revenue?date={a}
+        [HttpGet("revenue")]
+        public async Task<ActionResult<IEnumerable<RevenueByDay>>> GetRevenueByDayAsync(string date)
+        {
+            var revenues = await _ticketService.GetRevenueByDayAsync(date);
+
+            if (revenues != null)
+            {
+                return Ok(revenues);
+            }
+
+            return NotFound();
         }
 
     }

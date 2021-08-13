@@ -276,11 +276,11 @@
           "build/netcoreapp3.0/Microsoft.EntityFrameworkCore.Design.props": {}
         }
       },
-      "Microsoft.EntityFrameworkCore.Proxies/5.0.5": {
+      "Microsoft.EntityFrameworkCore.Proxies/5.0.8": {
         "type": "package",
         "dependencies": {
           "Castle.Core": "4.4.1",
-          "Microsoft.EntityFrameworkCore": "5.0.5"
+          "Microsoft.EntityFrameworkCore": "5.0.8"
         },
         "compile": {
           "lib/netstandard2.1/Microsoft.EntityFrameworkCore.Proxies.dll": {}
@@ -302,11 +302,11 @@
           "lib/netstandard2.1/Microsoft.EntityFrameworkCore.Relational.dll": {}
         }
       },
-      "Microsoft.EntityFrameworkCore.SqlServer/5.0.5": {
+      "Microsoft.EntityFrameworkCore.SqlServer/5.0.8": {
         "type": "package",
         "dependencies": {
           "Microsoft.Data.SqlClient": "2.0.1",
-          "Microsoft.EntityFrameworkCore.Relational": "5.0.5"
+          "Microsoft.EntityFrameworkCore.Relational": "5.0.8"
         },
         "compile": {
           "lib/netstandard2.1/Microsoft.EntityFrameworkCore.SqlServer.dll": {}
@@ -2727,17 +2727,17 @@
         "microsoft.entityframeworkcore.design.nuspec"
       ]
     },
-    "Microsoft.EntityFrameworkCore.Proxies/5.0.5": {
-      "sha512": "kLPZnY7opUH2wlZ8csVFcoQ9qJR0WpYTfcd0WTbeAJkoozMwrjAi99zp5dOZW58QF5VJt1o76osEWSBB+++pPQ==",
+    "Microsoft.EntityFrameworkCore.Proxies/5.0.8": {
+      "sha512": "I4te83hQbgRVbG/0gyo2kpr93cJeGZTZTmg2z4PaAKDpFGlWpSUU9OKPRZcKggN4+15aQLF8oLZ8rKuThbJrLA==",
       "type": "package",
-      "path": "microsoft.entityframeworkcore.proxies/5.0.5",
+      "path": "microsoft.entityframeworkcore.proxies/5.0.8",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
         "lib/netstandard2.1/Microsoft.EntityFrameworkCore.Proxies.dll",
         "lib/netstandard2.1/Microsoft.EntityFrameworkCore.Proxies.xml",
-        "microsoft.entityframeworkcore.proxies.5.0.5.nupkg.sha512",
+        "microsoft.entityframeworkcore.proxies.5.0.8.nupkg.sha512",
         "microsoft.entityframeworkcore.proxies.nuspec"
       ]
     },
@@ -2755,17 +2755,17 @@
         "microsoft.entityframeworkcore.relational.nuspec"
       ]
     },
-    "Microsoft.EntityFrameworkCore.SqlServer/5.0.5": {
-      "sha512": "f5cjySGx1VSRSzKyu/z2qZJzDbVV7L+jcLnb7+ySs3ctyfO3lqul7x9xM+P5326EyFLva8/ILQLv35L9w3EDFA==",
+    "Microsoft.EntityFrameworkCore.SqlServer/5.0.8": {
+      "sha512": "kQbUHiJDqIm+LdY7SS/fm/W/eHCXUJjAJhMvTzSGtPuFGBN4S+RKfs8FiXXk0WKWxmDjXo4Dck4WDJLCXdv/Sw==",
       "type": "package",
-      "path": "microsoft.entityframeworkcore.sqlserver/5.0.5",
+      "path": "microsoft.entityframeworkcore.sqlserver/5.0.8",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
         "lib/netstandard2.1/Microsoft.EntityFrameworkCore.SqlServer.dll",
         "lib/netstandard2.1/Microsoft.EntityFrameworkCore.SqlServer.xml",
-        "microsoft.entityframeworkcore.sqlserver.5.0.5.nupkg.sha512",
+        "microsoft.entityframeworkcore.sqlserver.5.0.8.nupkg.sha512",
         "microsoft.entityframeworkcore.sqlserver.nuspec"
       ]
     },
@@ -7954,8 +7954,8 @@
       "Microsoft.AspNetCore.Mvc.NewtonsoftJson >= 5.0.8",
       "Microsoft.EntityFrameworkCore >= 5.0.8",
       "Microsoft.EntityFrameworkCore.Design >= 5.0.8",
-      "Microsoft.EntityFrameworkCore.Proxies >= 5.0.5",
-      "Microsoft.EntityFrameworkCore.SqlServer >= 5.0.5",
+      "Microsoft.EntityFrameworkCore.Proxies >= 5.0.8",
+      "Microsoft.EntityFrameworkCore.SqlServer >= 5.0.8",
       "Microsoft.EntityFrameworkCore.Tools >= 5.0.8",
       "Swashbuckle.AspNetCore >= 5.6.3"
     ]
@@ -8025,11 +8025,11 @@
           },
           "Microsoft.EntityFrameworkCore.Proxies": {
             "target": "Package",
-            "version": "[5.0.5, )"
+            "version": "[5.0.8, )"
           },
           "Microsoft.EntityFrameworkCore.SqlServer": {
             "target": "Package",
-            "version": "[5.0.5, )"
+            "version": "[5.0.8, )"
           },
           "Microsoft.EntityFrameworkCore.Tools": {
             "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",

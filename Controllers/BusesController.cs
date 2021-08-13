@@ -33,6 +33,15 @@ namespace backend.Controllers
             return Ok(_mapper.Map<IEnumerable<BusReadDto>>(buses));
         }
 
+        // GET api/buses/garege?garageid={garageId}
+        [HttpGet("garage")]
+        public async Task<ActionResult<IEnumerable<BusReadDto>>> GetBusesByGarageIdAsync(int garageId)
+        {
+            var buses = await _busService.GetBusesByGarageIdAsync(garageId);
+
+            return Ok(_mapper.Map<IEnumerable<BusReadDto>>(buses));
+        }
+
         // GET api/buses/{id}
         [HttpGet("{id}", Name = "GetBusByIdAsync")]
         public async Task<ActionResult<BusReadDto>> GetBusByIdAsync(int id)
@@ -88,11 +97,11 @@ namespace backend.Controllers
             return NoContent();
         }
 
-        // GET api/buses/search?name={c}
-        [HttpGet("search")]
-        public async Task<ActionResult<IEnumerable<BusReadDto>>> SearchBusesByName(string name)
+        // GET api/buses/busroute?id={c}
+        [HttpGet("busroute")]
+        public async Task<ActionResult<IEnumerable<BusReadDto>>> GetBusesByBusRouteIdAsync(int id)
         {
-            var buses = await _busService.SearchBusesByName(name);
+            var buses = await _busService.GetBusesByBusRouteIdAsync(id);
 
             if (buses != null)
             {

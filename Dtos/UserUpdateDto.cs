@@ -19,5 +19,6 @@ namespace backend.Dtos
         public string DiaChi { get; set; }
         [Required]
         public DateTime? NgaySinh { get; set; }
+        public string ImageUrl { get; set; }
     }
 }

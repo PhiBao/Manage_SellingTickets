@@ -4,6 +4,7 @@ namespace backend.Dtos
     {
         public int MaBxden { get; set; }
         public int MaBxdi { get; set; }
+        public int MaNhaXe { get; set; }
         public int? ThoiGianDiChuyen { get; set; }
     }
 }

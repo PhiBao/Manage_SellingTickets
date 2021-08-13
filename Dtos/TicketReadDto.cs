@@ -1,5 +1,4 @@
 using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace backend.Dtos
 {
@@ -11,7 +10,7 @@ namespace backend.Dtos
         public int MaChoNgoi { get; set; }
         public string TenTuyenXe { get; set; }
         public string BienSoXe { get; set; }
-        public DateTime NgayXuatBen { get; set; }
+        public DateTime NgayDi { get; set; }
         public float DonGia { get; set; }
         public string GhiChu { get; set; }
         public bool TrangThai { get; set; }

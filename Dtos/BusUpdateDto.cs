@@ -12,7 +12,7 @@ namespace backend.Dtos
         public string MaNv { get; set; }
         [Required]
         [MaxLength(100)]
-        public string NhaXe { get; set; }
+        public string MaNhaXe { get; set; }
 
     }
 }

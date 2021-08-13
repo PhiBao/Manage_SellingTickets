@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,21 +16,16 @@ namespace backend.Services
             _context = context;
         }
 
-        public async Task<bool> CreateBusTripAsync(Chuyenxe busTrip)
+        public async Task CreateBusTripAsync(Chuyenxe busTrip)
         {
             if (busTrip == null)
             {
                 throw new ArgumentNullException(nameof(busTrip));
             }
             
-            var soChoNgoi = await _context.Xes.Where(p => p.MaXe == busTrip.MaXe).Select(p => p.SoChoNgoi).FirstOrDefaultAsync();
-            if (busTrip.SoChoDaDat.GetValueOrDefault() > soChoNgoi.GetValueOrDefault()) return false;
-            busTrip.SoChoTrong = soChoNgoi.GetValueOrDefault() - busTrip.SoChoDaDat.GetValueOrDefault();
-
+            busTrip.SoChoTrong = await _context.Xes.Where(p => p.MaXe == busTrip.MaXe).Select(p => p.SoChoNgoi).FirstOrDefaultAsync();
             _context.Chuyenxes.Add(busTrip);
             await _context.SaveChangesAsync();
-
-            return true;
         }
 
         public async Task DeleteBusTripAsync(Chuyenxe busTrip)
@@ -43,41 +37,24 @@ namespace backend.Services
 
             var ticketsByBusTrip = await _context.Vexes.Where(p => p.MaChuyenXe == busTrip.MaChuyenXe).ToListAsync();
             _context.Vexes.RemoveRange(ticketsByBusTrip);
-            var seatsByBusTrip = await _context.Chongois.Where(p => p.MaChuyenXe == busTrip.MaChuyenXe).ToListAsync();
-            _context.Chongois.RemoveRange(seatsByBusTrip);
-
             _context.Chuyenxes.Remove(busTrip);
             await _context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Chuyenxe>> GetBusTripByConditionAsync(int maBxDi, int maBxDen, string date)
         {
-            var busRoute = await _context.Tuyenxes.Where(p => p.MaBxden == maBxDen && p.MaBxdi == maBxDi)
-                            .Select(p => p.MaTuyenXe).FirstOrDefaultAsync();
+            var busRoutes = await _context.Tuyenxes.Where(p => p.MaBxden == maBxDen && p.MaBxdi == maBxDi)
+                            .Select(p => p.MaTuyenXe).ToListAsync();
 
-            DateTime myDate = DateTime.ParseExact(date, "yyyy-MM-dd",
-                                       System.Globalization.CultureInfo.InvariantCulture);
-
-            var busTrips = await _context.Chuyenxes.Where(p =>
-                    p.MaTuyenXe == busRoute && p.NgayXuatBen.Date.Equals(myDate.Date)).ToListAsync();
+            List<Chuyenxe> busTrips = new List<Chuyenxe>();
+            foreach (var busRoute in busRoutes) {
+                var schedule = await _context.Chuyenxes.Where(p => p.MaTuyenXe == busRoute).ToListAsync();
+                foreach (var busTrip in schedule) {
+                    if (CheckSameDate(busTrip.LichTrinh, date)) { busTrips.Add(busTrip); }
+                }
+            }
 
             return busTrips;
-        }
-
-        public async Task<IEnumerable<RevenueByDay>> GetRevenueByDayAsync(string date)
-        {
-            List<RevenueByDay> status;
-
-            DateTime myDate = DateTime.ParseExact(date, "yyyy-MM-dd",
-                                       System.Globalization.CultureInfo.InvariantCulture);
-            status = await _context.Chuyenxes
-                        .Where(p => p.NgayXuatBen.Date.Equals(myDate.Date))
-                        .GroupBy(p => p.DonGia)
-                        .Select(q => new RevenueByDay {                            
-                            LoaiGia = q.Key.GetValueOrDefault(),
-                            VeDaBan = q.Sum(p => p.SoChoDaDat.GetValueOrDefault())
-                        }).ToListAsync();
-            return status;
         }
 
         public async Task<Chuyenxe> GetBusTripByIdAsync(int id)
@@ -93,6 +70,19 @@ namespace backend.Services
         public async Task UpdateBusTripAsync(Chuyenxe busTrip)
         {
             await _context.SaveChangesAsync();
+        }
+
+        private bool CheckSameDate(string schedule, string date) {
+            var numbers = Array.ConvertAll(schedule.ToCharArray(), c => (int)Char.GetNumericValue(c));
+            DateTime today = DateTime.Today;
+
+            foreach (var number in numbers) {
+                DateTime dayOfSchedule = (number > (int)today.DayOfWeek) ? today.AddDays(number - (int)today.DayOfWeek)
+                                                                    : today.AddDays(7 + number - (int)today.DayOfWeek);                  
+                if (dayOfSchedule.ToString("yyyy-MM-dd").Equals(date)) { return true; }
+            }
+
+            return false;
         }
     }
 }

@@ -13,7 +13,8 @@ namespace backend.Profiles
 
             CreateMap<Xe, BusReadDto>()
             .ForMember(dest => dest.TenNv, opt => opt.MapFrom(src => src.MaNvNavigation.TenNd))
-            .ForMember(dest => dest.Sdt, opt => opt.MapFrom(src => src.MaNvNavigation.Sdt));
+            .ForMember(dest => dest.Sdt, opt => opt.MapFrom(src => src.MaNvNavigation.Sdt))
+            .ForMember(dest => dest.TenNhaXe, opt => opt.MapFrom(src => src.MaNhaXeNavigation.TenNhaXe));
         }
     }
 }

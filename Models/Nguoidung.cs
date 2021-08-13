@@ -21,6 +21,7 @@ namespace backend.Models
         public string Cmnd { get; set; }
         public string DiaChi { get; set; }
         public DateTime? NgaySinh { get; set; }
+        public string ImageUrl { get; set; }
         public byte? Vaitro { get; set; }
 
         public virtual Taikhoan MaNdNavigation { get; set; }

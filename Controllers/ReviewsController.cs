@@ -33,6 +33,15 @@ namespace backend.Controllers
             return Ok(_mapper.Map<IEnumerable<ReviewReadDto>>(reviews));
         }
 
+        // GET api/reviews/details
+        [HttpGet("details")]
+        public async Task<ActionResult<IEnumerable<ReviewReadDto>>> GetAllDetailsReviewsAsync()
+        {
+            var reviews = await _reviewService.GetReviewsAsync();
+
+            return Ok(_mapper.Map<IEnumerable<ReviewDetailsDto>>(reviews));
+        }
+
         // GET api/reviews/{id}
         [HttpGet("{id}", Name = "GetReviewByIdAsync")]
         public async Task<ActionResult<ReviewReadDto>> GetReviewByIdAsync(int id)
@@ -49,13 +58,13 @@ namespace backend.Controllers
 
         // GET api/reviews/search?garageid={garageId}
         [HttpGet("search")]
-        public async Task<ActionResult<ReviewReadDto>> GetReviewByGarageIdAsync(int garageId)
+        public async Task<ActionResult<IEnumerable<ReviewReadDto>>> GetReviewByGarageIdAsync(int garageId)
         {
             var reviews = await _reviewService.GetReviewsByGarageIdAsync(garageId);
 
             if (reviews != null)
             {
-                return Ok(_mapper.Map<ReviewReadDto>(reviews));
+                return Ok(_mapper.Map<IEnumerable<ReviewReadDto>>(reviews));
             }
 
             return NotFound();

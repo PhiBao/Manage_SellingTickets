@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using backend.Dtos;
 using backend.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -74,8 +73,6 @@ namespace backend.Services
                 {
                     var ticketsByBusTrip = await _context.Vexes.Where(p => p.MaChuyenXe == busTrip.MaChuyenXe).ToListAsync();
                     _context.Vexes.RemoveRange(ticketsByBusTrip);
-                    var seatsByBusTrip = await _context.Chongois.Where(p => p.MaChuyenXe == busTrip.MaChuyenXe).ToListAsync();
-                    _context.Chongois.RemoveRange(seatsByBusTrip);
                 }
 
                 // Delete all staff's bus trips and buses

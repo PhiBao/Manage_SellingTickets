@@ -57,5 +57,22 @@ namespace backend.Controllers
             return CreatedAtRoute(nameof(GetBusStationByIdAsync), new { id = busStationModel.MaBx }, busStationModel);
         }
 
+        // DELETE api/busstations/{id}
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteBusStationAsync(int id)
+        {
+            var busStation = await _busStationService.GetBusStationByIdAsync(id);
+
+            if (busStation == null)
+            {
+                return NotFound();
+            }
+
+            await _busStationService.DeleteBusStationAsync(busStation);
+
+            return NoContent();
+        }
+
+
     }
 }

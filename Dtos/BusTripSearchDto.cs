@@ -1,6 +1,6 @@
 namespace backend.Dtos
 {
-    public partial class BusTripReadDto
+    public partial class BusTripSearchDto
     {
         public int MaChuyenXe { get; set; }
         public string TenBxDi { get; set; }
@@ -9,7 +9,7 @@ namespace backend.Dtos
         public string DiaChiBxDen { get; set; }
         public string TenNhaXe { get; set; }
         public int? SoChoTrong { get; set; }
-        public string[] NgayXuatBen { get; set; }
+        public string GioXuatBen { get; set; }
         public int ThoiGianDiChuyen { get; set; }
         public float DonGia { get; set; }
     }

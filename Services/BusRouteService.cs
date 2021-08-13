@@ -21,7 +21,7 @@ namespace backend.Services
             {
                 throw new ArgumentNullException(nameof(busRoute));
             }
-            var check = await _context.Tuyenxes.Where(p => p.MaBxden == busRoute.MaBxden && p.MaBxdi == busRoute.MaBxdi)
+            var check = await _context.Tuyenxes.Where(p => p.MaBxden == busRoute.MaBxden && p.MaBxdi == busRoute.MaBxdi && p.MaNhaXe == busRoute.MaNhaXe)
                             .Select(p => p.MaTuyenXe).FirstOrDefaultAsync();
             if (check == 0)
             {
@@ -54,8 +54,6 @@ namespace backend.Services
             {
                 var ticketsByBusTrip = await _context.Vexes.Where(p => p.MaChuyenXe == busTrip.MaChuyenXe).ToListAsync();
                 _context.Vexes.RemoveRange(ticketsByBusTrip);
-                var seatsByBusTrip = await _context.Chongois.Where(p => p.MaChuyenXe == busTrip.MaChuyenXe).ToListAsync();
-                _context.Chongois.RemoveRange(seatsByBusTrip);
             }
 
             // Delete all trips that relations with this route

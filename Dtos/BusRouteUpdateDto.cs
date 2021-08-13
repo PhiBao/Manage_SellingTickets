@@ -1,4 +1,3 @@
-using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace backend.Dtos
@@ -11,6 +10,9 @@ namespace backend.Dtos
         [Required]
         [MaxLength(10)]
         public string MaBxdi { get; set; }
+        [Required]
+        [MaxLength(10)]
+        public string MaNhaXe { get; set; }
         public int? ThoiGianDiChuyen { get; set; }
     }
 }

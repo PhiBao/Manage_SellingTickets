@@ -1,9 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using backend.Dtos;
 using backend.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -38,6 +36,18 @@ namespace backend.Services
             return await _context.Vexes.ToListAsync();
         }
 
+        public async Task<IEnumerable<int>> GetSeatsByBusTripIdAsync(int busTripId, DateTime date) {
+
+            return await _context.Vexes.Where(p => p.MaChuyenXe == busTripId && p.NgayDi.Equals(date) && p.TrangThai == true)
+                                       .Select(p => p.MaChoNgoi).ToListAsync();
+        }
+
+        public async Task<bool?> CheckAvailableAsync(int busTripId, DateTime date, int seatId) {
+
+            return await _context.Vexes.Where(p => p.MaChuyenXe == busTripId && p.NgayDi.Equals(date) && p.MaChoNgoi == seatId)
+                                       .Select(p => p.TrangThai).FirstOrDefaultAsync();
+        }
+
         public async Task DeleteTicketAsync(Vexe ticket)
         {
             if (ticket == null)
@@ -62,6 +72,22 @@ namespace backend.Services
         public async Task UpdateTicketAsync(Vexe ticket)
         {
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<RevenueByDay>> GetRevenueByDayAsync(string date)
+        {
+            List<RevenueByDay> status;
+
+            DateTime myDate = DateTime.ParseExact(date, "yyyy-MM-dd",
+                                       System.Globalization.CultureInfo.InvariantCulture);
+            status = await _context.Vexes
+                        .Where(p => p.NgayDi.Date.Equals(myDate.Date) && p.TrangThai == true)
+                        .GroupBy(p => p.MaChuyenXeNavigation.DonGia)
+                        .Select(q => new RevenueByDay {                            
+                            LoaiGia = q.Key.GetValueOrDefault(),
+                            VeDaBan = q.Count()
+                        }).ToListAsync();
+            return status;
         }
     }
 }

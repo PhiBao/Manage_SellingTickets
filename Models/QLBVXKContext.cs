@@ -18,7 +18,6 @@ namespace backend.Models
         }
 
         public virtual DbSet<Benxe> Benxes { get; set; }
-        public virtual DbSet<Chongoi> Chongois { get; set; }
         public virtual DbSet<Chuyenxe> Chuyenxes { get; set; }
         public virtual DbSet<Danhgia> Danhgias { get; set; }
         public virtual DbSet<Doanhthungay> Doanhthungays { get; set; }
@@ -61,26 +60,21 @@ namespace backend.Models
                     .HasColumnName("TenBX");
             });
 
-            modelBuilder.Entity<Chongoi>(entity =>
-            {
-                entity.HasKey(e => e.MaChoNgoi);
-
-                entity.ToTable("CHONGOI");
-
-                entity.HasOne(d => d.MaChuyenXeNavigation)
-                    .WithMany(p => p.Chongois)
-                    .HasForeignKey(d => d.MaChuyenXe)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_CHONGOI_MaChuyenXe");
-            });
-
             modelBuilder.Entity<Chuyenxe>(entity =>
             {
                 entity.HasKey(e => e.MaChuyenXe);
 
                 entity.ToTable("CHUYENXE");
 
-                entity.Property(e => e.NgayXuatBen).HasColumnType("datetime");
+                entity.Property(e => e.LichTrinh)
+                    .IsRequired()
+                    .HasMaxLength(7)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.GioXuatBen)
+                    .IsRequired()
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
 
                 entity.HasOne(d => d.MaTuyenXeNavigation)
                     .WithMany(p => p.Chuyenxes)
@@ -171,7 +165,7 @@ namespace backend.Models
                     .HasMaxLength(10)
                     .IsUnicode(false)
                     .HasColumnName("CMND");
-
+                
                 entity.Property(e => e.DiaChi).HasMaxLength(100);
 
                 entity.Property(e => e.NgaySinh).HasColumnType("date");
@@ -183,7 +177,11 @@ namespace backend.Models
 
                 entity.Property(e => e.TenNd)
                     .HasMaxLength(50)
+                    .IsUnicode(false)
                     .HasColumnName("TenND");
+                
+                entity.Property(e => e.ImageUrl)
+                    .HasMaxLength(100);
 
                 entity.Property(e => e.Vaitro).HasColumnName("VAITRO");
 
@@ -266,15 +264,11 @@ namespace backend.Models
 
                 entity.Property(e => e.MaKh).HasColumnName("MaKH");
 
+                entity.Property(e => e.NgayDi).HasColumnType("datetime");
+
                 entity.Property(e => e.TrangThai)
                     .IsRequired()
                     .HasDefaultValueSql("((1))");
-
-                entity.HasOne(d => d.MaChoNgoiNavigation)
-                    .WithMany(p => p.Vexes)
-                    .HasForeignKey(d => d.MaChoNgoi)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_VeXe_MaChoNgoi");
 
                 entity.HasOne(d => d.MaChuyenXeNavigation)
                     .WithMany(p => p.Vexes)

@@ -14,6 +14,7 @@ namespace backend.Profiles
             CreateMap<Tuyenxe, BusRouteReadDto>()
             .ForMember(dest => dest.TenTuyenXe, opt => opt.MapFrom(src => src.MaBxdiNavigation.TenBx + " - " + src.MaBxdenNavigation.TenBx))
             .ForMember(dest => dest.DiaChiBxDi, opt => opt.MapFrom(src => src.MaBxdiNavigation.DiaChi))
+            .ForMember(dest => dest.TenNhaXe, opt => opt.MapFrom(src => src.MaNhaXeNavigation.TenNhaXe))
             .ForMember(dest => dest.DiaChiBxDen, opt => opt.MapFrom(src => src.MaBxdenNavigation.DiaChi));
         }
     }
