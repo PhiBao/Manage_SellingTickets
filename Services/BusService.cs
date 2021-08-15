@@ -9,9 +9,9 @@ namespace backend.Services
 {
     public class BusService : IBusService
     {
-        private readonly QLBVXKContext _context;
+        private readonly d1h6lskf7s3bc0Context _context;
 
-        public BusService(QLBVXKContext context)
+        public BusService(d1h6lskf7s3bc0Context context)
         {
             _context = context;
         }

@@ -9,15 +9,22 @@ namespace backend.Services
 {
     public class ReviewService : IReviewService
     {
-        private readonly QLBVXKContext _context;
+        private readonly d1h6lskf7s3bc0Context _context;
 
-        public ReviewService(QLBVXKContext context)
+        public ReviewService(d1h6lskf7s3bc0Context context)
         {
             _context = context;
         }
 
         public async Task CreateReviewAsync(Danhgia review)
         {
+            var ticket = await _context.Vexes.Where(p => p.MaVe == review.MaVe && p.MaKh == review.MaNd).Select(p => p.TrangThai).FirstOrDefaultAsync();
+            
+            if (ticket == null || ticket == false)
+            {
+                return;
+            }
+            
             if (review == null)
             {
                 throw new ArgumentNullException(nameof(review));
@@ -33,7 +40,12 @@ namespace backend.Services
 
         public async Task<IEnumerable<Danhgia>> GetReviewsByGarageIdAsync(int garageId)
         {
-            return await _context.Danhgias.Where(p => p.MaNhaXe == garageId).OrderByDescending(p => p.MaDanhGia).ToListAsync();
+            return await _context.Danhgias.Where(p => p.MaVeNavigation.MaChuyenXeNavigation.MaXeNavigation.MaNhaXe == garageId).OrderByDescending(p => p.MaDanhGia).ToListAsync();
+        }
+
+        public async Task<Danhgia> GetReviewByTicketIdAsync(int ticketId)
+        {
+            return await _context.Danhgias.Where(p => p.MaVe == ticketId).FirstOrDefaultAsync();
         }
 
         public async Task<IEnumerable<Danhgia>> GetReviewsAsync()

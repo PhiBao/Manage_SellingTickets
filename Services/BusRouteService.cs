@@ -9,9 +9,9 @@ namespace backend.Services
 {
     public class BusRouteService : IBusRouteService
     {
-        private readonly QLBVXKContext _context;
+        private readonly d1h6lskf7s3bc0Context _context;
 
-        public BusRouteService(QLBVXKContext context)
+        public BusRouteService(d1h6lskf7s3bc0Context context)
         {
             _context = context;
         }
@@ -38,6 +38,11 @@ namespace backend.Services
         public async Task<IEnumerable<Tuyenxe>> GetBusRoutesAsync()
         {
             return await _context.Tuyenxes.ToListAsync();
+        }
+
+        public async Task<IEnumerable<Tuyenxe>> GetBusRoutesByGarageIdAsync(int garageId)
+        {
+            return await _context.Tuyenxes.Where(p => p.MaNhaXe == garageId).ToListAsync();
         }
 
         public async Task DeleteBusRouteAsync(Tuyenxe busRoute)

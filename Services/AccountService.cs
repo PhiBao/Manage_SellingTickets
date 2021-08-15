@@ -9,9 +9,9 @@ namespace backend.Services
 {
     public class AccountService : IAccountService
     {
-        private readonly QLBVXKContext _context;
+        private readonly d1h6lskf7s3bc0Context _context;
 
-        public AccountService(QLBVXKContext context)
+        public AccountService(d1h6lskf7s3bc0Context context)
         {
             _context = context;
         }
@@ -100,7 +100,7 @@ namespace backend.Services
                 throw new ArgumentNullException(nameof(account));
             }
 
-            var check = await _context.Taikhoans.Where(p => p.Email == account.Email && p.MatKhau == account.MatKhau).FirstOrDefaultAsync();
+            var check = await _context.Taikhoans.Where(p => p.Email.ToLower() == account.Email.ToLower() && p.MatKhau == account.MatKhau).FirstOrDefaultAsync();
 
             if (check == null)
             {

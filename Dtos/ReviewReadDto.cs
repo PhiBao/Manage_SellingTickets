@@ -4,7 +4,7 @@ namespace backend.Dtos
     {
         public int MaDanhGia { get; set; }
         public string TenNd { get; set; }
-        public byte Sao { get; set; }
+        public short Sao { get; set; }
         public string NoiDungDanhGia { get; set; }
     }
 }

@@ -17,7 +17,6 @@ namespace backend.Models
         public int MaXe { get; set; }
         public string GioXuatBen { get; set; }
         public string LichTrinh { get; set; }
-        public int? SoChoTrong { get; set; }
         public double? DonGia { get; set; }
 
         public virtual Tuyenxe MaTuyenXeNavigation { get; set; }

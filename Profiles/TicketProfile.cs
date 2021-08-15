@@ -9,6 +9,7 @@ namespace backend.Profiles
         public TicketProfile()
         {
            CreateMap<Vexe, TicketReadDto>()
+           .ForMember(dest => dest.MaNhaXe, opt => opt.MapFrom(src => src.MaChuyenXeNavigation.MaXeNavigation.MaNhaXe))
            .ForMember(dest => dest.BienSoXe, opt => opt.MapFrom(src => src.MaChuyenXeNavigation.MaXeNavigation.BienSoXe))
            .ForMember(dest => dest.TenTuyenXe, opt => opt.MapFrom(src => 
             src.MaChuyenXeNavigation.MaTuyenXeNavigation.MaBxdiNavigation.TenBx + " - " 

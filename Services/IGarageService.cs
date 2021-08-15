@@ -10,5 +10,6 @@ namespace backend.Services
         Task<Nhaxe> GetGarageByIdAsync(int id);
         Task CreateGarageAsync(Nhaxe garage);
         Task DeleteGarageAsync(Nhaxe garage);
+        Task UpdateGarageAsync(Nhaxe garage);
     }
 }

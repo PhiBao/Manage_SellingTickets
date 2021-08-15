@@ -47,6 +47,20 @@ namespace backend.Controllers
             return NotFound();
         }
 
+        // GET api/BusRoutes/{id}
+        [HttpGet("garage")]
+        public async Task<ActionResult<IEnumerable<BusRouteReadDto>>> GetBusRoutesByGarageIdAsync(int garageId)
+        {
+            var busRoutes = await _busRouteService.GetBusRoutesByGarageIdAsync(garageId);
+
+            if (busRoutes != null)
+            {
+                return Ok(_mapper.Map<IEnumerable<BusRouteReadDto>>(busRoutes));
+            }
+
+            return NotFound();
+        }
+
         // POST api/BusRoutes
         [HttpPost]
         public async Task<ActionResult<Tuyenxe>> CreateBusRouteAsync(BusRouteCreateDto busRoute)

@@ -9,9 +9,9 @@ namespace backend.Services
 {
     public class BusTripService : IBusTripService
     {
-        private readonly QLBVXKContext _context;
+        private readonly d1h6lskf7s3bc0Context _context;
 
-        public BusTripService(QLBVXKContext context)
+        public BusTripService(d1h6lskf7s3bc0Context context)
         {
             _context = context;
         }
@@ -23,7 +23,6 @@ namespace backend.Services
                 throw new ArgumentNullException(nameof(busTrip));
             }
             
-            busTrip.SoChoTrong = await _context.Xes.Where(p => p.MaXe == busTrip.MaXe).Select(p => p.SoChoNgoi).FirstOrDefaultAsync();
             _context.Chuyenxes.Add(busTrip);
             await _context.SaveChangesAsync();
         }
@@ -47,6 +46,8 @@ namespace backend.Services
                             .Select(p => p.MaTuyenXe).ToListAsync();
 
             List<Chuyenxe> busTrips = new List<Chuyenxe>();
+
+            if (busRoutes == null) { return busTrips; }
             foreach (var busRoute in busRoutes) {
                 var schedule = await _context.Chuyenxes.Where(p => p.MaTuyenXe == busRoute).ToListAsync();
                 foreach (var busTrip in schedule) {
@@ -83,6 +84,11 @@ namespace backend.Services
             }
 
             return false;
+        }
+
+        public async Task<double?> GetPriceByBusTripAsync(int busTripId) {
+            
+            return await _context.Chuyenxes.Where(p => p.MaChuyenXe == busTripId).Select(p => p.DonGia).FirstOrDefaultAsync();
         }
     }
 }

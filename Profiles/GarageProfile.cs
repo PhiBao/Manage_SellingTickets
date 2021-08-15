@@ -10,6 +10,7 @@ namespace backend.Profiles
         {
             CreateMap<Nhaxe, GarageReadDto>();
             CreateMap<GarageCreateDto, Nhaxe>();
+            CreateMap<GarageUpdateDto, Nhaxe>();
         }
     }
 }

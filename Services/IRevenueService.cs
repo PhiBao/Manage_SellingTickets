@@ -12,5 +12,6 @@ namespace backend.Services
         Task<IEnumerable<Doanhthungay>> GetRevenuesAsync();
         Task<Doanhthungay> GetRevenueByDayAsync(string date);
         Task<Doanhthungay> GetRevenueByIdAsync(int id);
+        Task DeleteRevenueAsync(Doanhthungay revenue);
     }
 }

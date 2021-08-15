@@ -9,9 +9,9 @@ namespace backend.Services
 {
     public class HistoryService : IHistoryService
     {
-        private readonly QLBVXKContext _context;
+        private readonly d1h6lskf7s3bc0Context _context;
 
-        public HistoryService(QLBVXKContext context)
+        public HistoryService(d1h6lskf7s3bc0Context context)
         {
             _context = context;
         }

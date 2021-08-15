@@ -4,5 +4,6 @@ namespace backend.Dtos
     {
         public int MaBx { get; set; }
         public string TenBx { get; set; }
+        public string DiaChi { get; set; }
     }
 }

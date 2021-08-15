@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using backend.Dtos;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Cors;
+using System.Linq;
+using System;
 
 namespace backend.Controllers
 {
@@ -16,11 +18,13 @@ namespace backend.Controllers
     {
         private readonly IBusTripService _busTripService;
         private readonly IMapper _mapper;
+        private readonly ITicketService _ticketService;
 
-        public BusTripsController(IBusTripService busTripService, IMapper mapper)
+        public BusTripsController(IBusTripService busTripService, IMapper mapper, ITicketService ticketService)
         {
             _busTripService = busTripService;
             _mapper = mapper;
+            _ticketService = ticketService;
         }
 
         // GET api/BusTrips
@@ -28,8 +32,19 @@ namespace backend.Controllers
         public async Task<ActionResult<IEnumerable<Chuyenxe>>> GetAllBusTripsAsync()
         {
             var busTrips = await _busTripService.GetBusTripsAsync();
+            List<BusTripReadDto> res = (List<BusTripReadDto>)_mapper.Map<IEnumerable<BusTripReadDto>>(busTrips);
+            for (var idx = 0; idx < res.Count; idx++) {
+                string[] dummy = res[idx].NgayXuatBen;
+                var soChoNgoi = res[idx].SoChoNgoi;
+                for (var i = 0; i < res[idx].NgayXuatBen.Length; i++) {
+                    var soChoDaBan = await _ticketService.GetSeatsByBusTripIdAsync(res[idx].MaChuyenXe, res[idx].NgayXuatBen[i]);
+                    var soChoTrong = soChoNgoi - soChoDaBan.Count();
+                    dummy[i] += " | " + Convert.ToString(soChoTrong);
+                }
+                res[idx].NgayXuatBen = dummy;
+            }
 
-            return Ok(_mapper.Map<IEnumerable<BusTripReadDto>>(busTrips));
+            return Ok(res);
         }
 
         // GET api/BusTrips/{id}
@@ -54,7 +69,15 @@ namespace backend.Controllers
 
             if (busTrips != null)
             {
-                return Ok(_mapper.Map<IEnumerable<BusTripSearchDto>>(busTrips));
+                List<BusTripSearchDto> res = (List<BusTripSearchDto>)_mapper.Map<IEnumerable<BusTripSearchDto>>(busTrips);
+
+                for (var idx = 0; idx < res.Count; idx++) {
+                    var soChoNgoi = res[idx].SoChoNgoi;
+                    var soChoDaBan = await _ticketService.GetSeatsByBusTripIdAsync(res[idx].MaChuyenXe, date + "T" + res[idx].GioXuatBen);
+                    res[idx].SoChoTrong = (soChoNgoi - soChoDaBan.Count());
+                }
+
+                return Ok(res);
             }
 
             return NotFound();

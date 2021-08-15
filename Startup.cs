@@ -1,5 +1,6 @@
 using System;
 using backend.Models;
+using backend.Profiles;
 using backend.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -33,7 +34,7 @@ namespace backend
                 });
             });
 
-            services.AddDbContext<QLBVXKContext>(opt => opt.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString("QlbvxkDbConn")));
+            services.AddDbContext<d1h6lskf7s3bc0Context>(opt => opt.UseLazyLoadingProxies().UseNpgsql(Configuration.GetConnectionString("QlbvxkDbConn")));
 
             services.AddControllers().AddNewtonsoftJson(s =>
             {

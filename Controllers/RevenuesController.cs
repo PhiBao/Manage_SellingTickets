@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading.Tasks;
 using AutoMapper;
 using backend.Dtos;
@@ -83,12 +84,33 @@ namespace backend.Controllers
         [HttpPost]
         public async Task<ActionResult<RevenueReadDto>> CreateRevenueAsync(RevenueCreateDto revenue)
         {
+            string date = revenue.Ngay.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+            if (await _revenueService.GetRevenueByDayAsync(date) != null)
+            {
+                return BadRequest();
+            }
             Doanhthungay revenueModel = _mapper.Map<Doanhthungay>(revenue);
             await _revenueService.CreateRevenueAsync(revenueModel);
 
 
             return CreatedAtRoute(nameof(GetRevenueByIdAsync), new { id = revenueModel.MaDoanhThuNgay },
                 _mapper.Map<RevenueReadDto>(revenueModel));
+        }
+
+        // DELETE api/revenues/{id}
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteRevenueAsync(int id)
+        {
+            var garage = await _revenueService.GetRevenueByIdAsync(id);
+
+            if (garage == null)
+            {
+                return NotFound();
+            }
+
+            await _revenueService.DeleteRevenueAsync(garage);
+
+            return NoContent();
         }
 
     }

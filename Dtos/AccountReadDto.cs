@@ -11,7 +11,7 @@ namespace backend.Dtos
         public string DiaChi { get; set; }
         public DateTime? NgaySinh { get; set; }
         public string ImageUrl { get; set; }
-        public byte? Vaitro { get; set; }
+        public short? Vaitro { get; set; }
 
     }
 }

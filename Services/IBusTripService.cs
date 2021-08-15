@@ -12,5 +12,6 @@ namespace backend.Services
         Task CreateBusTripAsync(Chuyenxe busTrip);
         Task UpdateBusTripAsync(Chuyenxe busTrip);
         Task DeleteBusTripAsync(Chuyenxe busTrip);
+        Task<double?> GetPriceByBusTripAsync(int busTripId);
     }
 }

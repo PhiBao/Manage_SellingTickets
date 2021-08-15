@@ -35,7 +35,7 @@ namespace backend.Controllers
 
         // GET api/reviews/details
         [HttpGet("details")]
-        public async Task<ActionResult<IEnumerable<ReviewReadDto>>> GetAllDetailsReviewsAsync()
+        public async Task<ActionResult<IEnumerable<ReviewDetailsDto>>> GetAllDetailsReviewsAsync()
         {
             var reviews = await _reviewService.GetReviewsAsync();
 
@@ -58,13 +58,27 @@ namespace backend.Controllers
 
         // GET api/reviews/search?garageid={garageId}
         [HttpGet("search")]
-        public async Task<ActionResult<IEnumerable<ReviewReadDto>>> GetReviewByGarageIdAsync(int garageId)
+        public async Task<ActionResult<IEnumerable<ReviewDetailsDto>>> GetReviewsByGarageIdAsync(int garageId)
         {
             var reviews = await _reviewService.GetReviewsByGarageIdAsync(garageId);
 
             if (reviews != null)
             {
-                return Ok(_mapper.Map<IEnumerable<ReviewReadDto>>(reviews));
+                return Ok(_mapper.Map<IEnumerable<ReviewDetailsDto>>(reviews));
+            }
+
+            return NotFound();
+        }
+
+        // GET api/reviews/ticket?ticketid={ticketId}
+        [HttpGet("ticket")]
+        public async Task<ActionResult<ReviewDetailsDto>> GetReviewByTicketIdAsync(int ticketId)
+        {
+            var review = await _reviewService.GetReviewByTicketIdAsync(ticketId);
+
+            if (review != null)
+            {
+                return Ok(_mapper.Map<ReviewDetailsDto>(review));
             }
 
             return NotFound();
@@ -88,7 +102,7 @@ namespace backend.Controllers
 
         // PUT api/reviews/{id}
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateStaffAsync(int id, ReviewUpdateDto reviewUpdateDto)
+        public async Task<ActionResult> UpdateReviewAsync(int id, ReviewUpdateDto reviewUpdateDto)
         {
             var reviewSelected = await _reviewService.GetReviewByIdAsync(id);
             if (reviewSelected == null)

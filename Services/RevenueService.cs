@@ -9,9 +9,9 @@ namespace backend.Services
 {
     public class RevenueService : IRevenueService
     {
-        private readonly QLBVXKContext _context;
+        private readonly d1h6lskf7s3bc0Context _context;
 
-        public RevenueService(QLBVXKContext context)
+        public RevenueService(d1h6lskf7s3bc0Context context)
         {
             _context = context;
         }
@@ -73,6 +73,17 @@ namespace backend.Services
         public async Task<IEnumerable<Doanhthungay>> GetRevenuesAsync()
         {
             return await _context.Doanhthungays.ToListAsync();
+        }
+
+        public async Task DeleteRevenueAsync(Doanhthungay revenue)
+        {
+            if (revenue == null)
+            {
+                throw new ArgumentNullException(nameof(revenue));
+            }
+
+            _context.Doanhthungays.Remove(revenue);
+            await _context.SaveChangesAsync();
         }
     }
 }

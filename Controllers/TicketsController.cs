@@ -70,9 +70,7 @@ namespace backend.Controllers
         [HttpGet("seats")]
         public async Task<ActionResult<IEnumerable<int>>> GetSeatsByBusTripIdAsync(int busTripId, string date)
         {
-            DateTime myDate = DateTime.ParseExact(date, "yyyy-MM-ddTHH:mm:ss",
-                                       System.Globalization.CultureInfo.InvariantCulture);
-            var seats = await _ticketService.GetSeatsByBusTripIdAsync(busTripId, myDate);
+            var seats = await _ticketService.GetSeatsByBusTripIdAsync(busTripId, date);
 
             if (seats != null)
             {
@@ -86,6 +84,10 @@ namespace backend.Controllers
         [HttpPost]
         public async Task<ActionResult<IEnumerable<TicketReadDto>>> CreateTicketAsync(TicketCreateDto ticket)
         {
+            if (ticket.DaThanhToan > await _busTripService.GetPriceByBusTripAsync(ticket.MaChuyenXe)) { 
+                return BadRequest();
+            }
+            
             foreach (var seatId in ticket.MaChoNgoi)
             {
                 if (await _ticketService.CheckAvailableAsync(ticket.MaChuyenXe, ticket.NgayDi, seatId) == true) return BadRequest();
@@ -101,6 +103,7 @@ namespace backend.Controllers
                     MaKh = ticket.MaKh,
                     GhiChu = ticket.GhiChu,
                     NgayDi = ticket.NgayDi,
+                    DaThanhToan = ticket.DaThanhToan,
                     MaKhNavigation = await _userService.GetUserByIdAsync(ticket.MaKh),
                     MaChuyenXeNavigation = await _busTripService.GetBusTripByIdAsync(ticket.MaChuyenXe),
                 };
@@ -108,18 +111,6 @@ namespace backend.Controllers
             }
 
             await _ticketService.CreateTicketAsync(list);
-
-            // Update bustrip
-            var busTripSelected = await _busTripService.GetBusTripByIdAsync(ticket.MaChuyenXe);
-            if (busTripSelected == null)
-            {
-                return NotFound();
-            }
-            BusTripUpdateDto busTripUpdateDto = new BusTripUpdateDto();
-            busTripUpdateDto.SoChoTrong = busTripSelected.SoChoTrong.GetValueOrDefault() - ticket.MaChoNgoi.Length;
-
-            _mapper.Map(busTripUpdateDto, busTripSelected);
-            await _busTripService.UpdateBusTripAsync(busTripSelected);
 
             IEnumerable<TicketReadDto> ticketReturn = _mapper.Map<IEnumerable<TicketReadDto>>(list);
 
@@ -144,18 +135,6 @@ namespace backend.Controllers
             _mapper.Map(ticketUpdateDto, ticket);
 
             await _ticketService.UpdateTicketAsync(ticket);
-
-            // Update bustrip
-            var busTripSelected = await _busTripService.GetBusTripByIdAsync(ticket.MaChuyenXe);
-            if (busTripSelected == null)
-            {
-                return NotFound();
-            }
-            BusTripUpdateDto busTripUpdateDto = new BusTripUpdateDto();
-            busTripUpdateDto.SoChoTrong = busTripSelected.SoChoTrong.GetValueOrDefault() + 1;
-
-            _mapper.Map(busTripUpdateDto, busTripSelected);
-            await _busTripService.UpdateBusTripAsync(busTripSelected);
 
             return NoContent();
         }

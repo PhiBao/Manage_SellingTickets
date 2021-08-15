@@ -9,9 +9,9 @@ namespace backend.Services
 {
     public class TicketService : ITicketService
     {
-        private readonly QLBVXKContext _context;
+        private readonly d1h6lskf7s3bc0Context _context;
 
-        public TicketService(QLBVXKContext context)
+        public TicketService(d1h6lskf7s3bc0Context context)
         {
             _context = context;
         }
@@ -36,13 +36,13 @@ namespace backend.Services
             return await _context.Vexes.ToListAsync();
         }
 
-        public async Task<IEnumerable<int>> GetSeatsByBusTripIdAsync(int busTripId, DateTime date) {
+        public async Task<IEnumerable<int>> GetSeatsByBusTripIdAsync(int busTripId, string date) {
 
             return await _context.Vexes.Where(p => p.MaChuyenXe == busTripId && p.NgayDi.Equals(date) && p.TrangThai == true)
                                        .Select(p => p.MaChoNgoi).ToListAsync();
         }
 
-        public async Task<bool?> CheckAvailableAsync(int busTripId, DateTime date, int seatId) {
+        public async Task<bool?> CheckAvailableAsync(int busTripId, string date, int seatId) {
 
             return await _context.Vexes.Where(p => p.MaChuyenXe == busTripId && p.NgayDi.Equals(date) && p.MaChoNgoi == seatId)
                                        .Select(p => p.TrangThai).FirstOrDefaultAsync();
@@ -78,10 +78,8 @@ namespace backend.Services
         {
             List<RevenueByDay> status;
 
-            DateTime myDate = DateTime.ParseExact(date, "yyyy-MM-dd",
-                                       System.Globalization.CultureInfo.InvariantCulture);
             status = await _context.Vexes
-                        .Where(p => p.NgayDi.Date.Equals(myDate.Date) && p.TrangThai == true)
+                        .Where(p => p.NgayDi.Contains(date) && p.TrangThai == true)
                         .GroupBy(p => p.MaChuyenXeNavigation.DonGia)
                         .Select(q => new RevenueByDay {                            
                             LoaiGia = q.Key.GetValueOrDefault(),

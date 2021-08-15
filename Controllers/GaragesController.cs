@@ -57,6 +57,24 @@ namespace backend.Controllers
             return CreatedAtRoute(nameof(GetGarageByIdAsync), new { id = garageModel.MaNhaXe }, garageModel);
         }
 
+        // PUT api/garages/{id}
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateGarageAsync(int id, GarageUpdateDto garageUpdateDto)
+        {
+            var check = await _garageService.GetGarageByIdAsync(id);
+            var garageSelected = await _garageService.GetGarageByIdAsync(id);
+            if (garageSelected == null)
+            {
+                return NotFound();
+            }
+
+            _mapper.Map(garageUpdateDto, garageSelected);
+
+            await _garageService.UpdateGarageAsync(garageSelected);
+
+            return NoContent();
+        }
+
         // DELETE api/garages/{id}
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteGarageAsync(int id)
@@ -72,7 +90,6 @@ namespace backend.Controllers
 
             return NoContent();
         }
-
 
     }
 }

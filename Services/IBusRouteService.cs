@@ -7,6 +7,7 @@ namespace backend.Services
     public interface IBusRouteService
     {
         Task<IEnumerable<Tuyenxe>> GetBusRoutesAsync();
+        Task<IEnumerable<Tuyenxe>> GetBusRoutesByGarageIdAsync(int garageId);
         Task<Tuyenxe> GetBusRouteByIdAsync(int id);
         Task CreateBusRouteAsync(Tuyenxe busRoute);
         Task DeleteBusRouteAsync(Tuyenxe busRoute);

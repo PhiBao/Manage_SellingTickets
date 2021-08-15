@@ -8,9 +8,9 @@ namespace backend.Services
 {
     public class UserService : IUserService
     {
-        private readonly QLBVXKContext _context;
+        private readonly d1h6lskf7s3bc0Context _context;
 
-        public UserService(QLBVXKContext context)
+        public UserService(d1h6lskf7s3bc0Context context)
         {
             _context = context;
         }

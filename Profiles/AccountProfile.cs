@@ -15,6 +15,7 @@ namespace backend.Profiles
            .ForMember(dest => dest.Cmnd, opt => opt.MapFrom(src => src.Nguoidung.Cmnd))
            .ForMember(dest => dest.DiaChi, opt => opt.MapFrom(src => src.Nguoidung.DiaChi))
            .ForMember(dest => dest.NgaySinh, opt => opt.MapFrom(src => src.Nguoidung.NgaySinh))
+           .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.Nguoidung.ImageUrl))
            .ForMember(dest => dest.Vaitro, opt => opt.MapFrom(src => src.Nguoidung.Vaitro));
            
            CreateMap<AccountUpdateDto, Taikhoan>();

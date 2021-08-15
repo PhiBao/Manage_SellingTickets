@@ -8,6 +8,7 @@ namespace backend.Services
     {
         Task<IEnumerable<Danhgia>> GetReviewsAsync();
         Task<Danhgia> GetReviewByIdAsync(int id);
+        Task<Danhgia> GetReviewByTicketIdAsync(int ticketId);
         Task<IEnumerable<Danhgia>> GetReviewsByGarageIdAsync(int garageId);
         Task CreateReviewAsync(Danhgia review);
         Task UpdateReviewAsync(Danhgia review);
