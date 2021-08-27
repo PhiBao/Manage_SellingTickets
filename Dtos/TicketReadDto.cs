@@ -16,5 +16,6 @@ namespace backend.Dtos
         public float DaThanhToan { get; set; }
         public string GhiChu { get; set; }
         public bool TrangThai { get; set; }
+        public bool DanhGia { get; set; }
     }
 }

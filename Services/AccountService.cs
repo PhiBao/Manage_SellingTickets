@@ -51,7 +51,15 @@ namespace backend.Services
             }
             // Delete all user's tickets
             var tickets = await _context.Vexes.Where(p => p.MaKh == account.MaTk).ToListAsync();
+            foreach (var ticket in tickets) {
+                var review = await _context.Danhgias.Where(p => p.MaVe == ticket.MaVe).FirstOrDefaultAsync();
+                _context.Danhgias.Remove(review);
+            }
+            
             _context.Vexes.RemoveRange(tickets);
+
+            var histories = await _context.Lichsutimkiems.Where(p => p.MaNd == account.MaTk).ToListAsync();
+            _context.Lichsutimkiems.RemoveRange(histories);
 
             var user = await _context.Nguoidungs.Where(p => p.MaNd == account.MaTk).FirstOrDefaultAsync();
             // If user is a staff
@@ -72,6 +80,10 @@ namespace backend.Services
                 foreach (var busTrip in busTrips)
                 {
                     var ticketsByBusTrip = await _context.Vexes.Where(p => p.MaChuyenXe == busTrip.MaChuyenXe).ToListAsync();
+                    foreach (var ticket in tickets) {
+                        var review = await _context.Danhgias.Where(p => p.MaVe == ticket.MaVe).FirstOrDefaultAsync();
+                        _context.Danhgias.Remove(review);
+                    }
                     _context.Vexes.RemoveRange(ticketsByBusTrip);
                 }
 
